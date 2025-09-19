@@ -29,5 +29,9 @@
                 Verification
             </a>
         </li>
+        <a class="nav-link d-flex align-items-center gap-3" href="/eTransactionAPP/public/logout.php"
+            style="color: #353E43; font-weight: 600;">
+            Logout
+        </a>
     </ul>
 </nav>
