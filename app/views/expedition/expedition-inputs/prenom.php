@@ -1,7 +1,7 @@
 <?php
-$id = "prenom";
+$id = "name";
 $label = "*Prenom";
-$name = "prenom";
+$name = "name";
 $type = "text";
-$input_value = $_POST['prenom'] ?? '';
+$input_value = $_POST['name'] ?? '';
 include __DIR__ . "/../../layouts/base-form-inputs/input.php";

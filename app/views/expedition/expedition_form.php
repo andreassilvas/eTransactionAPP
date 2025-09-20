@@ -1,4 +1,4 @@
-<form>
+<form method="POST" action="/eTransactionAPP/public/expeditions/store">
     <div class="row">
         <div class="col-8 pad-left">
             <div class="card mb-4 rounded-4">
@@ -54,11 +54,11 @@
                     <div class="d-grid mt-3">
                         <?php
                         $btnText = "Continuer";
+                        $btnType = "submit";
                         include __DIR__ . '/../components/base_button.php' ?>
                     </div>
                     <?php include __DIR__ . "/../layouts/base-form-inputs/security_message.php";
                     ?>
-
                 </div>
             </div>
         </div>

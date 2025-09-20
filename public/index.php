@@ -44,6 +44,21 @@ $router->get('/expedition', function () {
     require __DIR__ . '/../app/views/expedition/index.php';
 });
 
+$router->post('/expeditions/store', 'ExpeditionController@store');
+
+$router->get('/payment', function () {
+    session_start();
+
+    // if no client logged in, redirect to home
+    if (!isset($_SESSION['client_id'])) {
+        header("Location: /eTransactionAPP/public/");
+        exit;
+    }
+
+    // load the payment view
+    require __DIR__ . '/../app/views/payment/index.php';
+});
+
 
 
 

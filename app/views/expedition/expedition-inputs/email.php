@@ -1,6 +1,7 @@
 <?php
 $id = "email_adresse";
 $label = "*Adresse courriel";
+$name = "email";
 $type = "email";
 $describedby = "emailHelp";
 $input_value = $_POST['email'] ?? '';

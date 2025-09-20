@@ -8,16 +8,16 @@ class AuthController extends Controller
             $password = $_POST['password'] ?? '';
 
             // Load User model
-            $userModel = new User();
-            $user = $userModel->findByEmail($email);
+            $userModel = new Client();
+            $client = $userModel->findByEmail($email);
 
-            if ($user && password_verify($password, $user['password'])) {
+            if ($client && password_verify($password, $client['password'])) {
                 // Start session if not already started
                 if (session_status() === PHP_SESSION_NONE) {
                     session_start();
                 }
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['user_name'] = $user['prenom'];
+                $_SESSION['client_id'] = $client['id'];
+                $_SESSION['client_name'] = $client['name'];
 
                 // Redirect to home page or dashboard
                 header("Location: /eTransactionAPP/public/");

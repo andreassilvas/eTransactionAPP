@@ -1,7 +1,7 @@
 <?php
-$id = "ville";
+$id = "city";
 $label = "*Ville";
-$name = "ville";
-$input_value = $input_value = $_POST['ville'] ?? '';
+$name = "city";
+$input_value = $input_value = $_POST['city'] ?? '';
 $type = "text";
 include __DIR__ . "/../../layouts/base-form-inputs/input.php";
