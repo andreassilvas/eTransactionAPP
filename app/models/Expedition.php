@@ -73,4 +73,19 @@ class Expedition extends Model
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
+
+    public function findWithClientById($expeditionId)
+    {
+        $sql = "SELECT e.*, c.name, c.lastname, c.phone
+                FROM $this->table e
+                JOIN clients c ON e.client_id = c.id
+                WHERE e.id = :id
+                LIMIT 1";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':id', $expeditionId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }

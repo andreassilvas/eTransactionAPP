@@ -5,5 +5,12 @@ $name = "email";
 $type = "email";
 $describedby = "emailHelp";
 $input_value = $_POST['email'] ?? '';
+$autocomplete = "email";
+$placeholder = "example@email.com";
 $describe = "Nous enverrons les mises à jour de commande cette adresse courriel.";
+$required = true;
+
+$custom_class = "placeholder-style";
+
+
 include __DIR__ . "/../../layouts/base-form-inputs/input_info.php";

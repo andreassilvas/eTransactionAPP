@@ -1,5 +1,11 @@
+<?php
+$minlength = $minlength ?? null;
+$required = $required ?? false;
+?>
+
 <label for="<?= $id ?>"><?= $label ?></label>
-<select class="form-select" id="<?= $id ?>" name="<?= $name ?>">
+<select class="form-select" id="<?= $id ?>" name="<?= $name ?>" <?php if (!empty($required))
+        echo 'required'; ?>>
     <?php if (!empty($placeholder)): ?>
         <option value=""><?= $placeholder ?></option>
     <?php endif; ?>

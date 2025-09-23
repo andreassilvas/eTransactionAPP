@@ -3,25 +3,56 @@ class ExpeditionController
 {
     public function store()
     {
-        // 1. Collect POST data
-        $email = $_POST['email'] ?? '';
-        $name = $_POST['name'] ?? '';
-        $lastname = $_POST['lastname'] ?? '';
-        $phone = $_POST['phone'] ?? '';
-        $extention = $_POST['extention'] ?? '';
+        // Session should already be started in init.php
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
 
-        $address = $_POST['address'] ?? '';
-        $city = $_POST['city'] ?? '';
-        $province = $_POST['province'] ?? '';
-        $postcode = $_POST['postcode'] ?? '';
+        // 1. Collect POST data (normalize some)
+        $email = strtolower(trim($_POST['email'] ?? ''));
+        $name = ucfirst(strtolower(trim($_POST['name'] ?? '')));
+        $lastname = ucfirst(strtolower(trim($_POST['lastname'] ?? '')));
+        $phone = trim($_POST['phone'] ?? '');
+        $extention = trim($_POST['extention'] ?? '');
+        $rawAddress = trim($_POST['address'] ?? '');
+        $city = ucfirst(strtolower(trim($_POST['city'] ?? '')));
+        $province = trim($_POST['province'] ?? '');
+        $postcode = strtoupper(trim($_POST['postcode'] ?? ''));
 
-        // 2. Check if client exists
+        // Format phone
+        $rawPhone = preg_replace('/\D/', '', $_POST['phone'] ?? '');
+        if (strlen($rawPhone) === 10) {
+            $phone = sprintf(
+                "(%s) %s %s",
+                substr($rawPhone, 0, 3),
+                substr($rawPhone, 3, 3),
+                substr($rawPhone, 6, 4)
+            );
+        } else {
+            $phone = $rawPhone; // keep as-is if not 10 digits
+        }
+        //Format Address
+        // Make everything lowercase first
+        $rawAddress = strtolower($rawAddress);
+
+        // Capitalize first letter after numbers/spaces
+        $address = preg_replace_callback('/([a-z])/', function ($matches) {
+            static $first = true;
+            if ($first) {
+                $first = false;
+                return strtoupper($matches[1]);
+            }
+            return $matches[1];
+        }, $rawAddress);
+
+
+        // 2. Find or create client
         $clientModel = new Client();
         $client = $clientModel->findByEmailOrPhone($email, $phone);
 
-        if (!$client) {
-            // Create new client
-            $clientId = $clientModel->create([
+        $clientId = $client
+            ? $client['id']
+            : $clientModel->create([
                 'name' => $name,
                 'lastname' => $lastname,
                 'phone' => $phone,
@@ -31,11 +62,7 @@ class ExpeditionController
                 'city' => $city,
                 'province' => $province,
                 'postcode' => $postcode
-
             ]);
-        } else {
-            $clientId = $client['id'];
-        }
 
         // 3. Create expedition
         $expeditionModel = new Expedition();
@@ -50,9 +77,10 @@ class ExpeditionController
             'date' => date('Y-m-d')
         ]);
 
+        // Store expedition ID in session
+        $_SESSION['expedition_id'] = $expeditionId;
 
-        // 4. Redirect or render success view
-        // header("Location: /expeditions/success?id=" . $expeditionId);
+        // 4. Redirect to payment
         header("Location: /eTransactionAPP/public/payment");
         exit;
     }

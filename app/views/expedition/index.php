@@ -1,6 +1,14 @@
 <?php require_once __DIR__ . '/../../middleware/auth.php'; ?>
 <?php include __DIR__ . '/../layouts/header.php'; ?>
 
+<style>
+    .placeholder-style::placeholder {
+        font-size: 15px;
+        color: #878787;
+        opacity: 1;
+    }
+</style>
+
 <body>
     <?php include __DIR__ . '/../layouts/scrollspy_nav.php'; ?>
 
