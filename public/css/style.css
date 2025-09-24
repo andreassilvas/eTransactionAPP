@@ -11,3 +11,8 @@ a.inactive {
     color: #6C7570 !important;
 }
 
+.placeholder-style::placeholder {
+        font-size: 15px;
+        color: #878787;
+        opacity: 1;
+    }
