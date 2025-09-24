@@ -2,18 +2,21 @@
     <a class="navbar-brand" href="#"></a>
     <ul class="nav nav-pills">
         <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-3" href="#scrollspyHeading1"
-                style="color: #0047AB; font-weight: 600;">
-                <span class="badge  rounded-circle d-flex align-items-center justify-content-center"
-                    style="width: 27px; height: 27px;background-color:#0047AB;">
+            <a class="nav-link d-flex align-items-center gap-3 <?= $activeStep == 1 ? 'active-step' : 'inactive' ?>"
+                href="#scrollspyHeading1">
+                <span
+                    class="badge rounded-circle d-flex align-items-center justify-content-center <?= $activeStep == 1 ? 'active-step' : 'text-bg-secondary' ?>"
+                    style="width: 27px; height: 27px;">
                     1
                 </span>
                 Expédition
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-3" href="#scrollspyHeading1">
-                <span class="badge text-bg-secondary rounded-circle d-flex align-items-center justify-content-center"
+            <a class="nav-link d-flex align-items-center gap-3 <?= $activeStep == 2 ? 'active-step' : 'inactive' ?>"
+                href="#scrollspyHeading1">
+                <span
+                    class="badge rounded-circle d-flex align-items-center justify-content-center <?= $activeStep == 2 ? 'active-step' : 'text-bg-secondary' ?>"
                     style="width: 27px; height: 27px;">
                     2
                 </span>
@@ -21,17 +24,19 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-3" href="#scrollspyHeading1">
-                <span class="badge text-bg-secondary rounded-circle d-flex align-items-center justify-content-center"
-                    style="width: 27px; height: 27px;">
+            <a class="nav-link d-flex align-items-center gap-3 <?= $activeStep == 3 ? 'active-step' : 'inactive' ?>"
+                href="#scrollspyHeading1">
+                <span
+                    class="badge rounded-circle d-flex align-items-center justify-content-center <?= $activeStep == 3 ? 'active-step' : 'text-bg-secondary' ?>"
+                    style=" width: 27px; height: 27px;">
                     3
                 </span>
                 Verification
             </a>
         </li>
-        <a class="nav-link d-flex align-items-center gap-3" href="/eTransactionAPP/public/logout.php"
-            style="color: #353E43; font-weight: 600;">
-            Logout
+        <a class="nav-link d-flex align-items-center gap-3" href="/eTransactionAPP/public/logout.php">
+            <i class="fa-solid fa-right-from-bracket fa-lg" style="color: #575757;"></i>
         </a>
+
     </ul>
 </nav>

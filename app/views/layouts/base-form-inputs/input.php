@@ -15,5 +15,9 @@ $placeholder = $placeholder ?? null;
         <?php if (!empty($minlength))
             echo 'minlength="' . $minlength . '"'; ?> <?php if (!empty($required))
                        echo 'required'; ?> <?php if (!empty($placeholder))
-                              echo 'placeholder="' . $placeholder . '"'; ?>>
+                              echo 'placeholder="' . $placeholder . '"'; ?>
+                              
+        <?php if (!empty($maxlength)) echo 'maxlength="' . $maxlength . '"'; ?>>  
+                              
+                              
 </div>

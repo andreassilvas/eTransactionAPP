@@ -59,7 +59,41 @@ $router->get('/payment', function () {
     require __DIR__ . '/../app/views/payment/index.php';
 });
 
+// Display payment form
+$router->get('/payment', function () {
+    session_start();
 
+    if (!isset($_SESSION['client_id'])) {
+        header("Location: /eTransactionAPP/public/");
+        exit;
+    }
+
+    require __DIR__ . '/../app/views/payment/index.php';
+});
+
+// Process payment form submission
+$router->post('/payment/process', function () {
+    session_start();
+
+    require_once __DIR__ . '/../app/controllers/PaymentController.php';
+    require_once __DIR__ . '/../app/models/Payment.php';
+    require_once __DIR__ . '/../app/models/Expedition.php';
+    require_once __DIR__ . '/../app/models/Client.php';
+
+    $controller = new PaymentController();
+    $controller->process();
+});
+
+// Display verification success page
+$router->get('/verification/success', function () {
+    session_start();
+
+    // Get any parameters from the query string
+    $paymentId = $_GET['id'] ?? null;
+
+    // Load the success view
+    require __DIR__ . '/../app/views/verification/index.php';
+});
 
 
 // Run the router

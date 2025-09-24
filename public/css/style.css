@@ -1,0 +1,13 @@
+.nav-link.active-step {
+    color: #0047AB;
+    font-weight: 600;
+}
+
+.badge.active-step {
+    background-color: #0047AB !important;
+    color: #fff !important;
+}
+a.inactive {
+    color: #6C7570 !important;
+}
+

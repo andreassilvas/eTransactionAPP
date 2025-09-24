@@ -1,4 +1,5 @@
 <?php
+
 class Expedition extends Model
 {
     protected $table = 'expeditions';
@@ -6,7 +7,7 @@ class Expedition extends Model
     /**
      * Create a new expedition record
      */
-    public function create($data)
+    public function create($data, $status = 'pending')
     {
         $sql = "INSERT INTO $this->table 
                 (client_id, ship_email,ship_address, ship_city, ship_province, ship_postcode, date, status) 
@@ -21,7 +22,7 @@ class Expedition extends Model
             ':ship_province' => $data['ship_province'],
             ':ship_postcode' => $data['ship_postcode'],
             ':date' => $data['date'],
-            ':status' => $data['status']
+            ':status' => $status
         ]);
 
         return $this->db->lastInsertId();

@@ -1,7 +1,7 @@
 <?php
 $id = "nro_cvv";
-$label = "Numero CVV";
-$name = "nro_cvv";
+$label = "*Numero CVV";
+$name = "cvv";
 $input_value = $_POST['nro_cvv'] ?? '';
 $type = "text";
 $icon = "assets/images/cvv.webp";
