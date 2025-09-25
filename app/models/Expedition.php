@@ -1,4 +1,7 @@
 <?php
+namespace App\Models;
+
+use PDO;
 
 class Expedition extends Model
 {
@@ -9,9 +12,10 @@ class Expedition extends Model
      */
     public function create($data, $status = 'pending')
     {
+        $tranckingnum = 'TRACK' . strtoupper(uniqid());
         $sql = "INSERT INTO $this->table 
-                (client_id, ship_email,ship_address, ship_city, ship_province, ship_postcode, date, status) 
-                VALUES (:client_id, :ship_email,:ship_address, :ship_city, :ship_province, :ship_postcode, :date, :status)";
+                (client_id, ship_email,ship_address, ship_city, ship_province, ship_postcode, tracking_number, date, status) 
+                VALUES (:client_id, :ship_email,:ship_address, :ship_city, :ship_province, :ship_postcode, :tracking_number,:date, :status)";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute([
@@ -21,6 +25,7 @@ class Expedition extends Model
             ':ship_city' => $data['ship_city'],
             ':ship_province' => $data['ship_province'],
             ':ship_postcode' => $data['ship_postcode'],
+            ':tracking_number' => $tranckingnum,
             ':date' => $data['date'],
             ':status' => $status
         ]);

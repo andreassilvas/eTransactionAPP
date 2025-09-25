@@ -1,7 +1,3 @@
-<?php
-if (session_status() === PHP_SESSION_NONE)
-    session_start();
-?>
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content px-3 py-3">
@@ -10,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE)
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/eTransactionAPP/public/login" method="POST" id="loginForm">
+                <form action="<?= BASE_URL ?>/login" method="POST" id="loginForm">
                     <div class="mb-3">
                         <?php include __DIR__ . '/auth-inputs/email.php' ?>
                     </div>
@@ -26,7 +22,8 @@ if (session_status() === PHP_SESSION_NONE)
                     include __DIR__ . '/../components/base_button.php';
                     ?>
                 </form>
-                <?php if (isset($_SESSION['login_error'])): ?>
+
+                <?php if (!empty($error)): ?>
                     <script>
                         document.addEventListener('DOMContentLoaded', () => {
                             const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
@@ -34,9 +31,8 @@ if (session_status() === PHP_SESSION_NONE)
                         });
                     </script>
                     <div class="alert alert-danger mt-2">
-                        <?= htmlspecialchars($_SESSION['login_error']); ?>
+                        <?= htmlspecialchars($error); ?>
                     </div>
-                    <?php unset($_SESSION['login_error']); ?>
                 <?php endif; ?>
             </div>
         </div>

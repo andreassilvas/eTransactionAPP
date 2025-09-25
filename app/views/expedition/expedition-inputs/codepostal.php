@@ -7,6 +7,7 @@ $type = "text";
 $autocomplete = "postal-code";
 $placeholder = "H1H 1H1";
 $pattern = "^[A-Za-z]\d[A-Za-z][ ]?\d[A-Za-z]\d$";
+$maxlength = "7";
 $required = true;
 $minlength = null;
 

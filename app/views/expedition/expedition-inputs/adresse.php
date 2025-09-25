@@ -5,6 +5,7 @@ $name = "address";
 $input_value = $_POST['address'] ?? '';
 $type = "text";
 $minlength = "10";
+$maxlength = "100";
 $required = true;
 $pattern = null;
 $autocomplete = "address-line1";

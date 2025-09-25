@@ -17,7 +17,4 @@
         </div>
     </div>
 
-    <!-- <h1>Bienvenue sur la page d'expédition, <?= htmlspecialchars($_SESSION['client_name']); ?> !</h1> -->
-
-
     <?php require_once __DIR__ . '/../layouts/footer.php'; ?>

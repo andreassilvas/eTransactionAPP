@@ -4,5 +4,8 @@ $label = "*Annee d'expiration";
 $name = "expiry_year";
 $input_value = $input_value = $_POST['annee_exp'] ?? '';
 $type = "text";
+$maxlength = "4";
+$placeholder = "2000";
+$custom_class = "placeholder-style";
 
 include __DIR__ . "/../../layouts/base-form-inputs/input.php";

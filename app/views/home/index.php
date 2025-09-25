@@ -1,7 +1,6 @@
 <?php include __DIR__ . '/../layouts/header.php'; ?>
 
 <body>
-
     <?php include __DIR__ . '/../layouts/navbar.php'; ?>
     <?php include __DIR__ . '/../../views/auth/login.php'; ?>
 
@@ -35,7 +34,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 

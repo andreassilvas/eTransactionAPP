@@ -27,10 +27,21 @@ class Router
 
         if (is_string($callback)) {
             [$controller, $action] = explode('@', $callback);
-            $controllerObj = new $controller;
+
+            // prepend namespace
+            $controllerClass = "\\App\\Controllers\\$controller";
+
+            // require controller file (optional if autoload works)
+            $file = __DIR__ . "/../app/controllers/$controller.php";
+            if (file_exists($file)) {
+                require_once $file;
+            }
+
+            $controllerObj = new $controllerClass();
             call_user_func([$controllerObj, $action]);
         } else {
             call_user_func($callback);
         }
     }
+
 }

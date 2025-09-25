@@ -5,6 +5,9 @@ $name = "cvv";
 $input_value = $_POST['nro_cvv'] ?? '';
 $type = "text";
 $icon = "assets/images/cvv.webp";
+$maxlength = "3";
+$placeholder = "123";
+$custom_class = "placeholder-style";
 
 include __DIR__ . "/../../layouts/base-form-inputs/input_with_image.php";
 

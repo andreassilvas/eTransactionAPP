@@ -1,13 +1,11 @@
 <?php
-class Payment
+namespace App\Models;
+use PDO;
+
+class Payment extends Model
 {
     protected $db;
     protected $table = 'payments';
-
-    public function __construct()
-    {
-        $this->db = Database::getConnection();
-    }
 
     public function create($data)
     {

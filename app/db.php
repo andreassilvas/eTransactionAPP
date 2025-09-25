@@ -1,4 +1,8 @@
 <?php
+namespace App\Models;
+
+use PDO;
+
 class Database
 {
     private static $connection = null;
@@ -6,19 +10,14 @@ class Database
     public static function getConnection()
     {
         if (self::$connection === null) {
-            $host = "localhost";
-            $dbname = "transaction_app";
-            $username = "root";
-            $password = "";
-
             try {
                 self::$connection = new PDO(
-                    "mysql:host=$host;dbname=$dbname;charset=utf8",
-                    $username,
-                    $password
+                    "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8",
+                    DB_USER,
+                    DB_PASS
                 );
                 self::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            } catch (PDOException $e) {
+            } catch (\PDOException $e) {  // <-- add leading backslash
                 die("Database connection failed: " . $e->getMessage());
             }
         }

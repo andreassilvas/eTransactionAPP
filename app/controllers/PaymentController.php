@@ -1,7 +1,10 @@
 <?php
-require_once __DIR__ . '/../models/Payment.php';
-require_once __DIR__ . '/../models/Expedition.php';
-require_once __DIR__ . '/../models/Client.php';
+namespace App\Controllers;
+
+use App\Models\Client;
+use App\Models\Expedition;
+use App\Models\Payment;
+
 
 class PaymentController
 {
@@ -17,7 +20,7 @@ class PaymentController
         }
 
         $expeditionData = $_SESSION['expedition_data'];
-        $amount = floatval($_POST['amount'] ?? 5021);
+        $amount = floatval($_POST['amount'] ?? 2989.86);
         $cardNumber = $_POST['card_number'] ?? '';
         $expiryMonth = $_POST['expiry_month'] ?? '';
         $expiryYear = $_POST['expiry_year'] ?? '';
