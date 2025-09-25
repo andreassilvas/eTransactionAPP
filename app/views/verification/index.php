@@ -8,7 +8,7 @@
         <div class=" row">
             <div class="col mb-3">
                 <div class="mar-left">
-                    <h5 class="">Verification</h5>
+                    <h4 class="custom-color">Verification</h4>
                 </div>
                 <?php require __DIR__ . '/success.php'; ?>
             </div>

@@ -15,4 +15,16 @@ a.inactive {
         font-size: 15px;
         color: #A1A1A1;
         opacity: 1;
-    }
+}
+
+.custom-color{
+    color: #0047AB;
+}
+
+.custom-color-dark{
+    color: #002F6C;
+}
+
+.custom-success{
+    color: #008000;
+}
