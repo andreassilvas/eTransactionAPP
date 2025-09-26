@@ -2,7 +2,7 @@
 
 <body>
     <?php $activeStep = 2;
-    include __DIR__ . '/../layouts/scrollspy_nav.php'; ?>
+    include __DIR__ . '/../layouts/expedition_nav.php'; ?>
 
     <div class="container my-5">
         <div class=" row">
