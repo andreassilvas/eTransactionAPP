@@ -6,10 +6,10 @@
                 href="#scrollspyHeading1">
                 <span
                     class="badge rounded-circle d-flex align-items-center justify-content-center <?= $activeStep == 1 ? 'active-step' : 'text-bg-secondary' ?>"
-                    style="width: 27px; height: 27px;">
-                    1
+                    style="width: 30px; height: 30px;">
+                    <i class="fa-solid fa-building-columns"></i>
                 </span>
-                Expédition
+                Relevé bancaire
             </a>
         </li>
         <li class="nav-item">
@@ -17,10 +17,10 @@
                 href="#scrollspyHeading1">
                 <span
                     class="badge rounded-circle d-flex align-items-center justify-content-center <?= $activeStep == 2 ? 'active-step' : 'text-bg-secondary' ?>"
-                    style="width: 27px; height: 27px;">
-                    2
+                    style="width: 30px; height: 30px;">
+                    <i class="fa-solid fa-list"></i>
                 </span>
-                Paiement
+                Relevés de commandes
             </a>
         </li>
         <li class="nav-item">
@@ -31,7 +31,7 @@
                     style=" width: 27px; height: 27px;">
                     3
                 </span>
-                Verification
+                Vérification
             </a>
         </li>
         <a class="nav-link d-flex align-items-center gap-3" href="/eTransactionAPP/public/logout.php">

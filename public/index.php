@@ -59,6 +59,23 @@ $router->get('/expedition', function () {
 });
 $router->post('/expeditions/store', 'ExpeditionController@store');
 
+// Relevé page
+// $router->get('/releve', function () {
+//     if (!isset($_SESSION['client_id'])) {
+//         header("Location: /eTransactionAPP/public/");
+//         exit;
+//     }
+//     require __DIR__ . '/../app/views/releve/index.php';
+// });
+
+
+$router->get('/releve', function () {
+    $controller = new \App\Controllers\BankController();
+    $controller->index();
+});
+
+
+
 // Payment
 $router->get('/payment', function () {
     if (!isset($_SESSION['client_id'])) {
@@ -77,6 +94,7 @@ $router->get('/verification/success', function () {
     $paymentId = $_GET['id'] ?? null;
     require __DIR__ . '/../app/views/verification/index.php';
 });
+
 
 // -------------------- Run router --------------------
 $router->run($path);

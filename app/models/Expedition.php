@@ -7,9 +7,8 @@ class Expedition extends Model
 {
     protected $table = 'expeditions';
 
-    /**
-     * Create a new expedition record
-     */
+
+    //Create a new expedition record
     public function create($data, $status = 'pending')
     {
         $tranckingnum = 'TRACK' . strtoupper(uniqid());
@@ -33,9 +32,7 @@ class Expedition extends Model
         return $this->db->lastInsertId();
     }
 
-    /**
-     * Get all expeditions for a given client
-     */
+    //Get all expeditions for a given client
     public function getByClientId($clientId)
     {
         $sql = "SELECT * FROM $this->table WHERE client_id = :client_id ORDER BY date DESC";
@@ -45,9 +42,7 @@ class Expedition extends Model
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Find one expedition by ID
-     */
+    //Find one expedition by ID
     public function findById($id)
     {
         $sql = "SELECT * FROM $this->table WHERE id = :id LIMIT 1";
@@ -57,9 +52,7 @@ class Expedition extends Model
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Update an expedition (e.g., update status)
-     */
+    //Update an expedition (update status)
     public function updateStatus($id, $status)
     {
         $sql = "UPDATE $this->table SET status = :status WHERE id = :id";
@@ -69,9 +62,7 @@ class Expedition extends Model
         return $stmt->execute();
     }
 
-    /**
-     * Delete an expedition
-     */
+    //Delete an expedition
     public function delete($id)
     {
         $sql = "DELETE FROM $this->table WHERE id = :id";

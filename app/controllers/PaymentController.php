@@ -75,7 +75,8 @@ class PaymentController
             $paymentId = $paymentModel->create([
                 'expedition_id' => $expeditionId,
                 'amount' => $amount,
-                'status' => 'completed'
+                'status' => 'completed',
+                'last4' => substr($cardNumber, -4)
             ]);
 
             unset($_SESSION['expedition_data']); // clear

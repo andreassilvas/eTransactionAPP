@@ -24,7 +24,7 @@ class AuthController extends Controller
                 $_SESSION['client_id'] = $client['id'];
                 $_SESSION['client_name'] = $client['name'];
 
-                // Redirect to home page or dashboard
+                // Redirect to home page - Produits
                 header("Location: /eTransactionAPP/public/");
                 exit;
             } else {
@@ -34,13 +34,13 @@ class AuthController extends Controller
         }
     }
 
-    public function logout()
-    {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        session_destroy();
-        header("Location: /eTransactionAPP/public/");
-        exit;
-    }
+    // public function logout()
+    // {
+    //     if (session_status() === PHP_SESSION_NONE) {
+    //         session_start();
+    //     }
+    //     session_destroy();
+    //     header("Location: /eTransactionAPP/public/");
+    //     exit;
+    // }
 }

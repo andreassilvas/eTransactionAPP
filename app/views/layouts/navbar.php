@@ -13,11 +13,12 @@
                     <a class="nav-link active" aria-current="page" href="#" style="color:#0066FF">Produits</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Services</a>
+                    <a class="nav-link nav-links" href="#" data-bs-toggle="modal" data-bs-target="#loginModal"
+                        data-redirect="releve" data-title="Accéder à mes relevés">Relevé</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-links" href="#" data-bs-toggle="modal"
-                        data-bs-target="#loginModal">Connexion</a>
+                    <a class="nav-link nav-links" href="#" data-bs-toggle="modal" data-bs-target="#loginModal"
+                        data-redirect="expedition" data-title="Connexion à l’expédition">Expedition</a>
                 </li>
                 <li class="nav-item">
                     <button class="btn btn-outline-success" type="submit" data-bs-toggle="modal"

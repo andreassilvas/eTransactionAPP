@@ -9,7 +9,7 @@ class LoginController
 {
     public function show()
     {
-        // Optional: pass an error message if one exists
+        // pass an error message if one exists
         $error = $_SESSION['login_error'] ?? null;
         unset($_SESSION['login_error']);
 
@@ -25,6 +25,7 @@ class LoginController
 
         $email = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
+        $redirectPage = $_POST['redirect'] ?? 'expedition'; // default
 
         if (empty($email) || empty($password)) {
             $_SESSION['login_error'] = "Veuillez entrer votre email et mot de passe.";
@@ -33,7 +34,7 @@ class LoginController
         }
 
         $clientModel = new Client();
-        $client = $clientModel->findByEmail($email); // $client is now an array or false
+        $client = $clientModel->findByEmail($email); // $client array or false
 
         if (!$client) {
             $_SESSION['login_error'] = "Email non trouvé.";
@@ -41,7 +42,7 @@ class LoginController
             exit;
         }
 
-        if ($password !== $client['password']) { // plain password for now
+        if ($password !== $client['password']) {
             $_SESSION['login_error'] = "Mot de passe incorrect.";
             header("Location: " . BASE_URL);
             exit;
@@ -50,7 +51,7 @@ class LoginController
         // Success
         $_SESSION['client_id'] = $client['id'];
         $_SESSION['client_name'] = $client['name'];
-        header("Location: " . BASE_URL . "/expedition");
+        header("Location: " . BASE_URL . "/" . $redirectPage);
         exit;
     }
 }

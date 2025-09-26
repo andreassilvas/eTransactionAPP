@@ -35,7 +35,7 @@ $expedition = $expeditionModel->findWithClientById($payment['expedition_id']);
         <div class="card-body mt-3">
             <div class="d-flex justify-content-end align-items-center pe-2">
                 <span class="d-flex align-items-center custom-success fw-bold">
-                    Transaction réussie
+                    Transaction Réussie
                     <i class="fa-sharp fa-solid fa-circle-check fa-lg ms-2 custom-success"></i>
                 </span>
             </div>
@@ -44,15 +44,18 @@ $expedition = $expeditionModel->findWithClientById($payment['expedition_id']);
             <div class="card mb-4 rounded-4">
                 <div class="card-body">
                     <ul class="list-group">
+                        <li class="list-group item align-items-end fs-6">
+                            <?= htmlspecialchars($expedition['date']) ?>
+                        </li>
                         <li class="list-group item align-items-end">Client ID:
                             <?= htmlspecialchars($payment['id']) ?>
                         </li>
                         <li class="list-group item"><?= htmlspecialchars($expedition['name']) ?>
                             <?= htmlspecialchars($expedition['lastname']) ?>
                         </li>
-                        <li class="list-group item"><?= htmlspecialchars($expedition['ship_address']) ?>
-                            <?= htmlspecialchars($expedition['ship_city']) ?>
-                            <?= htmlspecialchars($expedition['ship_province']) ?>
+                        <li class="list-group item"><?= htmlspecialchars($expedition['ship_address']) ?>,
+                            <?= htmlspecialchars($expedition['ship_city']) ?>,
+                            <?= htmlspecialchars($expedition['ship_province']) ?>,
                             <?= htmlspecialchars($expedition['ship_postcode']) ?>
                         </li>
                         <li class="list-group item"><?= htmlspecialchars($expedition['phone']) ?></li>
@@ -71,13 +74,16 @@ $expedition = $expeditionModel->findWithClientById($payment['expedition_id']);
                             <li class="list-group item align-items-end">Expedition ID:
                                 <?= htmlspecialchars($payment['expedition_id']) ?>
                             </li>
+                            <li class="list-group item align-items-end">Status :
+                                <?= htmlspecialchars($expedition['status']) ?>
+                            </li>
                             <li class="list-group item">Name : <?= htmlspecialchars($expedition['name']) ?>
                                 <?= htmlspecialchars($expedition['lastname']) ?>
                             </li>
 
-                            <li class="list-group item">Adresse : <?= htmlspecialchars($expedition['ship_address']) ?>
-                                <?= htmlspecialchars($expedition['ship_city']) ?>
-                                <?= htmlspecialchars($expedition['ship_province']) ?>
+                            <li class="list-group item">Adresse : <?= htmlspecialchars($expedition['ship_address']) ?>,
+                                <?= htmlspecialchars($expedition['ship_city']) ?>,
+                                <?= htmlspecialchars($expedition['ship_province']) ?>,
                                 <?= htmlspecialchars($expedition['ship_postcode']) ?>
                             </li>
                             <li class="list-group item"><?= htmlspecialchars($expedition['phone']) ?></li>
@@ -130,15 +136,20 @@ $expedition = $expeditionModel->findWithClientById($payment['expedition_id']);
                                     Taxes :
                                 </div>
                                 <div class="col-2">
-                                    389.41$$
+                                    389.41$
                                 </div>
                             </div>
                             <div class="row justify-content-md-end">
-                                <div class="col-4 custom-color fw-bold">
+                                <div class="col-7">
+                                    <p>Mode de paiement : carte xxxx xxxx xxxx
+                                        <?= htmlspecialchars($payment['last4']) ?>
+                                    </p>
+                                </div>
+                                <div class="col-3 custom-color fw-bold">
                                     Montant payé :
                                 </div>
                                 <div class="col-2">
-                                    <?= htmlspecialchars($payment['amount']) ?> $
+                                    <?= htmlspecialchars($payment['amount']) ?>$
                                 </div>
                             </div>
                         </div>
