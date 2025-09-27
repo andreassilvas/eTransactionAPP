@@ -13,12 +13,11 @@
                     <a class="nav-link active" aria-current="page" href="#" style="color:#0066FF">Produits</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-links" href="#" data-bs-toggle="modal" data-bs-target="#loginModal"
-                        data-redirect="releve" data-title="Accéder à mes relevés">Relevé</a>
+                    <a class="nav-link nav-links" href="#">Services</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-links" href="#" data-bs-toggle="modal" data-bs-target="#loginModal"
-                        data-redirect="expedition" data-title="Connexion à l’expédition">Expedition</a>
+                    <a class="nav-link nav-links" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        Se connecter</a>
                 </li>
                 <li class="nav-item">
                     <button class="btn btn-outline-success" type="submit" data-bs-toggle="modal"
@@ -34,6 +33,3 @@
         </div>
     </div>
 </nav>
-<!-- Include Login Modal -->
-<!-- <?php include 'login/modal_login.php'; ?>
-<?php include 'create-account/create_account_form.php'; ?> -->

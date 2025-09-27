@@ -44,4 +44,12 @@ class Client extends Model
 
         return $this->db->lastInsertId();
     }
+    public function findById($id)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM $this->table WHERE id = :id LIMIT 1");
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
 }

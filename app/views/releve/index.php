@@ -2,7 +2,8 @@
 
 <body>
     <?php $activeStep = 1;
-    include __DIR__ . '/../layouts/releve_nav.php'; ?>
+    $logoutUrl = BASE_URL . '/connexion';
+    include __DIR__ . '/../layouts/connexion_nav.php'; ?>
 
     <div class="container my-5">
         <div class=" row">
@@ -11,12 +12,7 @@
                     <h4 class="custom-color">Relevé bancaire</h4>
                 </div>
                 <?php require __DIR__ . '/releve_form.php';
-
-
-
-
                 ?>
-
             </div>
         </div>
     </div>

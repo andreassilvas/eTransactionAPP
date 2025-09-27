@@ -1,3 +1,10 @@
+<?php
+// Set defaults if not provided - Re visit for more...
+$releveUrl = $releveUrl ?? '#scrollspyHeading1';
+$ordersUrl = $ordersUrl ?? '#scrollspyHeading2';
+$logoutUrl = $logoutUrl ?? BASE_URL . '/logout.php';
+?>
+
 <nav id="navbar-example2" class="navbar bg-body-tertiary px-5 mb-3">
     <a class="navbar-brand" href="#"></a>
     <ul class="nav nav-pills">
@@ -34,7 +41,7 @@
                 Vérification
             </a>
         </li>
-        <a class="nav-link d-flex align-items-center gap-3" href="/eTransactionAPP/public/logout.php">
+        <a class="nav-link d-flex align-items-center gap-3" href="<?= $logoutUrl ?>">
             <i class="fa-solid fa-right-from-bracket fa-lg" style="color: #575757;"></i>
         </a>
 

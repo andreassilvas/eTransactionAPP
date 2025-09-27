@@ -2,6 +2,7 @@
 // Default values
 $btnText = $btnText ?? 'Click Me';
 $btnType = $btnType ?? 'button';
+$href = $href ?? '';
 $btnBg = $btnBg ?? '#0047AB';
 $btnBorder = $btnBorder ?? '#0047AB';
 $btnTextColor = $btnTextColor ?? '#fff';
@@ -42,6 +43,8 @@ $extraClass = $extraClass ?? '';
     }
 </style>
 
-<button type="<?= $btnType ?>" class="btn custom-btn <?= $extraClass ?>">
-    <?= $btnText ?>
-</button>
+<?php if (!empty($href)): ?>
+    <a href="<?= $href ?>" class="btn custom-btn <?= $extraClass ?>"><?= $btnText ?></a>
+<?php else: ?>
+    <button type="<?= $btnType ?>" class="btn custom-btn <?= $extraClass ?>"><?= $btnText ?></button>
+<?php endif; ?>

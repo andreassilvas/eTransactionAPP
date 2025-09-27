@@ -1,6 +1,7 @@
 <?php
 use App\Models\Payment;
 use App\Models\Expedition;
+use App\Models\Client;
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -22,6 +23,11 @@ if (!$payment) {
     echo "Paiement introuvable.";
     exit;
 }
+
+// Load logged-in client info
+$clientModel = new Client();
+$client = $clientModel->findById($_SESSION['client_id']);
+
 
 // Load expedition info
 $expeditionModel = new Expedition();
@@ -48,17 +54,17 @@ $expedition = $expeditionModel->findWithClientById($payment['expedition_id']);
                             <?= htmlspecialchars($expedition['date']) ?>
                         </li>
                         <li class="list-group item align-items-end">Client ID:
-                            <?= htmlspecialchars($payment['id']) ?>
+                            <?= htmlspecialchars($client['id']) ?>
                         </li>
-                        <li class="list-group item"><?= htmlspecialchars($expedition['name']) ?>
-                            <?= htmlspecialchars($expedition['lastname']) ?>
+                        <li class="list-group item"><?= htmlspecialchars($client['name']) ?>
+                            <?= htmlspecialchars($client['lastname']) ?>
                         </li>
-                        <li class="list-group item"><?= htmlspecialchars($expedition['ship_address']) ?>,
-                            <?= htmlspecialchars($expedition['ship_city']) ?>,
-                            <?= htmlspecialchars($expedition['ship_province']) ?>,
-                            <?= htmlspecialchars($expedition['ship_postcode']) ?>
+                        <li class="list-group item"><?= htmlspecialchars($client['address']) ?>,
+                            <?= htmlspecialchars($client['city']) ?>,
+                            <?= htmlspecialchars($client['province']) ?>,
+                            <?= htmlspecialchars($client['postcode']) ?>
                         </li>
-                        <li class="list-group item"><?= htmlspecialchars($expedition['phone']) ?></li>
+                        <li class="list-group item"><?= htmlspecialchars($client['phone']) ?></li>
                     </ul>
                 </div>
             </div>

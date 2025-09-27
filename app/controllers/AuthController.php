@@ -33,14 +33,4 @@ class AuthController extends Controller
             }
         }
     }
-
-    // public function logout()
-    // {
-    //     if (session_status() === PHP_SESSION_NONE) {
-    //         session_start();
-    //     }
-    //     session_destroy();
-    //     header("Location: /eTransactionAPP/public/");
-    //     exit;
-    // }
 }
