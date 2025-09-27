@@ -99,9 +99,6 @@
                         </div>
                         <?php unset($_SESSION['payment_error']); ?>
                     <?php endif; ?>
-
-
-
                 </div>
             </div>
         </div>
@@ -119,7 +116,6 @@
                         include __DIR__ . '/../components/base_button.php';
                         ?>
                     </div>
-
                     <?php include __DIR__ . '/../layouts/base-form-inputs/security_message.php'; ?>
                 </div>
             </div>

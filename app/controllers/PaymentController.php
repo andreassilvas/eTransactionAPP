@@ -5,8 +5,8 @@ use App\Models\Client;
 use App\Models\Expedition;
 use App\Models\Payment;
 use App\Models\BankTransaction;
+use App\Models\PaymentValidation;
 use App\Models\Database;
-use PDO;
 
 class PaymentController
 {
@@ -32,32 +32,33 @@ class PaymentController
         $clientId = $_SESSION['client_id'];
         $expeditionData = $_SESSION['expedition_data'];
         $amount = floatval($_POST['amount'] ?? 2989.86);
-        $cardNumber = $_POST['card_number'] ?? '';
+        $cardNumber = str_replace(' ', '', $_POST['card_number'] ?? '');
         $expiryMonth = $_POST['expiry_month'] ?? '';
         $expiryYear = $_POST['expiry_year'] ?? '';
         $cvv = $_POST['cvv'] ?? '';
 
-        $paymentSuccess = false;
-        $errorMessage = '';
+        // --- Card validation against payment_validation table ---
+        $paymentValidationModel = new PaymentValidation();
+        $cardValid = $paymentValidationModel->findValidCard(
+            $clientId,
+            $cardNumber,
+            $expiryMonth,
+            $expiryYear,
+            $cvv
+        );
 
-        // --- Card validation ---
-        if (empty($cardNumber) || empty($expiryMonth) || empty($expiryYear) || empty($cvv)) {
-            $errorMessage = "Veuillez remplir tous les champs.";
-        } elseif (intval(substr($cardNumber, -1)) % 2 !== 0) {
-            $errorMessage = "La carte est refusée par la banque.";
-        } elseif (
+        if (!$cardValid) {
+            $_SESSION['payment_error'] = "La carte n'est pas valide ou n'existe pas.";
+            header("Location: /eTransactionAPP/public/payment");
+            exit;
+        }
+
+        // Extra check: card expiry
+        if (
             intval($expiryYear) < intval(date('Y')) ||
             (intval($expiryYear) === intval(date('Y')) && intval($expiryMonth) < intval(date('m')))
         ) {
-            $errorMessage = "La carte est expirée.";
-        } elseif (strlen($cvv) !== 3) {
-            $errorMessage = "CVV invalide.";
-        } else {
-            $paymentSuccess = true;
-        }
-
-        if (!$paymentSuccess) {
-            $_SESSION['payment_error'] = $errorMessage ?: "Le paiement a échoué.";
+            $_SESSION['payment_error'] = "La carte est expirée.";
             header("Location: /eTransactionAPP/public/payment");
             exit;
         }
@@ -67,7 +68,7 @@ class PaymentController
         try {
             $db->beginTransaction();
 
-            // Fetch client from DB using client_id
+            // Fetch client from DB
             $clientModel = new Client();
             $client = $clientModel->findById($clientId);
 
@@ -84,7 +85,7 @@ class PaymentController
                 throw new \Exception("Fonds insuffisants.");
             }
 
-            // Save expedition (shipping info can differ)
+            // Save expedition
             $expeditionModel = new Expedition();
             $expeditionId = $expeditionModel->create([
                 'client_id' => $clientId,
@@ -99,12 +100,16 @@ class PaymentController
 
             // Save payment record
             $paymentModel = new Payment();
+            // Save payment record using validated card info
             $paymentId = $paymentModel->create([
                 'expedition_id' => $expeditionId,
+                'client_id' => $clientId,
                 'amount' => $amount,
                 'status' => 'completed',
-                'last4' => substr($cardNumber, -4)
+                'last4' => substr($cardValid['card_number'], -4), // last 4 from validation table
+                'method' => $cardValid['card_type'] ?? 'Visa'      // card type from validation table
             ]);
+
 
             // Debit client account
             $newBalance = $currentBalance - $amount;
