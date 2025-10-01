@@ -17,5 +17,5 @@ $required = $required ?? false;
 
 
 <?php if (!empty($describe ?? '')): ?>
-    <div id="<?= $describedby ?>" class="form-text"><?= $describe ?></div>
+    <div id="<?= $describedby ?>" class="custom-form-text"><?= $describe ?></div>
 <?php endif; ?>

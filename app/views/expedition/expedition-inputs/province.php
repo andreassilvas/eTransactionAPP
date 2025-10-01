@@ -5,6 +5,7 @@ $label = "*Province";
 $placeholder = "-sélectionner-";
 $autocomplete = "address-level1";
 $minlength = null;
+$required = true;
 
 $options = [
     "Alberta" => "AB",

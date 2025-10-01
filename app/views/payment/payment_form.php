@@ -1,7 +1,6 @@
 <?php require_once __DIR__ . '/../../models/Expedition.php'; ?>
 
-<!-- Payment Form -->
-<form method="POST" action="/eTransactionAPP/public/payment/process">
+<form id="paymentForm" method="POST" action="/eTransactionAPP/public/payment/process" novalidate>
     <div class="row">
         <div class="col-8 pad-left">
             <div class="card rounded-top-4">
@@ -33,25 +32,22 @@
 
                             <div class="row">
                                 <div class="col-sm-6">
+                                    <?php include __DIR__ . '/payment-inputs/card_name.php'; ?>
+                                </div>
+                                <div class="col-sm-6">
                                     <?php include __DIR__ . '/payment-inputs/nro_carte.php'; ?>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <?php include __DIR__ . '/payment-inputs/expiration_month.php'; ?>
+                                    <?php include __DIR__ . '/../expedition/expedition-inputs/codepostal.php'; ?>
                                 </div>
                                 <div class="col-sm-3">
-                                    <?php include __DIR__ . '/payment-inputs/expiration_year.php'; ?>
+                                    <?php include __DIR__ . '/payment-inputs/expiration_date.php'; ?>
                                 </div>
                                 <div class="col-sm-3">
                                     <?php include __DIR__ . '/payment-inputs/nro_cvv.php'; ?>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <?php include __DIR__ . '/../expedition/expedition-inputs/codepostal.php'; ?>
                                 </div>
                             </div>
                         </div>
@@ -122,3 +118,4 @@
         </div>
     </div>
 </form>
+<script src="js/validationPaymentForm.js"></script>

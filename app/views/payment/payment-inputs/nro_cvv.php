@@ -5,7 +5,9 @@ $name = "cvv";
 $input_value = $_POST['nro_cvv'] ?? '';
 $type = "text";
 $icon = "assets/images/cvv.webp";
-$maxlength = "3";
+$maxlength = "4";
+$required = true;
+$pattern = "\d{3,4}";
 $placeholder = "123";
 $custom_class = "placeholder-style";
 

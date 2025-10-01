@@ -46,66 +46,79 @@ $expedition = $expeditionModel->findWithClientById($payment['expedition_id']);
                 </span>
             </div>
 
-            <h6 class="card-title custom-color mb-2">Informations client</h6>
+            <h5 class="card-title custom-color mb-2">Informations client</h5>
             <div class="card mb-4 rounded-4">
                 <div class="card-body">
                     <ul class="list-group">
-                        <li class="list-group item align-items-end fs-6">
+                        <li class="list-group-item d-flex justify-content-end border-0 py-1">
                             <?= htmlspecialchars($expedition['date']) ?>
                         </li>
-                        <li class="list-group item align-items-end">Client ID:
+                        <li class="list-group-item d-flex justify-content-end border-0 py-1">Client
+                            ID:
                             <?= htmlspecialchars($client['id']) ?>
                         </li>
-                        <li class="list-group item"><?= htmlspecialchars($client['name']) ?>
+                        <li class="list-group-item border-0 py-1"><?= htmlspecialchars($client['name']) ?>
                             <?= htmlspecialchars($client['lastname']) ?>
                         </li>
-                        <li class="list-group item"><?= htmlspecialchars($client['address']) ?>,
+                        <li class="list-group-item border-0 py-1"><?= htmlspecialchars($client['address']) ?>,
                             <?= htmlspecialchars($client['city']) ?>,
                             <?= htmlspecialchars($client['province']) ?>,
                             <?= htmlspecialchars($client['postcode']) ?>
                         </li>
-                        <li class="list-group item"><?= htmlspecialchars($client['phone']) ?></li>
+                        <li class="list-group-item border-0 py-1"><?= htmlspecialchars($client['phone']) ?></li>
                     </ul>
                 </div>
             </div>
 
-            <h6 class="card-title custom-color">Informations sur l'expédition</h6>
+            <h5 class="card-title custom-color">Informations sur l'expédition</h5>
             <div class="card mb-4 rounded-4">
                 <div class="card-body">
                     <?php if ($expedition): ?>
                         <ul class="list-group">
-                            <li class="list-group item align-items-end">Tracking Nro :
-                                <?= htmlspecialchars($expedition['tracking_number']) ?>
-                            </li>
-                            <li class="list-group item align-items-end">Expedition ID:
-                                <?= htmlspecialchars($payment['expedition_id']) ?>
-                            </li>
-                            <li class="list-group item align-items-end">Status :
-                                <?= htmlspecialchars($expedition['status']) ?>
-                            </li>
-                            <li class="list-group item">Name : <?= htmlspecialchars($expedition['name']) ?>
-                                <?= htmlspecialchars($expedition['lastname']) ?>
+                            <li class="list-group-item d-flex justify-content-between align-items-center border-0">
+                                <span class="fw-bold">Tracking Nro :
+                                    <?= htmlspecialchars($expedition['tracking_number']) ?></span>
+                                <i class="fa-solid fa-truck-fast fa-lg" style="color: #008000;margin-left: 10px;"></i>
+
                             </li>
 
-                            <li class="list-group item">Adresse : <?= htmlspecialchars($expedition['ship_address']) ?>,
+                            <li class="list-group-item border-0 py-1">Expedition ID:
+                                <?= htmlspecialchars($payment['expedition_id']) ?>
+                            </li>
+                            <li class="list-group-item border-0 py-1">Status :
+                                <?= htmlspecialchars($expedition['status']) ?>
+                            </li>
+                            <li class="list-group-item border-0 py-1">Name :
+                                <?= htmlspecialchars($expedition['ship_name']) ?>
+                                <?= htmlspecialchars($expedition['ship_lastname']) ?>
+                            </li>
+
+                            <li class="list-group-item border-0 py-1">Adresse :
+                                <?= htmlspecialchars($expedition['ship_address']) ?>,
                                 <?= htmlspecialchars($expedition['ship_city']) ?>,
                                 <?= htmlspecialchars($expedition['ship_province']) ?>,
                                 <?= htmlspecialchars($expedition['ship_postcode']) ?>
                             </li>
-                            <li class="list-group item"><?= htmlspecialchars($expedition['phone']) ?></li>
+                            <li class="list-group-item border-0 py-1">Courriel :
+                                <?= htmlspecialchars($expedition['ship_email']) ?>
+                            </li>
+                            <li class="list-group-item border-0 py-1">Téléphone :
+                                <?= htmlspecialchars($expedition['ship_phone']) ?>
+                            </li>
                         </ul>
                     <?php endif; ?>
                 </div>
             </div>
-            <h6 class="card-title custom-color">Résumé de la commande</h6>
+            <h5 class="card-title custom-color">Résumé de la commande</h5>
             <div class="card mb-1 rounded-top-4">
                 <div class="card-body">
                     <h6 class="card-title">ThinkSystem ST250 V3</h6>
                     <h6 class="card-title">Fiche technique du système :</h6>
                     <ul class="list-group">
-                        <li class="list-group item">Processor : Intel® Xeon® Raptor E-2414 4C 2.6G 55W</li>
-                        <li class="list-group item">Capacité totale de la mémoire : 128 GB/TruDDR5 </li>
-                        <li class="list-group item">Mémoire incluse : 16 GB 1Rx8</li>
+                        <li class="list-group-item border-0">Processor : Intel® Xeon® Raptor E-2414 4C 2.6G 55W
+                        </li>
+                        <li class="list-group-item border-0 py-1">Capacité totale de la mémoire : 128 GB/TruDDR5 </li>
+                        <li class="list-group-item border-0 py-1">Mémoire incluse : 16 GB 1Rx8</li>
                     </ul>
                 </div>
             </div>
@@ -113,7 +126,7 @@ $expedition = $expeditionModel->findWithClientById($payment['expedition_id']);
                 <div class="card-body">
                     <?php if ($expedition): ?>
                         <div class="container text-end">
-                            <div class="row justify-content-md-end">
+                            <div class="row justify-content-md-end pb-1">
                                 <div class="col-2 custom-color fw-bold">
                                     Total :
                                 </div>
@@ -121,7 +134,7 @@ $expedition = $expeditionModel->findWithClientById($payment['expedition_id']);
                                     2599.99$
                                 </div>
                             </div>
-                            <div class="row justify-content-md-end">
+                            <div class="row justify-content-md-end pb-1">
                                 <div class="col-4 custom-color fw-bold">
                                     Frais de livraison :
                                 </div>
@@ -129,7 +142,7 @@ $expedition = $expeditionModel->findWithClientById($payment['expedition_id']);
                                     Gratuit
                                 </div>
                             </div>
-                            <div class="row justify-content-md-end">
+                            <div class="row justify-content-md-end pb-1">
                                 <div class="col-4 custom-color fw-bold">
                                     Écofrais :
                                 </div>
@@ -137,7 +150,7 @@ $expedition = $expeditionModel->findWithClientById($payment['expedition_id']);
                                     0.45$
                                 </div>
                             </div>
-                            <div class="row justify-content-md-end">
+                            <div class="row justify-content-md-end pb-1">
                                 <div class="col-4 custom-color fw-bold">
                                     Taxes :
                                 </div>
@@ -145,13 +158,13 @@ $expedition = $expeditionModel->findWithClientById($payment['expedition_id']);
                                     389.41$
                                 </div>
                             </div>
-                            <div class="row justify-content-md-end">
+                            <div class="row justify-content-md-end pb-1">
                                 <div class="col-7">
                                     <p>Mode de paiement : carte xxxx xxxx xxxx
                                         <?= htmlspecialchars($payment['last4']) ?>
                                     </p>
                                 </div>
-                                <div class="col-3 custom-color fw-bold">
+                                <div class="col-3 custom-color fw-bold pb-1">
                                     Montant payé :
                                 </div>
                                 <div class="col-2">

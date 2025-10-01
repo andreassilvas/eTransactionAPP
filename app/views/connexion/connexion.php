@@ -1,5 +1,8 @@
+<?php
+$clientName = htmlspecialchars($_SESSION['client_name'] ?? ''); // fallback to empty if not set
+?>
 <div class="container pt-5 pb-5">
-    <h2 class="fw-light mb-4">Bon retour, Lulu</h2>
+    <h2 class="fw-light mb-4">Bon retour, <?= $clientName ?></h2>
 </div>
 <div class="row justify-content-center mt-3">
     <div class="col-sm-6 mb-3 mb-sm-0">
@@ -11,7 +14,7 @@
                     Consultez vos relevés bancaires et vos commandes en toute sécurité.
                     Gardez une trace de vos transactions et suivez vos achats facilement.
                 </p>
-                <div class="d-flex justify-content-end">
+                <div class="d-flex justify-content-start">
                     <?php
                     $btnText = "Accéder";
                     $href = BASE_URL . '/releve';

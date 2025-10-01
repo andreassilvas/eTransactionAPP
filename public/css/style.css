@@ -25,6 +25,17 @@ a.inactive {
     color: #002F6C;
 }
 
+.custom-color-light{
+    color: #6C7570;
+}
+
 .custom-success{
     color: #008000;
+}
+.custom-form-text{
+    font-size: 0.7rem;
+    color: #6C7570;
+}
+.custom-check-input{
+    border: 2px solid #6C7570;
 }

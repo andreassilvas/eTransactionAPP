@@ -11,7 +11,6 @@
             <div class="col mb-3">
                 <div class="mar-left">
                     <h4 class="custom-color">Informations d'expédition</h4>
-                    <p class="mb-1 mt-3">*Indiquer les renseignements obligatoires</p>
                 </div>
                 <?php require __DIR__ . '/expedition_form.php'; ?>
             </div>
