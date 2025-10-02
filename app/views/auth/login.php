@@ -21,6 +21,8 @@
                     <div id="loginErrorContainer" style="min-height: 40px;"></div>
                     <?php
                     $btnText = "Se connecter";
+                    $btnBg = "#2E3133";
+                    $btnBorder = "#2E3133";
                     $btnType = "submit";
                     include __DIR__ . '/../components/base_button.php';
                     ?>

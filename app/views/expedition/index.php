@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col mb-3">
                 <div class="mar-left">
-                    <h4 class="custom-color">Informations d'expédition</h4>
+                    <h3 class="custom-color-b">Informations d'expédition</h3>
                 </div>
                 <?php require __DIR__ . '/expedition_form.php'; ?>
             </div>

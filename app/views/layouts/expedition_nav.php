@@ -5,14 +5,14 @@ $ordersUrl = $ordersUrl ?? '#scrollspyHeading2';
 $logoutUrl = $logoutUrl ?? BASE_URL . '/logout.php';
 ?>
 
-<nav id="navbar-example2" class="navbar bg-body-tertiary px-5 mb-3">
+<nav id="navbar" class="navbar bg-body-tertiary px-5 mb-3 fixed-top">
     <a class="navbar-brand" href="#"></a>
     <ul class="nav nav-pills">
         <li class="nav-item">
-            <a class="nav-link disabled d-flex align-items-center gap-3 <?= $activeStep == 1 ? 'active-step' : 'inactive' ?>"
+            <a class="nav-link disabled d-flex align-items-center gap-3 <?= $activeStep == 1 ? 'active-step-a' : 'inactive' ?>"
                 href="#scrollspyHeading1">
                 <span
-                    class="badge rounded-circle d-flex align-items-center justify-content-center <?= $activeStep == 1 ? 'active-step' : 'text-bg-secondary' ?>"
+                    class="badge rounded-circle d-flex align-items-center justify-content-center <?= $activeStep == 1 ? 'active-step-a' : 'text-bg-secondary' ?>"
                     style="width: 27px; height: 27px;">
                     1
                 </span>
@@ -20,10 +20,10 @@ $logoutUrl = $logoutUrl ?? BASE_URL . '/logout.php';
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link disabled d-flex align-items-center gap-3 <?= $activeStep == 2 ? 'active-step' : 'inactive' ?>"
+            <a class="nav-link disabled d-flex align-items-center gap-3 <?= $activeStep == 2 ? 'active-step-a' : 'inactive' ?>"
                 href="#scrollspyHeading1">
                 <span
-                    class="badge rounded-circle d-flex align-items-center justify-content-center <?= $activeStep == 2 ? 'active-step' : 'text-bg-secondary' ?>"
+                    class="badge rounded-circle d-flex align-items-center justify-content-center <?= $activeStep == 2 ? 'active-step-a' : 'text-bg-secondary' ?>"
                     style="width: 27px; height: 27px;">
                     2
                 </span>
@@ -31,10 +31,10 @@ $logoutUrl = $logoutUrl ?? BASE_URL . '/logout.php';
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link disabled d-flex align-items-center gap-3 <?= $activeStep == 3 ? 'active-step' : 'inactive' ?>"
+            <a class="nav-link disabled d-flex align-items-center gap-3 <?= $activeStep == 3 ? 'active-step-a' : 'inactive' ?>"
                 href="#scrollspyHeading1">
                 <span
-                    class="badge rounded-circle d-flex align-items-center justify-content-center <?= $activeStep == 3 ? 'active-step' : 'text-bg-secondary' ?>"
+                    class="badge rounded-circle d-flex align-items-center justify-content-center <?= $activeStep == 3 ? 'active-step-a' : 'text-bg-secondary' ?>"
                     style=" width: 27px; height: 27px;">
                     3
                 </span>

@@ -1,4 +1,4 @@
-<form method="POST" action="/eTransactionAPP/public/expeditions/store" id="billingForm">
+<form method="POST" action="/eTransactionAPP/public/expeditions/store" id="adresseFacturation">
     <div class="row">
         <div class="col-8 pad-left">
             <div class="card rounded-4 mt-3 mb-3">
@@ -11,7 +11,7 @@
                         include __DIR__ . '/../components/base_button.php';
                         ?>
                         <div class="ms-3">
-                            <h6 class="mb-0 custom-color">Utiliser mon adresse de facturation comme adresse de
+                            <h6 class="mb-0 custom-color-b">Utiliser mon adresse de facturation comme adresse de
                                 livraison.
                             </h6>
                             <p class="mb-0 custom-color-light">Sinon, saisissez une nouvelle adresse et cliquez sur
@@ -24,13 +24,13 @@
     </div>
 </form>
 
-<form method="POST" action="/eTransactionAPP/public/expeditions/store">
+<form method="POST" action="/eTransactionAPP/public/expeditions/store" id="billingForm">
     <div class="row">
         <div class="col-8 pad-left">
             <div class="card rounded-4">
                 <div class="card-body mt-3">
-                    <h5 class="card-title custom-color">Nouvelle adresse de livraison</h5>
-                    <p class="custom-color-light">*Indiquer les renseignements obligatoires</p>
+                    <h5 class="card-title custom-color-b">Nouvelle adresse de livraison</h5>
+                    <p class="custom-color-d">*Indiquer les renseignements obligatoires</p>
                     <div class="row">
                         <div class="col">
                             <?php include __DIR__ . '/expedition-inputs/prenom.php' ?>
@@ -88,3 +88,4 @@
         </div>
     </div>
 </form>
+<script src="js/validationExpeditionForm.js"></script>

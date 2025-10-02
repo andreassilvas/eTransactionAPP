@@ -1,20 +1,23 @@
 <?php
-// Default values
+// Valeurs par défaut
 $btnText = $btnText ?? 'Click Me';
 $btnType = $btnType ?? 'button';
 $href = $href ?? '';
-$btnBg = $btnBg ?? '#0047AB';
-$btnBorder = $btnBorder ?? '#0047AB';
+$btnBg = $btnBg ?? '#005F66';
+$btnBorder = $btnBorder ?? '#005F66';
+$btnHoverBg = $btnHoverBg ?? '#00738A';
+$btnHoverBorder = $btnHoverBorder ?? '#00738A';
+
 $btnTextColor = $btnTextColor ?? '#fff';
-$btnHoverBg = $btnHoverBg ?? '#002F6C';
-$btnHoverBorder = $btnHoverBorder ?? '#002F6C';
 $btnHoverText = $btnHoverText ?? '#fff';
 $extraClass = $extraClass ?? '';
 
+// Classe unique pour éviter les conflits entre plusieurs boutons
+$uniqueClass = 'custom-btn-' . bin2hex(random_bytes(5));
 ?>
 
 <style>
-    .custom-btn {
+    .<?= $uniqueClass ?> {
         background-color:
             <?= $btnBg ?>
         ;
@@ -31,7 +34,7 @@ $extraClass = $extraClass ?? '';
         transition: 0.3s;
     }
 
-    .custom-btn:hover {
+    .<?= $uniqueClass ?>:hover {
         background-color:
             <?= $btnHoverBg ?>
         ;
@@ -45,7 +48,11 @@ $extraClass = $extraClass ?? '';
 </style>
 
 <?php if (!empty($href)): ?>
-    <a href="<?= $href ?>" class="btn custom-btn <?= $extraClass ?>"><?= $btnText ?></a>
+    <a href="<?= $href ?>" class="btn <?= $uniqueClass ?> <?= $extraClass ?>">
+        <?= $btnText ?>
+    </a>
 <?php else: ?>
-    <button type="<?= $btnType ?>" class="btn custom-btn <?= $extraClass ?>"><?= $btnText ?></button>
+    <button type="<?= $btnType ?>" class="btn <?= $uniqueClass ?> <?= $extraClass ?>">
+        <?= $btnText ?>
+    </button>
 <?php endif; ?>

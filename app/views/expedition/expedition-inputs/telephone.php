@@ -11,6 +11,5 @@ $required = true;
 $autocomplete = "tel";
 $input_value = $_POST['phone'] ?? '';
 $describedby = "numHelp";
-$describe = "Nous vous appellerons uniquement en cas de problèmes avec la commande.";
 $custom_class = "placeholder-style";
 include __DIR__ . "/../../layouts/base-form-inputs/input_info.php";

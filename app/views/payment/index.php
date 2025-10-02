@@ -9,7 +9,7 @@
         <div class=" row">
             <div class="col mb-3">
                 <div class="mar-left mb-4">
-                    <h4 class="custom-color">Paiement</h4>
+                    <h3 class="custom-color-b">Paiement</h3>
                 </div>
                 <?php require __DIR__ . '/payment_form.php'; ?>
             </div>

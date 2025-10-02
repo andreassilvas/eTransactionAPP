@@ -5,7 +5,7 @@
         <div class="col-8 pad-left">
             <div class="card rounded-top-4">
                 <div class="card-body">
-                    <div class="col-sm-7">
+                    <div class="col-sm-7 custom-color-d">
                         Carte de credit
                     </div>
 
@@ -14,7 +14,7 @@
 
             <div class="card rounded-top-0 mt-2">
                 <div class="card-body mt-3">
-                    <h6 class="card-title custom-color">Renseignements sur la carte</h6>
+                    <h5 class="card-title custom-color-b">Renseignements sur la carte</h5>
 
                     <div class="card rounded-4">
                         <div class="card-body mt-3">
@@ -58,7 +58,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <h6 class="custom-color">Information d'expédition</h6>
+                                    <h6 class="custom-color-b">Information d'expédition</h6>
                                     <?php
                                     if (!empty($_SESSION['expedition_data'])) {
                                         $expedition = $_SESSION['expedition_data'];

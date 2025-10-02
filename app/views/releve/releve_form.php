@@ -1,4 +1,7 @@
 <?php
+$name = htmlspecialchars($_SESSION['client_name'] ?? '');
+
+
 $transactions = $transactions ?? [];
 
 //pagination variables
@@ -21,15 +24,16 @@ $transactionsPage = array_slice($transactions, $start, $perPage);
 <div class="container my-5 px-0">
     <div class="card">
         <div class="card-body">
+            <h6 class="card-title custom-color-d pb-3">Client : <?= $name ?></h6>
             <?php if (!empty($transactions)): ?>
-                <table class="table table-striped mb-5">
+                <table class="table table-striped table-bordered mb-5">
                     <thead>
                         <tr>
                             <th>Date</th>
                             <th>Description</th>
-                            <th class="text-end">Crédit</th>
-                            <th class="text-end">Débit</th>
-                            <th class="text-end">Solde</th>
+                            <th class="text-center">Crédit</th>
+                            <th class="text-center">Débit</th>
+                            <th class="text-center">Solde</th>
                         </tr>
                     </thead>
                     <tbody>

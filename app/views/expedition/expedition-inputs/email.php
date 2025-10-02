@@ -7,7 +7,6 @@ $describedby = "emailHelp";
 $input_value = $_POST['email'] ?? '';
 $autocomplete = "email";
 $placeholder = "exemple@courriel.com";
-$describe = "Nous enverrons les mises à jour de commande cette adresse courriel.";
 $required = true;
 $maxlength = "80";
 

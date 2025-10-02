@@ -61,6 +61,21 @@ $router->get('/releve', function () {
     $controller->index();
 });
 
+//Products page
+// $router->get('/produits', function () {
+//     require __DIR__ . '/../app/views/products/index.php';
+// });
+
+$router->get('/produits', function () {
+    $controller = new \App\Controllers\ProductController();
+    $controller->index();
+});
+
+//Commandes page
+$router->get('/commandes', function () {
+    require __DIR__ . '/../app/views/commandes/index.php';
+});
+
 // Expedition
 $router->get('/expedition', function () {
     if (!isset($_SESSION['client_id'])) {

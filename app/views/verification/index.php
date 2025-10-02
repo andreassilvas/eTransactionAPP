@@ -9,10 +9,16 @@
         <div class=" row">
             <div class="col mb-3">
                 <div class="mar-left">
-                    <h4 class="custom-color">Vérification de la transaction</h4>
+                    <h3 class="custom-color-b">Vérification de la transaction</h3>
                 </div>
                 <?php require __DIR__ . '/success.php'; ?>
             </div>
         </div>
     </div>
+    <?php
+    // Test the session
+    echo '<pre>';
+    print_r($_SESSION);
+    echo '</pre>';
+    ?>
     <?php require_once __DIR__ . '/../layouts/footer.php'; ?>

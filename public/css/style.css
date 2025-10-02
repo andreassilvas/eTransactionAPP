@@ -1,12 +1,32 @@
-.nav-link.active-step {
-    color: #0047AB;
-    font-weight: 600;
+body {
+    padding-top: 80px; /* Adjust to navbar height */
+}
+.nav-link {
+font-weight: 600;
+}
+.badge {
+color: #fff !important;
+}
+/* Navbar - Expeditions*/
+.nav-link.active-step-a {
+    color: #005F84; 
+}
+.badge.active-step-a {
+    background-color: #005F84 !important;
 }
 
-.badge.active-step {
-    background-color: #0047AB !important;
-    color: #fff !important;
+/* Navbar - Relevés*/
+.nav-link.active-step-b {
+    color: #064747; 
 }
+.badge.active-step-b {
+    background-color: #064747 !important;
+}
+.custom-navbar-releve {
+    background-color: #A6C3A8 !important ;
+}
+
+/* Navbar - default */
 a.inactive {
     color: #6C7570 !important;
 }
@@ -17,25 +37,40 @@ a.inactive {
         opacity: 1;
 }
 
-.custom-color{
+.custom-color-a{
     color: #0047AB;
 }
 
-.custom-color-dark{
-    color: #002F6C;
+.custom-color-b{
+    color: #005F84;
 }
 
-.custom-color-light{
+.custom-color-c{
+    color: #064747;
+}
+
+.custom-color-d{
     color: #6C7570;
 }
 
+.custom-color-e{
+    color:#BE5103;
+}
+.custom-color-f{
+    color:#0d6efd;
+}
 .custom-success{
     color: #008000;
 }
+
 .custom-form-text{
     font-size: 0.7rem;
     color: #6C7570;
 }
 .custom-check-input{
     border: 2px solid #6C7570;
+}
+thead tr.custom-color-a {
+    background-color: #f2f2f2; /* your color */
+    color: #333; /* text color */
 }

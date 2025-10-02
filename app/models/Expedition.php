@@ -14,7 +14,7 @@ class Expedition extends Model
         $tranckingnum = 'TRACK' . strtoupper(uniqid());
         $sql = "INSERT INTO $this->table 
                 (client_id, ship_email,ship_address, ship_city, ship_province, ship_postcode, ship_name, ship_lastname, ship_phone, tracking_number, date, status) 
-                VALUES (:client_id, :ship_email,:ship_address, :ship_city, :ship_province, :ship_postcode, :tracking_number,:date, :status)";
+                VALUES (:client_id, :ship_email,:ship_address, :ship_city, :ship_province, :ship_postcode, :ship_name, :ship_lastname,:ship_phone, :tracking_number,:date, :status)";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute([
