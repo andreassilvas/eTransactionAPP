@@ -16,7 +16,7 @@ $logoutUrl = $logoutUrl ?? BASE_URL . '/logout.php';
                     style="width: 32px; height: 32px;">
                     <i class="fa-solid fa-building-columns fa-lg"></i>
                 </span>
-                Relevé bancaire
+                Client relevé bancaire
             </a>
         </li>
         <li class="nav-item">
@@ -27,7 +27,7 @@ $logoutUrl = $logoutUrl ?? BASE_URL . '/logout.php';
                     style="width: 32px; height: 32px;">
                     <i class="fa-solid fa-list"></i>
                 </span>
-                Relevés de commandes
+                Client relevés de commandes
             </a>
         </li>
         <li class="nav-item">
@@ -38,7 +38,7 @@ $logoutUrl = $logoutUrl ?? BASE_URL . '/logout.php';
                     style="width: 32px; height: 32px;">
                     <i class="fa-solid fa-boxes"></i>
                 </span>
-                produits
+                Produits en stock
             </a>
         </li>
 
