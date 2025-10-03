@@ -21,26 +21,27 @@ $logoutUrl = $logoutUrl ?? BASE_URL . '/logout.php';
         </li>
         <li class="nav-item">
             <a class="nav-link d-flex align-items-center gap-3 <?= $activeStep == 2 ? 'active-step-b' : 'inactive' ?>"
-                href="<?= BASE_URL . '/produits' ?>">
-                <span
-                    class="badge rounded-circle d-flex align-items-center justify-content-center <?= $activeStep == 2 ? 'active-step-b' : 'text-bg-secondary' ?>"
-                    style="width: 32px; height: 32px;">
-                    <i class="fa-solid fa-boxes"></i>
-                </span>
-                Products
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-3 <?= $activeStep == 3 ? 'active-step-b' : 'inactive' ?>"
                 href="<?= BASE_URL . '/commandes' ?>">
                 <span
-                    class="badge rounded-circle d-flex align-items-center justify-content-center <?= $activeStep == 3 ? 'active-step-b' : 'text-bg-secondary' ?>"
+                    class="badge rounded-circle d-flex align-items-center justify-content-center <?= $activeStep == 2 ? 'active-step-b' : 'text-bg-secondary' ?>"
                     style="width: 32px; height: 32px;">
                     <i class="fa-solid fa-list"></i>
                 </span>
                 Relevés de commandes
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link d-flex align-items-center gap-3 <?= $activeStep == 3 ? 'active-step-b' : 'inactive' ?>"
+                href="<?= BASE_URL . '/produits' ?>">
+                <span
+                    class="badge rounded-circle d-flex align-items-center justify-content-center <?= $activeStep == 3 ? 'active-step-b' : 'text-bg-secondary' ?>"
+                    style="width: 32px; height: 32px;">
+                    <i class="fa-solid fa-boxes"></i>
+                </span>
+                produits
+            </a>
+        </li>
+
         <a class="nav-link d-flex align-items-center gap-3" href="<?= $logoutUrl ?>">
             <i class="fa-solid fa-right-from-bracket fa-lg" style="color: #575757;"></i>
         </a>

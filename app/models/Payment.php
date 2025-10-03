@@ -13,16 +13,17 @@ class Payment extends Model
         $transactionId = 'SIM' . strtoupper(uniqid());
 
         $sql = "INSERT INTO {$this->table} 
-                (expedition_id, amount, status, method, last4, transaction_id, created_at) 
-                VALUES (:expedition_id, :amount, :status, :method, :last4, :transaction_id, NOW())";
+                (expedition_id, client_id, amount,`status`, method, last4, transaction_id, created_at) 
+                VALUES (:expedition_id, :client_id, :amount, :status, :method, :last4, :transaction_id, NOW())";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute([
             ':expedition_id' => $data['expedition_id'],
+            ':client_id' => $data['client_id'],
             ':amount' => $data['amount'],
             ':status' => $data['status'], // pending initially
-            ':method' => $data['method'] ?? 'Visa', // simulate card type
-            ':last4' => $data['last4'] ?? '1234',   // simulate last 4 digits
+            ':method' => $data['method'] ?? 'Visa',
+            ':last4' => $data['last4'] ?? '1234',
             ':transaction_id' => $transactionId
         ]);
 

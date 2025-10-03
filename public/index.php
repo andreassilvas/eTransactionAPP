@@ -62,10 +62,6 @@ $router->get('/releve', function () {
 });
 
 //Products page
-// $router->get('/produits', function () {
-//     require __DIR__ . '/../app/views/products/index.php';
-// });
-
 $router->get('/produits', function () {
     $controller = new \App\Controllers\ProductController();
     $controller->index();
@@ -73,7 +69,8 @@ $router->get('/produits', function () {
 
 //Commandes page
 $router->get('/commandes', function () {
-    require __DIR__ . '/../app/views/commandes/index.php';
+    $controller = new \App\Controllers\CommandController();
+    $controller->index();
 });
 
 // Expedition

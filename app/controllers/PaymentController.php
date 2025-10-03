@@ -6,7 +6,9 @@ use App\Models\Expedition;
 use App\Models\Payment;
 use App\Models\BankTransaction;
 use App\Models\PaymentValidation;
+use App\Models\ExpeditionItem;
 use App\Models\Database;
+use App\Models\Products;
 
 class PaymentController
 {
@@ -28,15 +30,34 @@ class PaymentController
         $clientId = $_SESSION['client_id'];
         $expeditionData = $_SESSION['expedition_data'];
 
-        // --- Nettoyage des inputs ---
-        $amount = floatval($_POST['amount'] ?? 2989.86);
+        //hardcode products
+        $products = [
+            ['id' => 7, 'quantity' => 1],
+        ];
+
+        //calculate the total amount
+        $productModel = new Products();
+        $expeditionItemModel = new ExpeditionItem();
+
+        // Calcul du montant total
+        $totalAmount = 0;
+        foreach ($products as $item) {
+            $prod = $productModel->find($item['id']); // return an array
+            if (!$prod)
+                continue;
+
+            $totalAmount += $prod['price'] * $item['quantity'];
+        }
+
+
+        //Card data
         $cardName = trim($_POST['card_name'] ?? '');
         $cardNumber = trim($_POST['card_number'] ?? '');
         $codePostal = trim($_POST['postcode'] ?? '');
         $expiryDate = trim($_POST['expiry_date'] ?? '');
         $cvv = trim($_POST['cvv'] ?? '');
 
-        // --- Étape 1 : Validation de format ---
+        // Validation
         $errors = [];
 
         // Numéro carte (4 groupes de 4 chiffres séparés par espace)
@@ -114,7 +135,7 @@ class PaymentController
             $transactions = $transactionModel->getByClientId($clientId);
             $currentBalance = $transactions[0]['balance'] ?? 0;
 
-            if ($currentBalance < $amount) {
+            if ($currentBalance < $totalAmount) {
                 throw new \Exception("Fonds insuffisants.");
             }
 
@@ -130,28 +151,48 @@ class PaymentController
                 'ship_province' => $expeditionData['province'],
                 'ship_postcode' => $expeditionData['postcode'],
                 'ship_phone' => $expeditionData['phone'],
-                'status' => 'paid',
+                'status' => 'success',
                 'date' => date('Y-m-d')
             ]);
 
-            // Sauvegarde paiement
+            //Create expedition_items and update the stock
+            //Après paiement réussi : créer expedition_items et décrémenter le stock
+            foreach ($products as $item) {
+                $prod = $productModel->find($item['id']);
+                if (!$prod)
+                    continue;
+
+                // Ajouter à expedition_items
+                $expeditionItemModel->create([
+                    'expedition_id' => $expeditionId,
+                    'product_id' => $prod['id'],
+                    'quantity' => $item['quantity'],
+                    'unit_price' => $prod['price']
+                ]);
+
+                // Décrémenter le stock
+                $newStock = max(0, $prod['stock'] - $item['quantity']);
+                $productModel->update($prod['id'], ['stock' => $newStock]);
+            }
+
+            //create the payment
             $paymentModel = new Payment();
             $paymentId = $paymentModel->create([
                 'expedition_id' => $expeditionId,
                 'client_id' => $clientId,
-                'amount' => $amount,
-                'status' => 'completed',
+                'amount' => $totalAmount,
+                'status' => 'success',
                 'last4' => substr(str_replace(' ', '', $cardValid['card_number']), -4),
                 'method' => $cardValid['card_type'] ?? 'Carte'
             ]);
 
             // Débit compte client
-            $newBalance = $currentBalance - $amount;
+            $newBalance = $currentBalance - $totalAmount;
             $transactionModel->addTransaction(
                 $clientId,
                 "Paiement pour l’expédition #$expeditionId",
                 0.00,
-                $amount,
+                $totalAmount,
                 $newBalance
             );
 

@@ -15,11 +15,18 @@ class Products extends Model
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Find a product by ID
+     *
+     * @param int $id
+     * @return array|false
+     */
     public function find($id)
     {
         $sql = "SELECT * FROM $this->table WHERE id = :id LIMIT 1";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([':id' => $id]);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
@@ -31,4 +38,17 @@ class Products extends Model
         $stmt->execute($data);
         return $this->db->lastInsertId();
     }
+    public function update($id, $data)
+    {
+        $fields = [];
+        foreach ($data as $key => $value) {
+            $fields[] = "$key = :$key";
+        }
+        $sql = "UPDATE $this->table SET " . implode(", ", $fields) . " WHERE id = :id";
+        $stmt = $this->db->prepare($sql);
+        $data['id'] = $id;
+        return $stmt->execute($data);
+    }
+
+
 }

@@ -2,10 +2,10 @@ body {
     padding-top: 80px; /* Adjust to navbar height */
 }
 .nav-link {
-font-weight: 600;
+    font-weight: 600;
 }
 .badge {
-color: #fff !important;
+    color: #fff !important;
 }
 /* Navbar - Expeditions*/
 .nav-link.active-step-a {
@@ -32,9 +32,9 @@ a.inactive {
 }
 
 .placeholder-style::placeholder {
-        font-size: 15px;
-        color: #A1A1A1;
-        opacity: 1;
+    font-size: 15px;
+    color: #A1A1A1;
+    opacity: 1;
 }
 
 .custom-color-a{
@@ -59,6 +59,12 @@ a.inactive {
 .custom-color-f{
     color:#0d6efd;
 }
+.custom-color-g{
+    color:#05472A;
+}
+.custom-color-h{
+    color:#290245;
+}
 .custom-success{
     color: #008000;
 }
@@ -71,6 +77,17 @@ a.inactive {
     border: 2px solid #6C7570;
 }
 thead tr.custom-color-a {
-    background-color: #f2f2f2; /* your color */
-    color: #333; /* text color */
+    background-color: #f2f2f2;
+    color: #333; 
 }
+.page-link.custom.active {
+    background-color: #2E6F40;
+    border-color: #2E6F40;
+    color: #fff;
+}
+.page-link.custom-prod.active {
+    background-color: #560591;
+    border-color: #560591;
+    color: #fff;
+}
+

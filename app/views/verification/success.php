@@ -1,4 +1,5 @@
 <?php
+use App\Models\Command;
 use App\Models\Payment;
 use App\Models\Expedition;
 use App\Models\Client;
@@ -31,9 +32,11 @@ $client = $clientModel->findById($_SESSION['client_id']);
 
 // Load expedition info
 $expeditionModel = new Expedition();
-// $expedition = $expeditionModel->findById($payment['expedition_id']);
 $expedition = $expeditionModel->findWithClientById($payment['expedition_id']);
 
+$commandModel = new Command();
+$clientId = $_SESSION['client_id'];
+$commands = $commandModel->getByClientId($clientId);
 ?>
 
 <div class="col-9 pad-left pt-4">
@@ -115,14 +118,26 @@ $expedition = $expeditionModel->findWithClientById($payment['expedition_id']);
             <h5 class="card-title custom-color-b">Résumé de la commande</h5>
             <div class="card mb-1 rounded-top-4">
                 <div class="card-body">
-                    <h6 class="card-title">ThinkSystem ST250 V3</h6>
+                    <ul class="list-group">
+                        <?php if (!empty($commands)): ?>
+                            <?php foreach ($commands as $command): ?>
+                                <li class="list-group-item border-0 py-1">
+                                    <?= htmlspecialchars($command['products']) ?>
+                                </li>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <li class="list-group-item">Aucune commande trouvée.</li>
+                        <?php endif; ?>
+
+                    </ul>
+                    <!-- <h6 class="card-title">ThinkSystem ST250 V3</h6>
                     <h6 class="card-title">Fiche technique du système :</h6>
                     <ul class="list-group">
                         <li class="list-group-item border-0">Processor : Intel® Xeon® Raptor E-2414 4C 2.6G 55W
                         </li>
                         <li class="list-group-item border-0 py-1">Capacité totale de la mémoire : 128 GB/TruDDR5 </li>
                         <li class="list-group-item border-0 py-1">Mémoire incluse : 16 GB 1Rx8</li>
-                    </ul>
+                    </ul> -->
                 </div>
             </div>
             <div class="card mb-0 rounded-bottom-4">
