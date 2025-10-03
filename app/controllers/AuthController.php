@@ -9,7 +9,7 @@ class AuthController extends Controller
     public function login()
     {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $email = $_POST['email'] ?? '';
+            $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
             $password = $_POST['password'] ?? '';
 
             // Load User model
@@ -17,19 +17,18 @@ class AuthController extends Controller
             $client = $userModel->findByEmail($email);
 
             if ($client && password_verify($password, $client['password'])) {
-                // Start session if not already started
-                if (session_status() === PHP_SESSION_NONE) {
-                    session_start();
-                }
+
                 $_SESSION['client_id'] = $client['id'];
                 $_SESSION['client_name'] = $client['name'];
 
                 // Redirect to home page - Produits
-                header("Location: /eTransactionAPP/public/");
+                header("Location: " . BASE_URL);
                 exit;
             } else {
-                // Invalid credentials
-                echo "<script>alert('Email ou mot de passe incorrect'); window.history.back();</script>";
+                $_SESSION['flash']['error'] = 'Email ou mot de passe incorrect';
+                header("Location: " . BASE_URL . "/login");
+                exit;
+
             }
         }
     }

@@ -25,7 +25,7 @@ class BankController
             $transactionModel = new BankTransaction($db);
             $transactions = $transactionModel->getByClientId($clientId);
 
-            // DEBUG: check if data is fetched
+            // check if data is fetched
             // var_dump($transactions); exit;
 
         } catch (\PDOException $e) {
