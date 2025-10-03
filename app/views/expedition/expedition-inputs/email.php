@@ -1,6 +1,6 @@
 <?php
 $id = "email_adresse";
-$label = "*Adresse courriel";
+$label = "*Courriel";
 $name = "email";
 $type = "email";
 $describedby = "emailHelp";

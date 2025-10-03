@@ -1,5 +1,5 @@
 <?php
-// Set defaults if not provided - Re visit for more...
+// back and forward arrows route
 $expeditionUrl = $releveUrl ?? BASE_URL . '/expedition';
 $connexionUrl = $ordersUrl ?? BASE_URL . '/connexion';
 $logoutUrl = $logoutUrl ?? BASE_URL . '/logout.php';

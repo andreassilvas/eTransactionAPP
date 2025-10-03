@@ -30,7 +30,7 @@ class PaymentController
         $clientId = $_SESSION['client_id'];
         $expeditionData = $_SESSION['expedition_data'];
 
-        //hardcode products
+        //hardcode product to bye - card
         $products = [
             ['id' => 7, 'quantity' => 1],
         ];
@@ -39,13 +39,25 @@ class PaymentController
         $productModel = new Products();
         $expeditionItemModel = new ExpeditionItem();
 
-        // Calcul du montant total
+        // --- Step 0: Stock validation ---
+        foreach ($products as $item) {
+            $prod = $productModel->find($item['id']);
+            if (!$prod) {
+                $_SESSION['payment_error'] = "Produit introuvable : ID {$item['id']}";
+                header("Location: /eTransactionAPP/public/payment");
+                exit;
+            }
+
+            if ($prod['stock'] < $item['quantity']) {
+                $_SESSION['payment_error'] = "Produit en rupture de stock : {$prod['name']}";
+                header("Location: /eTransactionAPP/public/payment");
+                exit;
+            }
+        }
+        // --- Calculate total amount after stock check ---
         $totalAmount = 0;
         foreach ($products as $item) {
-            $prod = $productModel->find($item['id']); // return an array
-            if (!$prod)
-                continue;
-
+            $prod = $productModel->find($item['id']);
             $totalAmount += $prod['price'] * $item['quantity'];
         }
 
