@@ -1,3 +1,4 @@
+<?php include_once __DIR__ . '/../../middleware/auth.php' ?>
 <?php include __DIR__ . '/../layouts/header.php'; ?>
 
 <body>

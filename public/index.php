@@ -1,27 +1,29 @@
 <?php
 
-// Load core files first
+/* Load core files first */
+require_once __DIR__ . '/../app/Helpers/AuthHelper.php';
 require_once __DIR__ . '/../core/Router.php';
 require_once __DIR__ . '/../core/Controller.php';
 require_once __DIR__ . '/../core/Model.php';
 
-// Load app initialization (session, config, database, autoload, etc.)
+
+/* Load app initialization (session, config, database, autoload, etc.) */
 require_once __DIR__ . '/../app/init.php';
 
-// Autoload controllers and models
+/* Autoload controllers and models */
 spl_autoload_register(function ($class) {
-    $prefix = 'App\\';                  // All classes live under App\
+    $prefix = 'App\\';                  // All classes live under App/
     $base_dir = __DIR__ . '/../app/';   // Root of the app
 
-    // Only load classes from App\
+    /* Only load classes from App/ */
     if (strncmp($prefix, $class, strlen($prefix)) !== 0) {
         return;
     }
 
-    // Get relative class name
+    /* Get relative class name */
     $relative_class = substr($class, strlen($prefix));
 
-    // Replace namespace separators with directory separators
+    /* Replace namespace separators with directory separators */
     $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
 
     if (file_exists($file)) {
@@ -29,66 +31,65 @@ spl_autoload_register(function ($class) {
     }
 });
 
-// Create the router
+/* Create the router */
 $router = new Router();
 
-// Handle subfolder
+/* Handle subfolder */
 $basePath = '/eTransactionAPP/public';
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $path = rtrim(str_replace($basePath, '', $uri), '/') ?: '/';
 
-// -------------------- Routes --------------------
+/* -------------------- Routes -------------------- */
 
-// Home page - Produits
+/* Home page - Produits */
 $router->get('/', 'HomeController@index');
 
-// Login
+/* Login Modal*/
 $router->get('/login', function () {
     $controller = new \App\Controllers\LoginController();
     $controller->login();
 });
 $router->post('/login', 'LoginController@login');
 
-
-//Connexion page
+/* Connexion page (protected) */
 $router->get('/connexion', function () {
+    authMiddleware();
     require __DIR__ . '/../app/views/connexion/index.php';
 });
 
-//Relevé page
+/* Relevé page (protected) */
 $router->get('/releve', function () {
+    authMiddleware();
     $controller = new \App\Controllers\BankController();
     $controller->index();
 });
 
-//Products page
+/* Products page (protected) */
 $router->get('/produits', function () {
+    authMiddleware();
     $controller = new \App\Controllers\ProductController();
     $controller->index();
 });
 
-//Commandes page
+/* Commandes page (protected) */
 $router->get('/commandes', function () {
+    authMiddleware();
     $controller = new \App\Controllers\CommandController();
     $controller->index();
 });
 
-// Expedition
+/* Expedition (protected) */
 $router->get('/expedition', function () {
-    if (!isset($_SESSION['client_id'])) {
-        header("Location: /eTransactionAPP/public/");
-        exit;
-    }
+    authMiddleware();
     require __DIR__ . '/../app/views/expedition/index.php';
 });
+
+/* Handle form submission */
 $router->post('/expeditions/store', 'ExpeditionController@store');
 
-// Payment
+/* Payment (protected) */
 $router->get('/payment', function () {
-    if (!isset($_SESSION['client_id'])) {
-        header("Location: /eTransactionAPP/public/");
-        exit;
-    }
+    authMiddleware();
     require __DIR__ . '/../app/views/payment/index.php';
 });
 $router->post('/payment/process', function () {
@@ -96,12 +97,11 @@ $router->post('/payment/process', function () {
     $controller->process();
 });
 
-// Verification
+/* Verification */
 $router->get('/verification/success', function () {
     $paymentId = $_GET['id'] ?? null;
     require __DIR__ . '/../app/views/verification/index.php';
 });
 
-
-// -------------------- Run router --------------------
+/* Run router */
 $router->run($path);
