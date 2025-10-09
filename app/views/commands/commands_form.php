@@ -1,6 +1,7 @@
 <?php
 require __DIR__ . '/../../Helpers/TableHelper.php';
 
+// Définition des en-têtes du tableau
 $headers = [
     ['text' => 'Date', 'style' => 'width:110px;'],
     ['text' => 'Exp. Id', 'style' => 'width:100px;'],
@@ -12,6 +13,7 @@ $headers = [
     ['text' => 'Payer par', 'style' => 'width:110px;'],
 ];
 
+// Définition des champs à afficher pour chaque ligne
 $fields = [
     'expedition_date' => null,
     'expedition_id' => null,
@@ -23,5 +25,6 @@ $fields = [
     'payment_method' => null,
 ];
 
+// Appel de la fonction pour afficher le tableau paginé
 renderTableWithPagination($commands, $headers, $fields, 5, 'custom', $_SESSION['client_name'] ?? '');
 

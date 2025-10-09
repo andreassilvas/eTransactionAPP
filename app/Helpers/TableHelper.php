@@ -1,13 +1,26 @@
 <?php
+
+/**
+ * Affiche un tableau paginé avec le nom du client et le solde optionnels.
+ *
+ * @param array $data        Les données à afficher dans le tableau.
+ * @param array $headers     Tableau des en-têtes avec 'text' et optionnellement 'style'.
+ * @param array $fields      Tableau de clés ou de callbacks pour afficher chaque ligne.
+ * @param int $perPage       Nombre de lignes par page (défaut : 5).
+ * @param string $customClass Classe CSS personnalisée pour les liens de pagination.
+ * @param string|null $clientName Nom du client à afficher au-dessus du tableau (optionnel).
+ * @param float|null $solde  Solde à afficher au-dessus du tableau (optionnel).
+ */
 function renderTableWithPagination($data, $headers, $fields, $perPage = 5, $customClass = '', $clientName = null, $solde = null)
 {
-
+    // Échapper le nom du client pour un affichage sécurisé
     $clientName = $clientName ? htmlspecialchars($clientName) : null;
 
+    // Pagination
     $total = count($data);
     $totalPages = ceil($total / $perPage);
-
     $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+
     if ($page < 1)
         $page = 1;
     if ($page > $totalPages)
@@ -21,10 +34,10 @@ function renderTableWithPagination($data, $headers, $fields, $perPage = 5, $cust
         <div class="card">
             <div class="card-body">
                 <?php if ($clientName): ?>
-                    <h6 class="card-title custom-color-d pb-3">Client : <?= $clientName ?></h6>
+                    <h6 class="card-title custom-color-d pb-3 text-end">Client : <?= $clientName ?></h6>
                 <?php endif; ?>
                 <?php if ($solde): ?>
-                    <h6 class="card-title <?= $solde > 0 ? 'custom-color-g' : 'custom-color-e' ?> pb-3">
+                    <h6 class="card-title <?= $solde > 0 ? 'custom-color-g' : 'custom-color-e' ?> pb-3 text-end mb-3">
                         Solde disponible : <?= htmlspecialchars($solde) ?>
                     </h6>
                 <?php endif; ?>
@@ -44,10 +57,10 @@ function renderTableWithPagination($data, $headers, $fields, $perPage = 5, $cust
                                 <tr>
                                     <?php foreach ($fields as $key => $formatter): ?>
                                         <?php
-                                        // Decide class based on field name
+                                        // Déterminer la classe en fonction du nom du champ
                                         $tdClass = '';
                                         if (in_array($key, ['credit', 'debit', 'balance'])) {
-                                            $tdClass = 'text-end'; // Bootstrap class for right-align
+                                            $tdClass = 'text-end';
                                         }
                                         ?>
                                         <td class="<?= $tdClass ?>">

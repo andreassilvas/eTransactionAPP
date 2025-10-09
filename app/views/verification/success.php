@@ -8,7 +8,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Get payment ID from query
+// Récupération de l'ID du paiement depuis la query string
 $paymentId = $_GET['id'] ?? null;
 
 if (!$paymentId) {
@@ -16,7 +16,7 @@ if (!$paymentId) {
     exit;
 }
 
-// Load payment info
+// Charger les informations du paiement
 $paymentModel = new Payment();
 $payment = $paymentModel->findById($paymentId);
 
@@ -25,15 +25,15 @@ if (!$payment) {
     exit;
 }
 
-// Load logged-in client info
+// Charger les informations du client connecté
 $clientModel = new Client();
 $client = $clientModel->findById($_SESSION['client_id']);
 
-
-// Load expedition info
+// Charger les informations de l'expédition
 $expeditionModel = new Expedition();
 $expedition = $expeditionModel->findWithClientById($payment['expedition_id']);
 
+// Charger les commandes du client
 $commandModel = new Command();
 $clientId = $_SESSION['client_id'];
 $commands = $commandModel->getByClientId($clientId);
@@ -42,12 +42,16 @@ $commands = $commandModel->getByClientId($clientId);
 <div class="col-9 pad-left pt-4">
     <div class="card mb-4 rounded-4 px-3">
         <div class="card-body mt-3">
+
+            <!-- Message de succès -->
             <div class="d-flex justify-content-start align-items-center pb-4">
                 <div class="d-flex align-items-center custom-success fw-bold">
-                    <h5>Transaction Réussie</h5>
+                    <h5>Transaction réussie</h5>
                     <i class="fa-sharp fa-solid fa-circle-check fa-lg ms-2 custom-success"></i>
                 </div>
             </div>
+
+            <!-- Informations client -->
             <h5 class="card-title custom-color-b mb-2">Informations sur le client</h5>
             <div class="card mb-4 rounded-4">
                 <div class="card-body">
@@ -79,7 +83,7 @@ $commands = $commandModel->getByClientId($clientId);
 
                                 <span>
                                     <i class="fa-solid fa-truck-fast fa-lg custom-color-a" style="margin-right: 10px;"></i>
-                                    <span class="custom-color-c">Tracking Nro :</span>
+                                    <span class="custom-color-c">Numéro de suivi :</span>
                                     <span><?= htmlspecialchars($expedition['tracking_number']) ?></span>
 
                                 </span>
@@ -87,14 +91,14 @@ $commands = $commandModel->getByClientId($clientId);
                             <li
                                 class="list-group-item border-0 d-flex justify-content-end align-items-center py-0 fw-semibold">
                                 <span class="px-3">
-                                    <span class="custom-color-c">Expedition ID:</span>
+                                    <span class="custom-color-c">ID Expédition :</span>
                                     <?= htmlspecialchars($payment['expedition_id']) ?></span>
                                 <span>
-                                    <span class="custom-color-c">Status :</span>
+                                    <span class="custom-color-c">Statut :</span>
                                     <?= htmlspecialchars($expedition['status']) ?></span>
                             </li>
 
-                            <li class="list-group-item border-0 py-1">Name :
+                            <li class="list-group-item border-0 py-1">Nom :
                                 <?= htmlspecialchars($expedition['ship_name']) ?>
                                 <?= htmlspecialchars($expedition['ship_lastname']) ?>
                             </li>
@@ -118,7 +122,7 @@ $commands = $commandModel->getByClientId($clientId);
             <h5 class="card-title custom-color-b">Résumé de la commande</h5>
             <div class="card mb-1 rounded-top-4">
                 <div class="card-body">
-                    <ul class="list-group">
+                    <!-- <ul class="list-group">
                         <?php if (!empty($commands)): ?>
                             <?php foreach ($commands as $command): ?>
                                 <li class="list-group-item border-0 py-1">
@@ -129,15 +133,15 @@ $commands = $commandModel->getByClientId($clientId);
                             <li class="list-group-item">Aucune commande trouvée.</li>
                         <?php endif; ?>
 
-                    </ul>
-                    <!-- <h6 class="card-title">ThinkSystem ST250 V3</h6>
+                    </ul> -->
+                    <h6 class="card-title">Cisco UCS C220 M6</h6>
                     <h6 class="card-title">Fiche technique du système :</h6>
                     <ul class="list-group">
-                        <li class="list-group-item border-0">Processor : Intel® Xeon® Raptor E-2414 4C 2.6G 55W
-                        </li>
-                        <li class="list-group-item border-0 py-1">Capacité totale de la mémoire : 128 GB/TruDDR5 </li>
-                        <li class="list-group-item border-0 py-1">Mémoire incluse : 16 GB 1Rx8</li>
-                    </ul> -->
+                        <li class="list-group-item border-0">Model : C220 M6</li>
+                        <li class="list-group-item border-0">CPU : Intel Xeon Silver 4310 12C 2.1GHz</li>
+                        <li class="list-group-item border-0">RAM : 64GB DDR4</li>
+                        <li class="list-group-item border-0">Storage : 2x1TB SSD</li>
+                    </ul>
                 </div>
             </div>
             <div class="card mb-0 rounded-bottom-4">
@@ -149,7 +153,7 @@ $commands = $commandModel->getByClientId($clientId);
                                     Total :
                                 </div>
                                 <div class="col-2">
-                                    2599.99$
+                                    3999.00$
                                 </div>
                             </div>
                             <div class="row d-flex justify-content-end pb-1">
@@ -196,6 +200,5 @@ $commands = $commandModel->getByClientId($clientId);
         </div>
     </div>
 </div>
-
 
 <?php require_once __DIR__ . '/../layouts/footer.php'; ?>

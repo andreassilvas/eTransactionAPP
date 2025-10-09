@@ -1,10 +1,33 @@
 <?php
 namespace App\Models;
 
+/**
+ * Class Command
+ *
+ * Modèle responsable de la gestion des commandes (expéditions) des clients.
+ * Permet de récupérer les expéditions et les informations associées aux paiements et produits.
+ *
+ * @package App\Models
+ */
+
 class Command extends Model
 {
+    /**
+     * @var string Nom de la table des expéditions
+     */
     protected $table = 'expeditions';
 
+    /**
+     * Récupère toutes les commandes/expéditions d'un client.
+     *
+     * Pour chaque expédition, inclut :
+     * - Informations sur l'expédition (date, statut, nom du destinataire, email)
+     * - Informations sur le paiement (montant, statut, méthode)
+     * - Liste des produits associés (quantité, nom, prix unitaire)
+     *
+     * @param int $clientId Identifiant du client
+     * @return array Tableau associatif des expéditions
+     */
     public function getByClientId($clientId)
     {
         $sql = "
@@ -29,6 +52,8 @@ class Command extends Model
         ";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['client_id' => $clientId]);
+
+        // Retourne la liste des commandes sous forme de tableau associatif
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 }

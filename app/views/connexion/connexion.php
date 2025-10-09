@@ -1,5 +1,6 @@
 <?php
-$clientName = htmlspecialchars($_SESSION['client_name'] ?? ''); // fallback to empty if not set
+// Récupération du nom du client depuis la session, sécurisation avec htmlspecialchars
+$clientName = htmlspecialchars($_SESSION['client_name'] ?? '');
 ?>
 <div class="container pt-5 pb-5">
     <h2 class="fw-light custom-color-b mb-4">Heureux de vous revoir, <span

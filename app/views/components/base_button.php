@@ -1,5 +1,5 @@
 <?php
-// Valeurs par défaut
+// Valeurs par défaut si non définies
 $btnText = $btnText ?? 'Click Me';
 $btnType = $btnType ?? 'button';
 $href = $href ?? '';
@@ -7,16 +7,16 @@ $btnBg = $btnBg ?? '#005F66';
 $btnBorder = $btnBorder ?? '#005F66';
 $btnHoverBg = $btnHoverBg ?? '#00738A';
 $btnHoverBorder = $btnHoverBorder ?? '#00738A';
-
 $btnTextColor = $btnTextColor ?? '#fff';
 $btnHoverText = $btnHoverText ?? '#fff';
 $extraClass = $extraClass ?? '';
 
-// Classe unique pour éviter les conflits entre plusieurs boutons
+// Génération d'une classe unique pour éviter les conflits si plusieurs boutons sur la page
 $uniqueClass = 'custom-btn-' . bin2hex(random_bytes(5));
 ?>
 
 <style>
+    /* Style principal du bouton */
     .<?= $uniqueClass ?> {
         background-color:
             <?= $btnBg ?>
@@ -34,6 +34,7 @@ $uniqueClass = 'custom-btn-' . bin2hex(random_bytes(5));
         transition: 0.3s;
     }
 
+    /* Effet au survol */
     .<?= $uniqueClass ?>:hover {
         background-color:
             <?= $btnHoverBg ?>

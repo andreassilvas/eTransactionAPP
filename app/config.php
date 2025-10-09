@@ -1,15 +1,15 @@
 <?php
 
-// Base URL
+// URL de base
 define('BASE_URL', 'http://localhost/eTransactionAPP/public');
 
-// DB configuration
+// Configuration de la base de données
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'transaction_app');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 
-// App information
+// Informations sur l'application
 define('APP_NAME', 'eTransactionAPP');
-define('APP_ENV', 'development'); // OR 'Production'
+define('APP_ENV', 'development'); // OU 'Production'
 

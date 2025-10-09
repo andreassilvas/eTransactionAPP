@@ -10,17 +10,41 @@ use App\Models\ExpeditionItem;
 use App\Models\Database;
 use App\Models\Products;
 
+/**
+ * Class PaymentController
+ *
+ * Contrôleur responsable du traitement des paiements des clients.
+ * - Vérifie les informations d'expédition et la connexion du client.
+ * - Valide les produits, le stock et les informations de carte.
+ * - Effectue les transactions bancaires, crée l'expédition et le paiement.
+ *
+ * @package App\Controllers
+ */
+
 class PaymentController
 {
+    /**
+     * Traite le paiement pour les produits sélectionnés.
+     *
+     * Étapes principales :
+     * 1. Vérifie la session et les informations d'expédition.
+     * 2. Vérifie la connexion du client.
+     * 3. Valide les produits et le stock disponible.
+     * 4. Collecte et valide les informations de carte.
+     * 5. Vérifie la carte dans la base de données.
+     * 6. Crée l'expédition, les items, le paiement et enregistre la transaction bancaire.
+     *
+     * @return void
+     */
     public function process()
     {
-        // --- Vérif expedition ---
+        // Étape 1 : Vérifie que les données d'expédition sont présentes
         if (!isset($_SESSION['expedition_data'])) {
             header("Location: /eTransactionAPP/public/expedition");
             exit;
         }
 
-        // --- Vérif login client ---
+        // Étape 2 : Vérifie que le client est connecté
         if (!isset($_SESSION['client_id'])) {
             $_SESSION['payment_error'] = "Échec du paiement : Utilisateur non connecté.";
             header("Location: /eTransactionAPP/public/payment");
@@ -30,16 +54,16 @@ class PaymentController
         $clientId = $_SESSION['client_id'];
         $expeditionData = $_SESSION['expedition_data'];
 
-        //hardcode product to bye - card
+        // Produit(s) à acheter codé(s) en dur pour l'instant
         $products = [
             ['id' => 7, 'quantity' => 1],
         ];
 
-        //calculate the total amount
+        // Calculer le montant total
         $productModel = new Products();
         $expeditionItemModel = new ExpeditionItem();
 
-        // --- Step 0: Stock validation ---
+        // Étape 3 : Vérification du stock pour chaque produit
         foreach ($products as $item) {
             $prod = $productModel->find($item['id']);
             if (!$prod) {
@@ -54,7 +78,8 @@ class PaymentController
                 exit;
             }
         }
-        // --- Calculate total amount after stock check ---
+
+        // Calcul du montant total
         $totalAmount = 0;
         foreach ($products as $item) {
             $prod = $productModel->find($item['id']);
@@ -62,14 +87,14 @@ class PaymentController
         }
 
 
-        //Card data
+        // Étape 4 : Récupération des informations de carte de crédit
         $cardName = trim($_POST['card_name'] ?? '');
         $cardNumber = trim($_POST['card_number'] ?? '');
         $codePostal = trim($_POST['postcode'] ?? '');
         $expiryDate = trim($_POST['expiry_date'] ?? '');
         $cvv = trim($_POST['cvv'] ?? '');
 
-        // Validation
+        // Étape 5 : Validation côté serveur des informations de carte
         $errors = [];
 
         // Numéro carte (4 groupes de 4 chiffres séparés par espace)
@@ -105,14 +130,14 @@ class PaymentController
             $errors[] = "CVV invalide.";
         }
 
-        // Retour si erreurs
+        // Retour en cas d'erreurs de validation
         if (!empty($errors)) {
             $_SESSION['payment_error'] = implode(" - ", $errors);
             header("Location: /eTransactionAPP/public/payment");
             exit;
         }
 
-        // --- Étape 2 : Validation en base ---
+        // Étape 6 : Vérification des informations de carte dans la base
         $paymentValidationModel = new PaymentValidation();
         $cardValid = $paymentValidationModel->findValidCard(
             $clientId,
@@ -129,20 +154,20 @@ class PaymentController
             exit;
         }
 
-        // --- Étape 3 : Transaction ---
+        // Étape 7 : Traitement de la transaction
         $db = Database::getConnection();
 
         try {
             $db->beginTransaction();
 
-            // Vérif client
+            // Vérification du client
             $clientModel = new Client();
             $client = $clientModel->findById($clientId);
             if (!$client) {
                 throw new \Exception("Client introuvable.");
             }
 
-            // Vérif solde
+            // Vérification du solde disponible
             $transactionModel = new BankTransaction($db);
             $transactions = $transactionModel->getByClientId($clientId);
             $currentBalance = $transactions[0]['balance'] ?? 0;
@@ -151,7 +176,7 @@ class PaymentController
                 throw new \Exception("Fonds insuffisants.");
             }
 
-            // Sauvegarde expedition
+            // Création de l'expédition
             $expeditionModel = new Expedition();
             $expeditionId = $expeditionModel->create([
                 'client_id' => $clientId,
@@ -167,14 +192,12 @@ class PaymentController
                 'date' => date('Y-m-d')
             ]);
 
-            //Create expedition_items and update the stock
-            //Après paiement réussi : créer expedition_items et décrémenter le stock
+            // Création des items et mise à jour du stock
             foreach ($products as $item) {
                 $prod = $productModel->find($item['id']);
                 if (!$prod)
                     continue;
 
-                // Ajouter à expedition_items
                 $expeditionItemModel->create([
                     'expedition_id' => $expeditionId,
                     'product_id' => $prod['id'],
@@ -182,12 +205,11 @@ class PaymentController
                     'unit_price' => $prod['price']
                 ]);
 
-                // Décrémenter le stock
                 $newStock = max(0, $prod['stock'] - $item['quantity']);
                 $productModel->update($prod['id'], ['stock' => $newStock]);
             }
 
-            //create the payment
+            // Créer le paiement
             $paymentModel = new Payment();
             $paymentId = $paymentModel->create([
                 'expedition_id' => $expeditionId,
@@ -198,7 +220,7 @@ class PaymentController
                 'method' => $cardValid['card_type'] ?? 'Carte'
             ]);
 
-            // Débit compte client
+            // Débit du compte client
             $newBalance = $currentBalance - $totalAmount;
             $transactionModel->addTransaction(
                 $clientId,

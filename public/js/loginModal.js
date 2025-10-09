@@ -1,9 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("loginForm");
-  const loginModal = new bootstrap.Modal(document.getElementById("loginModal"));
+  const loginModalEl = document.getElementById("loginModal");
+  const loginModal = new bootstrap.Modal(loginModalEl);
   const errorContainer = document.getElementById("loginErrorContainer");
   const inputs = loginForm.querySelectorAll("input");
 
+  // Gérer la soumission du formulaire
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -15,13 +17,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const result = await response.json();
 
-    // Clear any existing error
+    // Effacer les erreurs précédentes
     errorContainer.innerHTML = "";
 
     if (result.status === "error") {
       const div = document.createElement("div");
-      div.className = "alert alert-danger small py-1 px-2 mb-0"; // smaller size
-      // div.style.fontSize = "0.85rem"; // optional, make text smaller
+      div.className = "alert alert-danger small py-1 px-2 mb-0";
       div.textContent = result.message;
       errorContainer.appendChild(div);
       loginModal.show();
@@ -30,10 +31,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Remove error when user types in any input
+  // Effacer les erreurs lorsque l'utilisateur tape
   inputs.forEach((input) => {
     input.addEventListener("input", () => {
       errorContainer.innerHTML = "";
     });
+  });
+
+  // Réinitialiser le formulaire et les erreurs lorsque la modale est fermée
+  loginModalEl.addEventListener("hidden.bs.modal", () => {
+    loginForm.reset();
+    errorContainer.innerHTML = "";
   });
 });

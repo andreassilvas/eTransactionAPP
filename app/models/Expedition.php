@@ -3,12 +3,34 @@ namespace App\Models;
 
 use PDO;
 
+/**
+ * Class Expedition
+ *
+ * Modèle responsable de la gestion des expéditions.
+ * Permet de créer, récupérer, mettre à jour et supprimer des expéditions,
+ * ainsi que de récupérer les informations d'une expédition avec les détails du client.
+ *
+ * @package App\Models
+ */
 class Expedition extends Model
 {
+    /**
+     * @var string Nom de la table des expéditions
+     */
     protected $table = 'expeditions';
 
-
-    //Create a new expedition record
+    /**
+     * Crée une nouvelle expédition.
+     *
+     * Génère un numéro de suivi unique et insère les informations dans la base.
+     *
+     * @param array $data Données de l'expédition :
+     *                    client_id, ship_email, ship_address, ship_city,
+     *                    ship_province, ship_postcode, ship_name, ship_lastname,
+     *                    ship_phone, date
+     * @param string $status Statut initial de l'expédition (par défaut 'pending')
+     * @return string ID de l'expédition créée
+     */
     public function create($data, $status = 'pending')
     {
         $tranckingnum = 'TRACK' . strtoupper(uniqid());
@@ -35,7 +57,12 @@ class Expedition extends Model
         return $this->db->lastInsertId();
     }
 
-    //Get all expeditions for a given client
+    /**
+     * Récupère toutes les expéditions d'un client donné.
+     *
+     * @param int $clientId Identifiant du client
+     * @return array Tableau associatif des expéditions
+     */
     public function getByClientId($clientId)
     {
         $sql = "SELECT * FROM $this->table WHERE client_id = :client_id ORDER BY date DESC";
@@ -45,7 +72,12 @@ class Expedition extends Model
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    //Find one expedition by ID
+    /**
+     * Récupère une expédition par son ID.
+     *
+     * @param int $id Identifiant de l'expédition
+     * @return array|false Tableau associatif de l'expédition ou false si non trouvé
+     */
     public function findById($id)
     {
         $sql = "SELECT * FROM $this->table WHERE id = :id LIMIT 1";
@@ -55,7 +87,13 @@ class Expedition extends Model
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    //Update an expedition (update status)
+    /**
+     * Met à jour le statut d'une expédition.
+     *
+     * @param int $id Identifiant de l'expédition
+     * @param string $status Nouveau statut
+     * @return bool Succès de l'exécution
+     */
     public function updateStatus($id, $status)
     {
         $sql = "UPDATE $this->table SET status = :status WHERE id = :id";
@@ -65,7 +103,12 @@ class Expedition extends Model
         return $stmt->execute();
     }
 
-    //Delete an expedition
+    /**
+     * Supprime une expédition.
+     *
+     * @param int $id Identifiant de l'expédition
+     * @return bool Succès de l'exécution
+     */
     public function delete($id)
     {
         $sql = "DELETE FROM $this->table WHERE id = :id";
@@ -74,6 +117,12 @@ class Expedition extends Model
         return $stmt->execute();
     }
 
+    /**
+     * Récupère une expédition avec les informations du client.
+     *
+     * @param int $expeditionId Identifiant de l'expédition
+     * @return array|false Tableau associatif avec les détails du client ou false si non trouvé
+     */
     public function findWithClientById($expeditionId)
     {
         $sql = "SELECT e.*, c.name, c.lastname, c.phone

@@ -2,7 +2,7 @@
 <ul class="list-group list-group-flush">
     <li class="list-group-item d-flex justify-content-between">
         <span>Total partiel des produits</span>
-        <span>2599.99$</span>
+        <span>3609.14$</span>
     </li>
     <li class="list-group-item d-flex justify-content-between">
         <span>Frais de livraison estimés</span>
@@ -18,6 +18,6 @@
     </li>
     <li class="list-group-item d-flex justify-content-between fw-bold custom-color-b">
         <span>Estimation du total</span>
-        <span>2989.85$</span>
+        <span>3999.00$</span>
     </li>
 </ul>
