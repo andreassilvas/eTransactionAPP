@@ -8,7 +8,7 @@ $headers = [
     ['text' => 'Acheteur', 'style' => 'width:130px;'],
     ['text' => 'Courriel acheteur', 'style' => 'width:180px;'],
     ['text' => 'Produits', 'style' => ''],
-    ['text' => 'Montant', 'style' => 'width:90px;'],
+    ['text' => 'Montant', 'style' => 'width:95px;'],
     ['text' => 'Payé', 'style' => ''],
     ['text' => 'Payer par', 'style' => 'width:110px;'],
 ];
@@ -20,7 +20,7 @@ $fields = [
     'expedition_name' => fn($v, $row) => $v . ' ' . $row['expedition_lastname'],
     'expedition_email' => null,
     'products' => null,
-    'payment_amount' => fn($val) => number_format($val, 2) . '$',
+    'payment_amount' => fn($val) => number_format($val, 2) . ' $',
     'payment_status' => fn($val) => ucfirst($val),
     'payment_method' => null,
 ];

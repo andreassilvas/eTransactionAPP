@@ -233,13 +233,13 @@ class PaymentController
             $db->commit();
             unset($_SESSION['expedition_data']);
 
-            header("Location: /eTransactionAPP/public/verification/success?id=$paymentId");
+            header("Location: " . BASE_URL . "/verification/success?id=$paymentId");
             exit;
 
         } catch (\Exception $e) {
             $db->rollBack();
             $_SESSION['payment_error'] = "Échec du paiement : " . $e->getMessage();
-            header("Location: /eTransactionAPP/public/payment");
+            header("Location: " . BASE_URL . "/payment");
             exit;
         }
     }

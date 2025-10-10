@@ -16,7 +16,7 @@ $fields = [
     'category' => null,
     'brand' => null,
     'model' => null,
-    'price' => fn($v) => number_format($v, 2) . '$',
+    'price' => fn($v) => number_format($v, 2) . ' $',
     'stock' => null,
 ];
 

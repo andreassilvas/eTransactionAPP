@@ -151,7 +151,8 @@ class ExpeditionController
         ];
 
         // Rediriger vers la page de paiement
-        header("Location: /eTransactionAPP/public/payment");
+        // header("Location: /eTransactionAPP/public/payment");
+        header("Location: " . BASE_URL . "/payment");
         exit;
     }
 }

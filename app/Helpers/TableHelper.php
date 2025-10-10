@@ -66,9 +66,15 @@ function renderTableWithPagination($data, $headers, $fields, $perPage = 5, $cust
                                         <td class="<?= $tdClass ?>">
                                             <?php
                                             $value = $row[$key] ?? '';
-                                            echo is_callable($formatter)
-                                                ? $formatter($value, $row)
-                                                : htmlspecialchars($value);
+                                            if (is_callable($formatter)) {
+                                                // Convertit les chaînes vides ou les valeurs nulles en 0 avant le formatage
+                                                if ($value === '' || $value === null) {
+                                                    $value = 0.00;
+                                                }
+                                                echo $formatter($value, $row);
+                                            } else {
+                                                echo htmlspecialchars($value ?? '');
+                                            }
                                             ?>
                                         </td>
                                     <?php endforeach; ?>
