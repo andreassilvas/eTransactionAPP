@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
       errorContainer.appendChild(div);
       loginModal.show();
     } else if (result.status === "success") {
+      // Redirect after successful login
       window.location.href = result.redirect;
     }
   });

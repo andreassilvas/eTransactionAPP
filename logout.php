@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../app/init.php';
+require_once __DIR__ . '/app/init.php';
 session_unset();
 session_destroy();
 
@@ -9,5 +9,5 @@ header("Pragma: no-cache");
 header("Expires: 0");
 
 // Redirect to login page
-header("Location: /eTransactionAPP/public/");
+header("Location: " . BASE_URL . "/");
 exit;

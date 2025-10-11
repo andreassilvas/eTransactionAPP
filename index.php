@@ -1,19 +1,19 @@
 <?php
 
 /* Load core files first */
-require_once __DIR__ . '/../app/Helpers/AuthHelper.php';
-require_once __DIR__ . '/../core/Router.php';
-require_once __DIR__ . '/../core/Controller.php';
-require_once __DIR__ . '/../core/Model.php';
+require_once __DIR__ . '/app/Helpers/AuthHelper.php';
+require_once __DIR__ . '/core/Router.php';
+require_once __DIR__ . '/core/Controller.php';
+require_once __DIR__ . '/core/Model.php';
 
 
 /* Load app initialization (session, config, database, autoload, etc.) */
-require_once __DIR__ . '/../app/init.php';
+require_once __DIR__ . '/app/init.php';
 
 /* Autoload controllers and models */
 spl_autoload_register(function ($class) {
     $prefix = 'App\\';                  // All classes live under App/
-    $base_dir = __DIR__ . '/../app/';   // Root of the app
+    $base_dir = __DIR__ . '/app/';   // Root of the app
 
     /* Only load classes from App/ */
     if (strncmp($prefix, $class, strlen($prefix)) !== 0) {
@@ -35,7 +35,7 @@ spl_autoload_register(function ($class) {
 $router = new Router();
 
 /* Handle subfolder */
-$basePath = '/eTransactionAPP/public';
+$basePath = '/eTransactionAPP';
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $path = rtrim(str_replace($basePath, '', $uri), '/') ?: '/';
 
@@ -54,7 +54,7 @@ $router->post('/login', 'LoginController@login');
 /* Connexion page (protected) */
 $router->get('/connexion', function () {
     authMiddleware();
-    require __DIR__ . '/../app/views/connexion/index.php';
+    require __DIR__ . '/app/Views/connexion/index.php';
 });
 
 /* Relevé page (protected) */
@@ -81,7 +81,7 @@ $router->get('/commandes', function () {
 /* Expedition (protected) */
 $router->get('/expedition', function () {
     authMiddleware();
-    require __DIR__ . '/../app/views/expedition/index.php';
+    require __DIR__ . '/app/Views/expedition/index.php';
 });
 
 /* Handle form submission */
@@ -90,7 +90,7 @@ $router->post('/expeditions/store', 'ExpeditionController@store');
 /* Payment (protected) */
 $router->get('/payment', function () {
     authMiddleware();
-    require __DIR__ . '/../app/views/payment/index.php';
+    require __DIR__ . '/app/Views/payment/index.php';
 });
 $router->post('/payment/process', function () {
     $controller = new \App\Controllers\PaymentController();
@@ -100,7 +100,7 @@ $router->post('/payment/process', function () {
 /* Verification */
 $router->get('/verification/success', function () {
     $paymentId = $_GET['id'] ?? null;
-    require __DIR__ . '/../app/views/verification/index.php';
+    require __DIR__ . '/app/Views/verification/index.php';
 });
 
 /* Run router */

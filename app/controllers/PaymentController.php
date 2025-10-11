@@ -40,14 +40,14 @@ class PaymentController
     {
         // Étape 1 : Vérifie que les données d'expédition sont présentes
         if (!isset($_SESSION['expedition_data'])) {
-            header("Location: /eTransactionAPP/public/expedition");
+            header("Location: " . BASE_URL . '/expedition');
             exit;
         }
 
         // Étape 2 : Vérifie que le client est connecté
         if (!isset($_SESSION['client_id'])) {
             $_SESSION['payment_error'] = "Échec du paiement : Utilisateur non connecté.";
-            header("Location: /eTransactionAPP/public/payment");
+            header("Location: " . BASE_URL . '/payment');
             exit;
         }
 
@@ -68,13 +68,13 @@ class PaymentController
             $prod = $productModel->find($item['id']);
             if (!$prod) {
                 $_SESSION['payment_error'] = "Produit introuvable : ID {$item['id']}";
-                header("Location: /eTransactionAPP/public/payment");
+                header("Location: " . BASE_URL . '/payment');
                 exit;
             }
 
             if ($prod['stock'] < $item['quantity']) {
                 $_SESSION['payment_error'] = "Produit en rupture de stock : {$prod['name']}";
-                header("Location: /eTransactionAPP/public/payment");
+                header("Location: " . BASE_URL . '/payment');
                 exit;
             }
         }
@@ -133,7 +133,7 @@ class PaymentController
         // Retour en cas d'erreurs de validation
         if (!empty($errors)) {
             $_SESSION['payment_error'] = implode(" - ", $errors);
-            header("Location: /eTransactionAPP/public/payment");
+            header("Location: " . BASE_URL . '/payment');
             exit;
         }
 
@@ -150,7 +150,7 @@ class PaymentController
 
         if (!$cardValid) {
             $_SESSION['payment_error'] = "Les informations de carte ne correspondent pas à nos dossiers.";
-            header("Location: /eTransactionAPP/public/payment");
+            header("Location: " . BASE_URL . '/payment');
             exit;
         }
 

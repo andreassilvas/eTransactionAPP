@@ -53,6 +53,6 @@ class BankController
         }
 
         // Charge la vue du relevé bancaire et lui transmet la liste des transactions du client
-        require __DIR__ . '/../views/releve/index.php';
+        require __DIR__ . '/../Views/releve/index.php';
     }
 }

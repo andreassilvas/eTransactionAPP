@@ -10,10 +10,11 @@ class Controller
      */
     public function view($view, $data = [])
     {
-        // Transforme le tableau associatif en variables
         extract($data);
-
-        // Inclut le fichier de vue
-        require_once "../app/views/$view.php";
+        $file = __DIR__ . '/../app/Views/' . $view . '.php';
+        if (!file_exists($file)) {
+            die("View file not found: $file");
+        }
+        require_once $file;
     }
 }

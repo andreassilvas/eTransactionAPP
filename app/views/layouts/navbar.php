@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <!-- Brand -->
         <a class="navbar-brand" href="#">
-            <img src="assets/images/brand.webp" alt="Logo eTransaction" height="50"
+            <img src="public/assets/images/brand.webp" alt="Logo eTransaction" height="50"
                 class="d-inline-block align-text-top">
         </a>
 

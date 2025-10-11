@@ -1,4 +1,4 @@
-<form method="POST" action="/eTransactionAPP/public/expeditions/store" id="adresseFacturation">
+<form method="POST" action="<?php echo BASE_URL; ?>/expeditions/store" id="adresseFacturation">
     <div class="row">
         <div class="col-8 pad-left">
             <div class="card rounded-4 mt-3 mb-3">
@@ -24,7 +24,7 @@
     </div>
 </form>
 
-<form method="POST" action="/eTransactionAPP/public/expeditions/store" id="billingForm">
+<form method="POST" action="<?php echo BASE_URL; ?>/expeditions/store" id="billingForm">
     <div class="row">
         <div class="col-8 pad-left">
             <div class="card rounded-4">
@@ -88,5 +88,5 @@
         </div>
     </div>
 </form>
-<script src="js/resetPage.js"></script>
-<script src="js/validationExpeditionForm.js"></script>
+<script src="public/js/resetPage.js"></script>
+<script src="public/js/validationExpeditionForm.js"></script>

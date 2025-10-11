@@ -31,7 +31,7 @@ class ProductController
         $products = $productModel->all();
 
         // Charge la vue des produits et lui transmet les données
-        require __DIR__ . '/../views/products/index.php';
+        require __DIR__ . '/../Views/products/index.php';
 
         // Debugging line
         // echo "<pre>";
@@ -69,7 +69,7 @@ class ProductController
         $productModel->create($data);
 
         // Redirection vers la liste des produits
-        header('Location: /products');
+        header('Location: ' . BASE_URL . '/products');
         exit;
     }
 

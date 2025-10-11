@@ -8,7 +8,7 @@ unset($_SESSION['login_error'], $_SESSION['login_email']);
 
 <body>
     <?php include __DIR__ . '/../layouts/navbar.php'; ?>
-    <?php include __DIR__ . '/../../views/auth/login.php'; ?>
+    <?php include __DIR__ . '/../../Views/auth/login.php'; ?>
 
 
     <div class="container my-4">
@@ -17,7 +17,7 @@ unset($_SESSION['login_error'], $_SESSION['login_email']);
             <div class="col-sm-4">
                 <div class="card rounded-4">
                     <div class="card-body mt-3">
-                        <img src="assets/images/server4.webp" alt="server image 1"
+                        <img src="public/assets/images/server4.webp" alt="server image 1"
                             class="d-inline-block align-text-top mx-auto d-block">
                     </div>
                 </div>
@@ -26,7 +26,7 @@ unset($_SESSION['login_error'], $_SESSION['login_email']);
             <div class="col-sm-4">
                 <div class="card rounded-4">
                     <div class="card-body mt-3">
-                        <img src="assets/images/server5.webp" alt="server image 2"
+                        <img src="public/assets/images/server5.webp" alt="server image 2"
                             class="d-inline-block align-text-top mx-auto d-block">
                     </div>
                 </div>
@@ -35,7 +35,7 @@ unset($_SESSION['login_error'], $_SESSION['login_email']);
             <div class="col-sm-4">
                 <div class="card rounded-4">
                     <div class="card-body mt-3">
-                        <img src="assets/images/server6.webp" alt="server image 3"
+                        <img src="public/assets/images/server6.webp" alt="server image 3"
                             class="d-inline-block align-text-top mx-auto d-block">
                     </div>
                 </div>

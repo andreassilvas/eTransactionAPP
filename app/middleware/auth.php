@@ -17,6 +17,6 @@ header("Expires: 0");
 
 // Vérification d'authentification : rediriger si l'utilisateur n'est pas connecté
 if (!isset($_SESSION['client_id'])) {
-    header("Location: /eTransactionAPP/public/");
+    header("Location: " . BASE_URL);
     exit;
 }

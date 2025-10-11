@@ -12,7 +12,6 @@
             <!-- Corps du modal -->
             <div class="modal-body">
                 <form action="<?= BASE_URL ?>/login" method="POST" id="loginForm">
-
                     <!-- Champ email -->
                     <div class="mb-3">
                         <?php include __DIR__ . '/auth-inputs/email.php' ?>
@@ -60,4 +59,4 @@
 </div>
 
 <!-- Script spécifique au modal de connexion -->
-<script src="js/loginModal.js"></script>
+<script src="public/js/loginModal.js"></script>

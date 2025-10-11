@@ -3,6 +3,8 @@ namespace App\Models;
 
 use PDO;
 
+require_once __DIR__ . '/../app/config.php';
+
 class Database
 {
     // Connexion PDO partagée

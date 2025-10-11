@@ -11,6 +11,6 @@ require_once __DIR__ . '/../init.php';
 // Vérifie si l'utilisateur est connecté
 if (isset($_SESSION['client_id'])) {
     // Redirige vers la page d'expédition
-    header("Location: /eTransactionAPP/public/expedition");
+    header("Location: " . BASE_URL . "/expedition");
     exit;
 }

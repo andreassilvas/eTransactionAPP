@@ -1,7 +1,7 @@
 <?php
 namespace App\Controllers;
 
-require_once __DIR__ . '/../models/Client.php';
+require_once __DIR__ . '/../Models/Client.php';
 use App\Models\Client;
 
 /**
@@ -73,7 +73,6 @@ class LoginController
          */
         $_SESSION['client_id'] = $client['id'];
         $_SESSION['client_name'] = $client['name'];
-
 
         echo json_encode(['status' => 'success', 'redirect' => BASE_URL . '/connexion']);
         exit;

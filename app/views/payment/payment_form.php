@@ -1,6 +1,6 @@
-<?php require_once __DIR__ . '/../../models/Expedition.php'; ?>
+<?php require_once __DIR__ . '/../../Models/Expedition.php'; ?>
 
-<form id="paymentForm" method="POST" action="/eTransactionAPP/public/payment/process" novalidate>
+<form id="paymentForm" method="POST" action="<?php echo BASE_URL; ?>/payment/process" novalidate>
     <div class="row">
         <div class="col-8 pad-left">
             <div class="card rounded-top-4">
@@ -8,7 +8,6 @@
                     <div class="col-sm-7 custom-color-d">
                         Carte de credit
                     </div>
-
                 </div>
             </div>
 
@@ -21,11 +20,11 @@
                             <div class="mb-3 col-sm-7">
                                 <p class="card-title">Nous acceptons les cartes suivantes :</p>
                                 <div class="d-flex gap-3">
-                                    <img src="assets/images/visa_card.webp" class="img-fluid" alt="Visa"
+                                    <img src="public/assets/images/visa_card.webp" class="img-fluid" alt="Visa"
                                         style="max-width: 30px;">
-                                    <img src="assets/images/master_card.webp" class="img-fluid" alt="MasterCard"
+                                    <img src="public/assets/images/master_card.webp" class="img-fluid" alt="MasterCard"
                                         style="max-width: 30px;">
-                                    <img src="assets/images/amex_card.webp" class="img-fluid" alt="Amex"
+                                    <img src="public/assets/images/amex_card.webp" class="img-fluid" alt="Amex"
                                         style="max-width: 30px;">
                                 </div>
                             </div>
@@ -118,4 +117,4 @@
         </div>
     </div>
 </form>
-<script src="js/validationPaymentForm.js"></script>
+<script src="public/js/validationPaymentForm.js"></script>

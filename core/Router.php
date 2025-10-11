@@ -40,7 +40,7 @@ class Router
             $controllerClass = "\\App\\Controllers\\$controller";
 
             // Inclure le fichier du contrôleur si nécessaire (utile si pas d'autoload)
-            $file = __DIR__ . "/../app/controllers/$controller.php";
+            $file = __DIR__ . "/../app/Controllers/$controller.php";
             if (file_exists($file)) {
                 require_once $file;
             }

@@ -27,7 +27,7 @@ class CommandController
     {
         // Vérifie si le client est connecté
         if (!isset($_SESSION['client_id'])) {
-            header("Location: /eTransactionAPP/public/login");
+            header("Location: " . BASE_URL . '/login');
             exit;
         }
 
@@ -41,7 +41,7 @@ class CommandController
         $commands = $commandModel->getByClientId($clientId);
 
         // Charge la vue des commandes et lui transmet la liste des commandes du client
-        include __DIR__ . '/../views/commands/index.php';
+        include __DIR__ . '/../Views/commands/index.php';
 
         //Debugging line
         // echo "<pre>";

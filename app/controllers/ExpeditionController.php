@@ -15,6 +15,7 @@ use App\Models\Database;
 
 class ExpeditionController
 {
+
     /**
      * Traite les données du formulaire d'expédition.
      *
@@ -27,6 +28,9 @@ class ExpeditionController
      */
     public function store()
     {
+        if (!isset($_SESSION['client_id'])) {
+            die("❌ No client_id found in session.");
+        }
         // Connexion à la base de données (la session est déjà démarrée via init.php)
         $db = Database::getConnection();
 
@@ -56,13 +60,13 @@ class ExpeditionController
                     ];
 
                     // Redirige vers la page de paiement
-                    header("Location: /eTransactionAPP/public/payment");
+                    header("Location: " . BASE_URL . "/payment");
                     exit;
                 }
             }
 
             // Si aucun client n’est trouvé, redirige vers la page de connexion
-            header("Location: /eTransactionAPP/public/login");
+            header("Location: " . BASE_URL . "/login");
             exit;
         }
 
@@ -103,7 +107,7 @@ class ExpeditionController
         // Si des erreurs sont détectées, elles sont sauvegardées en session et l'utilisateur est redirigé
         if (!empty($errors)) {
             $_SESSION['expedition_errors'] = $errors;
-            header("Location: /eTransactionAPP/public/expedition");
+            header("Location: " . BASE_URL . "/expedition");
             exit;
         }
 

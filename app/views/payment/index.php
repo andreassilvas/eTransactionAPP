@@ -19,9 +19,9 @@
 
     <?php
     // Test the session
-    echo '<pre>';
-    print_r($_SESSION);
-    echo '</pre>';
-    ?>
+    // echo '<pre>';
+    // print_r($_SESSION);
+    // echo '</pre>';
+    // ?>
 
     <?php require_once __DIR__ . '/../layouts/footer.php'; ?>
