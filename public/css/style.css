@@ -30,6 +30,13 @@ body {
     font-weight: 600;
 }
 
+.nav-link:focus, .nav-link:hover {
+    color: var(--color-primary-c);
+}
+.nav-link.custom-hover:focus, .nav-link.custom-hover:hover{
+    color: var(--color-warning);
+}
+
 /* Navbar inactive */
 a.inactive {
     color: var(--color-gray);

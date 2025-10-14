@@ -2,11 +2,10 @@
     <a class="navbar-brand" href="#"></a>
     <ul class="nav nav-pills">
         <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-3 custom-color-e"
+            <a class="nav-link d-flex align-items-center gap-3 custom-color-e custom-hover"
                 href="<?php echo BASE_URL; ?>/logout.php">
                 Déconnexion
                 <i class="fa-solid fa-xmark fa-lg custom-color-e"></i>
-
             </a>
         </li>
     </ul>
