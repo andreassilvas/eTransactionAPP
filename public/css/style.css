@@ -42,7 +42,7 @@ a.inactive {
 /* Relevés */
 .nav-link.active-step-b { color: var(--color-primary-c); }
 .navbar .badge.active-step-b { background-color: var(--color-primary-c); }
-.custom-navbar-releve { background-color: var(--color-navbar-releve); }
+.custom-navbar-releve { background-color: var(--color-navbar-releve) !important;}
 
 /* ======TABLES / FORMS====== */
 
