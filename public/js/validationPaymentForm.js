@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return isValid;
   };
 
-  // Card Number formatting & validation
+  // Formatage et validation du numéro de carte
   const cardNumberInput = document.getElementById("nro_carte");
   cardNumberInput.addEventListener("input", (e) => {
     e.target.value = e.target.value
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     validate(e.target, regex.card);
   });
 
-  // Expiry date check
+  // Vérification de la date d'expiration
   const expiryInput = document.getElementById("exp_date");
 
   const checkExpiry = (val) => {
@@ -50,20 +50,20 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   expiryInput.addEventListener("input", (e) => {
-    let value = e.target.value.replace(/\D/g, ""); // remove non-digits
+    let value = e.target.value.replace(/\D/g, ""); // Remove non-digits
 
-    // Add slash after 2 digits
+    // Auto-insert slash
     if (value.length > 2) {
       value = value.slice(0, 2) + "/" + value.slice(2, 4);
     }
 
     e.target.value = value;
 
-    // Call your validation
+    // Appel de la validation avec vérification supplémentaire
     validate(e.target, regex.expiry, checkExpiry);
   });
 
-  // Postal code formatting & validation
+  // Formatage et validation du code postal
   const postalInput = document.getElementById("postCode");
   postalInput.addEventListener("input", (e) => {
     e.target.value = e.target.value
@@ -73,15 +73,15 @@ document.addEventListener("DOMContentLoaded", () => {
     validate(e.target, regex.postal);
   });
 
-  // Name validation
+  // Validation du nom
   const nameInput = document.getElementById("card_name");
   nameInput.addEventListener("input", (e) => validate(e.target, regex.name));
 
-  // CVV validation
+  // Validation du CVV
   const cvvInput = document.getElementById("nro_cvv");
   cvvInput.addEventListener("input", (e) => validate(e.target, regex.cvv));
 
-  // Final submit validation
+  // Validation finale au moment de la soumission
   form.addEventListener("submit", (e) => {
     const valid =
       validate(nameInput, regex.name) &&

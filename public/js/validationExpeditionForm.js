@@ -24,29 +24,28 @@ document.addEventListener("DOMContentLoaded", () => {
     return isValid;
   };
 
-  //Name
+  //Nom
   const nameInput = document.getElementById("name");
   nameInput.addEventListener("input", (e) => {
     e.target.value = e.target.value;
     validate(e.target, regex.name);
   });
 
-  //Last Name
+  //Nom de famille
   const lastNameInput = document.getElementById("nomFamille");
   lastNameInput.addEventListener("input", (e) => {
     e.target.value = e.target.value;
     validate(e.target, regex.lastname);
   });
 
-  //Phone number
+  //Téléphone
   const phoneNumberInput = document.getElementById("telephone");
   phoneNumberInput.addEventListener("input", (e) => {
-    //add brackets
     e.target.value = e.target.value;
     validate(e.target, regex.phoneNumber);
   });
 
-  // Postal code formatting & validation
+  // Formatage et validation du code postal
   const postalInput = document.getElementById("postCode");
   postalInput.addEventListener("input", (e) => {
     e.target.value = e.target.value
@@ -56,28 +55,28 @@ document.addEventListener("DOMContentLoaded", () => {
     validate(e.target, regex.postal);
   });
 
-  //Email
+  //Courriel
   const emailInput = document.getElementById("email_adresse");
   emailInput.addEventListener("input", (e) => {
     e.target.value = e.target.value;
     validate(e.target, regex.email);
   });
 
-  //Address
+  //Adresse
   const addressInput = document.getElementById("address");
   addressInput.addEventListener("input", (e) => {
     e.target.value = e.target.value;
     validate(e.target, regex.address);
   });
 
-  //City
+  //Ville
   const cityInput = document.getElementById("city");
   cityInput.addEventListener("input", (e) => {
     e.target.value = e.target.value;
     validate(e.target, regex.city);
   });
 
-  // Final submit validation
+  // Validation finale au moment de la soumission
   form.addEventListener("submit", (e) => {
     const valid =
       validate(nameInput, regex.name) &&

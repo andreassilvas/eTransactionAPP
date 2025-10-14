@@ -1,5 +1,5 @@
 <?php
-// Set defaults if not provided - Re visit for more...
+// Définir les valeurs par défaut si elles ne sont pas fournies
 $releveUrl = $releveUrl ?? '#scrollspyHeading1';
 $ordersUrl = $ordersUrl ?? '#scrollspyHeading2';
 $logoutUrl = $logoutUrl ?? BASE_URL . '/logout.php';
@@ -44,6 +44,5 @@ $logoutUrl = $logoutUrl ?? BASE_URL . '/logout.php';
         <a class="nav-link d-flex align-items-center gap-3" href="<?= $logoutUrl ?>">
             <i class="fa-solid fa-right-from-bracket fa-lg" style="color: #575757;"></i>
         </a>
-
     </ul>
 </nav>

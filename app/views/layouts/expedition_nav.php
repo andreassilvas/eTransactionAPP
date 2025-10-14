@@ -1,5 +1,5 @@
 <?php
-// back and forward arrows route
+// flèches de navigation arrière et avant
 $expeditionUrl = $releveUrl ?? BASE_URL . '/expedition';
 $connexionUrl = $ordersUrl ?? BASE_URL . '/connexion';
 $logoutUrl = $logoutUrl ?? BASE_URL . '/logout.php';

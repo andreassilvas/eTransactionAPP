@@ -1,21 +1,21 @@
 <?php
 
-/* Load core files first */
+/* Inclure les fichiers principaux */
 require_once __DIR__ . '/app/Helpers/AuthHelper.php';
 require_once __DIR__ . '/core/Router.php';
 require_once __DIR__ . '/core/Controller.php';
 require_once __DIR__ . '/core/Model.php';
 
 
-/* Load app initialization (session, config, database, autoload, etc.) */
+/* Charger l'initialisation de l'application (session, configuration, base de données, autoload, etc.)*/
 require_once __DIR__ . '/app/init.php';
 
-/* Autoload controllers and models */
+/* Chargement automatique des contrôleurs et des modèles */
 spl_autoload_register(function ($class) {
-    $prefix = 'App\\';                  // All classes live under App/
-    $base_dir = __DIR__ . '/app/';   // Root of the app
+    $prefix = 'App\\';
+    $base_dir = __DIR__ . '/app/';
 
-    /* Only load classes from App/ */
+    /* Charger uniquement les classes depuis App/ */
     if (strncmp($prefix, $class, strlen($prefix)) !== 0) {
         return;
     }

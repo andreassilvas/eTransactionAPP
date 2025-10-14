@@ -1,34 +1,21 @@
+/* ======VARIABLES GLOBALES======*/
+:root {
+    /* Couleurs principales */
+    --color-primary-a: #0047AB;
+    --color-primary-b: #005F84;
+    --color-primary-c: #064747;
+    --color-gray: #6C7570;
+    --color-success: #008000;
+    --color-warning: #BE5103;
+    --color-info: #0d6efd;
+    --color-purple: #560591;
+    --color-green-dark: #2E6F40;
+    --color-navbar-releve: #A6C3A8;
+}
+
+/* ======GLOBAL STYLES====== */
 body {
-    padding-top: 80px; /* Adjust to navbar height */
-}
-.nav-link {
-    font-weight: 600;
-}
-.badge {
-    color: #fff !important;
-}
-/* Navbar - Expeditions*/
-.nav-link.active-step-a {
-    color: #005F84; 
-}
-.badge.active-step-a {
-    background-color: #005F84 !important;
-}
-
-/* Navbar - Relevés*/
-.nav-link.active-step-b {
-    color: #064747; 
-}
-.badge.active-step-b {
-    background-color: #064747 !important;
-}
-.custom-navbar-releve {
-    background-color: #A6C3A8 !important ;
-}
-
-/* Navbar - default */
-a.inactive {
-    color: #6C7570 !important;
+    padding-top: 80px; /* Ajusté à la hauteur du navbar */
 }
 
 .placeholder-style::placeholder {
@@ -37,57 +24,65 @@ a.inactive {
     opacity: 1;
 }
 
-.custom-color-a{
-    color: #0047AB;
+/* ======NAVBAR / LINKS & BADGES====== */
+
+.nav-link {
+    font-weight: 600;
 }
 
-.custom-color-b{
-    color: #005F84;
+/* Navbar inactive */
+a.inactive {
+    color: var(--color-gray);
 }
 
-.custom-color-c{
-    color: #064747;
-}
+/* Expeditions */
+.nav-link.active-step-a { color: var(--color-primary-b); }
+.navbar .badge.active-step-a { background-color: var(--color-primary-b); }
 
-.custom-color-d{
-    color: #6C7570;
-}
+/* Relevés */
+.nav-link.active-step-b { color: var(--color-primary-c); }
+.navbar .badge.active-step-b { background-color: var(--color-primary-c); }
+.custom-navbar-releve { background-color: var(--color-navbar-releve); }
 
-.custom-color-e{
-    color:#BE5103;
-}
-.custom-color-f{
-    color:#0d6efd;
-}
-.custom-color-g{
-    color:#05472A;
-}
-.custom-color-h{
-    color:#290245;
-}
-.custom-success{
-    color: #008000;
-}
+/* ======TABLES / FORMS====== */
 
-.custom-form-text{
-    font-size: 0.7rem;
-    color: #6C7570;
-}
-.custom-check-input{
-    border: 2px solid #6C7570;
-}
 thead tr.custom-color-a {
     background-color: #f2f2f2;
-    color: #333; 
+    color: #333;
 }
-.page-link.custom.active {
-    background-color: #2E6F40;
-    border-color: #2E6F40;
-    color: #fff;
+
+.custom-form-text {
+    font-size: 0.7rem;
+    color: var(--color-gray);
 }
+
+.custom-check-input {
+    border: 2px solid var(--color-gray);
+}
+
+/* =======PAGINATION======= */
+
 .page-link.custom-prod.active {
-    background-color: #560591;
-    border-color: #560591;
+    background-color: var(--color-purple);
+    border-color: var(--color-purple);
     color: #fff;
 }
 
+.page-link.custom.active {
+    background-color: var(--color-green-dark);
+    border-color: var(--color-green-dark);
+    color: #fff;
+}
+
+/* =====================================================
+   COULEURS UTILITAIRES
+===================================================== */
+.custom-color-a { color: var(--color-primary-a); }
+.custom-color-b { color: var(--color-primary-b); }
+.custom-color-c { color: var(--color-primary-c); }
+.custom-color-d { color: var(--color-gray); }
+.custom-color-e { color: var(--color-warning); }
+.custom-color-f { color: var(--color-info); }
+.custom-color-g { color: #05472A; }
+.custom-color-h { color: #290245; }
+.custom-success { color: var(--color-success); }

@@ -1,3 +1,4 @@
+<!--Résumé de commande, codé en dur, logique non implémentée-->
 <h5 class="card-title custom-color-b">Résumé de la commande</h5>
 <ul class="list-group list-group-flush">
     <li class="list-group-item d-flex justify-content-between">

@@ -10,10 +10,7 @@
         <div>
             <ul class="nav justify-content-end nav-underline">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#" style="color:#94AEE3">Produits</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link nav-links" href="#" style="color:#94AEE3">Services</a>
+                    <a class="nav-link active" aria-current="page" style="color:#94AEE3">Produits</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link nav-links" href="#" style="color:#94AEE3" data-bs-toggle="modal"
@@ -21,12 +18,11 @@
                         Se connecter</a>
                 </li>
                 <li class="nav-item">
-                    <button class="btn btn-outline-info" type="submit" data-bs-toggle="modal"
-                        data-bs-target="#createAccount">Créer un compte</button>
+                    <button class="btn btn-outline-info">Créer un compte</button>
                 </li>
                 <!-- Cart icon -->
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link nav-links" style="color:#94AEE3">
                         <i class="fa-solid fa-cart-shopping" style="color:#94AEE3"></i>
                     </a>
                 </li>
