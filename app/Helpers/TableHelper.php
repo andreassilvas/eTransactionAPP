@@ -42,48 +42,49 @@ function renderTableWithPagination($data, $headers, $fields, $perPage = 5, $cust
                     </h6>
                 <?php endif; ?>
                 <?php if (!empty($pageData)): ?>
-                    <table class="table table-striped table-bordered mb-5">
-                        <thead>
-                            <tr>
-                                <?php foreach ($headers as $header): ?>
-                                    <th <?= !empty($header['style']) ? "style=\"{$header['style']}\"" : '' ?>>
-                                        <?= htmlspecialchars($header['text']) ?>
-                                    </th>
-                                <?php endforeach; ?>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($pageData as $row): ?>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered mb-5">
+                            <thead>
                                 <tr>
-                                    <?php foreach ($fields as $key => $formatter): ?>
-                                        <?php
-                                        // Déterminer la classe en fonction du nom du champ
-                                        $tdClass = '';
-                                        if (in_array($key, ['credit', 'debit', 'balance'])) {
-                                            $tdClass = 'text-end';
-                                        }
-                                        ?>
-                                        <td class="<?= $tdClass ?>">
-                                            <?php
-                                            $value = $row[$key] ?? '';
-                                            if (is_callable($formatter)) {
-                                                // Convertit les chaînes vides ou les valeurs nulles en 0 avant le formatage
-                                                if ($value === '' || $value === null) {
-                                                    $value = 0.00;
-                                                }
-                                                echo $formatter($value, $row);
-                                            } else {
-                                                echo htmlspecialchars($value ?? '');
-                                            }
-                                            ?>
-                                        </td>
+                                    <?php foreach ($headers as $header): ?>
+                                        <th <?= !empty($header['style']) ? "style=\"{$header['style']}\"" : '' ?>>
+                                            <?= htmlspecialchars($header['text']) ?>
+                                        </th>
                                     <?php endforeach; ?>
                                 </tr>
-                            <?php endforeach; ?>
-                        </tbody>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($pageData as $row): ?>
+                                    <tr>
+                                        <?php foreach ($fields as $key => $formatter): ?>
+                                            <?php
+                                            // Déterminer la classe en fonction du nom du champ
+                                            $tdClass = '';
+                                            if (in_array($key, ['credit', 'debit', 'balance'])) {
+                                                $tdClass = 'text-end';
+                                            }
+                                            ?>
+                                            <td class="<?= $tdClass ?>">
+                                                <?php
+                                                $value = $row[$key] ?? '';
+                                                if (is_callable($formatter)) {
+                                                    // Convertit les chaînes vides ou les valeurs nulles en 0 avant le formatage
+                                                    if ($value === '' || $value === null) {
+                                                        $value = 0.00;
+                                                    }
+                                                    echo $formatter($value, $row);
+                                                } else {
+                                                    echo htmlspecialchars($value ?? '');
+                                                }
+                                                ?>
+                                            </td>
+                                        <?php endforeach; ?>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
 
-                    </table>
-
+                        </table>
+                    </div>
                     <!-- Pagination -->
                     <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-end">
