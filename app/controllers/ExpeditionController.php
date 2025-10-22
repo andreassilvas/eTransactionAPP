@@ -29,7 +29,7 @@ class ExpeditionController
     public function store()
     {
         if (!isset($_SESSION['client_id'])) {
-            die("❌ No client_id found in session.");
+            die("No client_id found in session.");
         }
         // Connexion à la base de données (la session est déjà démarrée via init.php)
         $db = Database::getConnection();
