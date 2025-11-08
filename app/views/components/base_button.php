@@ -2,6 +2,7 @@
 // Valeurs par défaut si non définies
 $btnText = $btnText ?? 'Click Me';
 $btnType = $btnType ?? 'button';
+$btnId = $btnId ?? '';
 $href = $href ?? '';
 $btnBg = $btnBg ?? '#005F66';
 $btnBorder = $btnBorder ?? '#005F66';
@@ -53,7 +54,7 @@ $uniqueClass = 'custom-btn-' . bin2hex(random_bytes(5));
         <?= $btnText ?>
     </a>
 <?php else: ?>
-    <button type="<?= $btnType ?>" class="btn <?= $uniqueClass ?> <?= $extraClass ?>">
+    <button type="<?= $btnType ?>" class="btn <?= $uniqueClass ?> <?= $extraClass ?>" id="<?= $btnId ?>">
         <?= $btnText ?>
     </button>
 <?php endif; ?>

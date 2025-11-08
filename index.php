@@ -11,7 +11,7 @@ require_once __DIR__ . '/core/Model.php';
 require_once __DIR__ . '/app/init.php';
 
 /* Chargement automatique des contrôleurs et des modèles */
-spl_autoload_register(function ($class) {
+spl_autoload_register(function ($class): void {
     $prefix = 'App\\';
     $base_dir = __DIR__ . '/app/';
 
@@ -45,60 +45,100 @@ $path = rtrim(str_replace($basePath, '', $uri), '/') ?: '/';
 $router->get('/', 'HomeController@index');
 
 /* Login Modal*/
-$router->get('/login', function () {
+$router->get('/login', function (): void {
     $controller = new \App\Controllers\LoginController();
     $controller->login();
 });
 $router->post('/login', 'LoginController@login');
 
-/* Connexion page (protected) */
-$router->get('/connexion', function () {
+/*========= Connexion page (protected) ========================
+===============================================================*/
+$router->get('/connexion', function (): void {
     authMiddleware();
     require __DIR__ . '/app/Views/connexion/index.php';
 });
 
 /* Relevé page (protected) */
-$router->get('/releve', function () {
+$router->get('/releve', function (): void {
     authMiddleware();
     $controller = new \App\Controllers\BankController();
     $controller->index();
 });
 
-/* Products page (protected) */
-$router->get('/produits', function () {
-    authMiddleware();
-    $controller = new \App\Controllers\ProductController();
-    $controller->index();
-});
-
 /* Commandes page (protected) */
-$router->get('/commandes', function () {
+$router->get('/commandes', function (): void {
     authMiddleware();
     $controller = new \App\Controllers\CommandController();
     $controller->index();
 });
 
 /* Expedition (protected) */
-$router->get('/expedition', function () {
+$router->get('/expedition', function (): void {
     authMiddleware();
     require __DIR__ . '/app/Views/expedition/index.php';
 });
+
+/* =============== Tableau de Bord page (protected)======================
+========================================================================= */
+$router->get('/tableau-de-bord', function (): void {
+    authMiddleware();
+    $controller = new \App\Controllers\TableauDeBordController();
+    $controller->index();
+});
+
+/*Ajouter / Modifier un Produit page (protected)*/
+$router->get('/ajouter-modifier-produit', function (): void {
+    authMiddleware();
+    $controller = new \App\Controllers\ProductController();
+    $controller->index();
+});
+
+/* Voir les Produits en stock page (protected) */
+$router->get('/produits-en-stock', function (): void {
+    authMiddleware();
+    $controller = new \App\Controllers\ProductController();
+    $controller->index();
+});
+
+/* Gestion des Utilisateurs (protected) */
+$router->get('/gestion-utilisateurs', function (): void {
+    authMiddleware();
+    (new \App\Controllers\ClientManagementController())->index();
+});
+
+$router->get('/gestion-utilisateurs/list', function () {
+    authMiddleware();
+    (new \App\Controllers\ClientManagementController())->list();
+});
+$router->post('/gestion-utilisateurs/store', function () {
+    authMiddleware();
+    (new \App\Controllers\ClientManagementController())->store();
+});
+$router->post('/gestion-utilisateurs/update', function () {
+    authMiddleware();
+    (new \App\Controllers\ClientManagementController())->update();
+});
+$router->get('/gestion-utilisateurs/delete', function () {
+    authMiddleware();
+    (new \App\Controllers\ClientManagementController())->delete();
+});
+
 
 /* Handle form submission */
 $router->post('/expeditions/store', 'ExpeditionController@store');
 
 /* Payment (protected) */
-$router->get('/payment', function () {
+$router->get('/payment', function (): void {
     authMiddleware();
     require __DIR__ . '/app/Views/payment/index.php';
 });
-$router->post('/payment/process', function () {
+$router->post('/payment/process', function (): void {
     $controller = new \App\Controllers\PaymentController();
     $controller->process();
 });
 
 /* Verification */
-$router->get('/verification/success', function () {
+$router->get('/verification/success', function (): void {
     $paymentId = $_GET['id'] ?? null;
     require __DIR__ . '/app/Views/verification/index.php';
 });

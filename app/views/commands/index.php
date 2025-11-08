@@ -4,7 +4,7 @@
 <body>
     <?php $activeStep = 2;
     $logoutUrl = BASE_URL . '/connexion';
-    include __DIR__ . '/../layouts/releve_nav.php'; ?>
+    include __DIR__ . '/../layouts/nav_releve.php'; ?>
 
     <div class="container my-5">
         <div class=" row">

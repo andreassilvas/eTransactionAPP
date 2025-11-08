@@ -4,13 +4,23 @@
     --color-primary-a: #0047AB;
     --color-primary-b: #005F84;
     --color-primary-c: #064747;
+    --color-green-toned: #005F66;
+    --color-opal: #A8C3BC;
     --color-gray: #6C7570;
+    --color-dark-gray: #546373;
+    --color-white: #f2f2f2;
     --color-success: #008000;
     --color-warning: #BE5103;
     --color-info: #0d6efd;
-    --color-purple: #560591;
-    --color-green-dark: #2E6F40;
+    --color-purple-toned: #5C5CFF;
+    --color-light-purple: #E6E6FF;
+    --color-purple: #000047;
+    --color-dark-purple: #290245;
+    --color-blue-toned: #00738A;
+    --color-dark-green: #2E6F40;
     --color-navbar-releve: #A6C3A8;
+    --color-info-danger: #E73121;
+    
 }
 
 /* ======GLOBAL STYLES====== */
@@ -39,22 +49,28 @@ body {
 
 /* Navbar inactive */
 a.inactive {
-    color: var(--color-gray);
+    color: var(--color-dark-gray);
 }
 
-/* Expeditions */
+/* Navbar Expeditions */
 .nav-link.active-step-a { color: var(--color-primary-b); }
 .navbar .badge.active-step-a { background-color: var(--color-primary-b); }
 
-/* Relevés */
+/* Navbar Relevés */
 .nav-link.active-step-b { color: var(--color-primary-c); }
 .navbar .badge.active-step-b { background-color: var(--color-primary-c); }
 .custom-navbar-releve { background-color: var(--color-navbar-releve) !important;}
 
+/* Navbar Inventaire */
+.nav-link.active-step-c { color: var(--color-blue-toned); }
+.navbar .badge.active-step-c { background-color: var(--color-blue-toned); }
+.custom-navbar-inventaire { background-color: var( --color-light-purple) !important;}
+
+
 /* ======TABLES / FORMS====== */
 
 thead tr.custom-color-a {
-    background-color: #f2f2f2;
+    background-color: var(--color-white);
     color: #333;
 }
 
@@ -69,18 +85,56 @@ thead tr.custom-color-a {
 
 /* =======PAGINATION======= */
 
-.page-link.custom-prod.active {
-    background-color: var(--color-purple);
-    border-color: var(--color-purple);
-    color: #fff;
-}
-
 .page-link.custom.active {
-    background-color: var(--color-green-dark);
-    border-color: var(--color-green-dark);
-    color: #fff;
+    background-color: var(--color-dark-green);
+    border-color: var(--color-dark-green);
+    color: var(--color-white);
 }
 
+.active>.page-link, .page-link.active {
+    background-color: var(--color-blue-toned);
+    border-color: var(--color-blue-toned);
+    
+}
+/* =======CLIENT PAGE ICONS======= */
+
+.custom-edit-icon {
+  color: var(--color-blue-toned);
+}
+
+/* Hovering the BUTTON also affects the icon */
+.custom-btn-bg:hover .custom-edit-icon {
+  color: var(--color-white);
+}
+
+/* Button base */
+.custom-btn-bg {
+  background-color: var(--color-white);
+  border-color: var(--color-blue-toned) !important;
+}
+
+/* Button hover/focus/active */
+.custom-btn-bg:hover,
+.custom-btn-bg:focus,
+.custom-btn-bg:active {
+  background-color: var(--color-blue-toned) !important;
+  color: var(--color-white) !important;
+  border-color: inherit !important;
+  box-shadow: none !important;
+}
+
+
+/* =======CARDS======= */
+.card-header.custom-color-inventaire, 
+.card-header.custom-color-releve{
+    background-color: var(--color-primary-c);
+}
+.card-header.custom-color-expedition {
+    background-color: var(--color-green-toned);
+}
+.card-header.custom-color-notifications {
+    background-color: var(--color-dark-gray);
+}
 /* =====================================================
    COULEURS UTILITAIRES
 ===================================================== */
@@ -88,8 +142,11 @@ thead tr.custom-color-a {
 .custom-color-b { color: var(--color-primary-b); }
 .custom-color-c { color: var(--color-primary-c); }
 .custom-color-d { color: var(--color-gray); }
+.custom-color-white { color: var(--color-white); }
 .custom-color-e { color: var(--color-warning); }
 .custom-color-f { color: var(--color-info); }
 .custom-color-g { color: #05472A; }
-.custom-color-h { color: #290245; }
+.custom-color-h { color: var(--color-dark-purple); }
+.custom-color-i { color: var(--color-dark-gray); }
 .custom-success { color: var(--color-success); }
+

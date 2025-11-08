@@ -58,8 +58,8 @@ class Client extends Model
     public function create($data)
     {
         $sql = "INSERT INTO $this->table 
-            (name, lastname, phone, extention, email, address, city, province, postcode)
-            VALUES (:name, :lastname, :phone, :extention, :email, :address, :city, :province, :postcode)";
+            (name, lastname, phone, extention, email, address, city, province, postcode, password)
+            VALUES (:name, :lastname, :phone, :extention, :email, :address, :city, :province, :postcode, :password)";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute([
@@ -71,7 +71,8 @@ class Client extends Model
             ':address' => $data['address'],
             ':city' => $data['city'],
             ':province' => $data['province'],
-            ':postcode' => $data['postcode']
+            ':postcode' => $data['postcode'],
+            ':password' => $data['password']
         ]);
 
         return $this->db->lastInsertId();
@@ -89,6 +90,27 @@ class Client extends Model
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function all()
+    {
+        return $this->db->query("SELECT * FROM $this->table ORDER BY id DESC")
+            ->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function updateById(int $id, array $d)
+    {
+        $sql = "UPDATE $this->table SET name=:name, lastname=:lastname, phone=:phone, extention=:extention,
+        email=:email, address=:address, city=:city, province=:province, postcode=:postcode, password=:password
+        WHERE id=:id";
+        $st = $this->db->prepare($sql);
+        $d['id'] = $id;
+        $st->execute($d);
+        return true;
+    }
+    public function deleteById(int $id)
+    {
+        $st = $this->db->prepare("DELETE FROM $this->table WHERE id=:id");
+        return $st->execute([':id' => $id]);
     }
 
 }

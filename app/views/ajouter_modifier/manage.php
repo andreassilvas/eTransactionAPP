@@ -2,17 +2,17 @@
 <?php include __DIR__ . '/../layouts/header.php'; ?>
 
 <body>
-    <?php $activeStep = 3;
+    <?php $activeStep = 2;
     $logoutUrl = BASE_URL . '/connexion';
-    include __DIR__ . '/../layouts/releve_nav.php'; ?>
+    include __DIR__ . '/../layouts/nav_inv.php'; ?>
 
     <div class="container my-5">
         <div class=" row">
             <div class="col mb-3">
                 <div class="mar-left mb-4">
-                    <h3 class="custom-color-h">Produits</h3>
+                    <h3 class="custom-color-b">Ajouter / Modifier un Produit</h3>
                 </div>
-                <?php require __DIR__ . '/products_form.php'; ?>
+                <?php require __DIR__ . '/ajouter_modifier_form.php'; ?>
             </div>
         </div>
     </div>

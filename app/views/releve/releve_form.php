@@ -32,6 +32,6 @@ if (!empty($transactions)) {
 
 
 
-renderTableWithPagination($transactions, $headers, $fields, 5, '', $_SESSION['client_name'] ?? '', $solde);
+renderTableWithPagination($transactions, $headers, $fields, 5, 'custom', $_SESSION['client_name'] ?? '', $solde);
 
 

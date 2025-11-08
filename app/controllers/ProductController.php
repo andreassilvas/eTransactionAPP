@@ -69,7 +69,7 @@ class ProductController
         $productModel->create($data);
 
         // Redirection vers la liste des produits
-        header('Location: ' . BASE_URL . '/products');
+        header('Location: ' . BASE_URL . '/produits-en-stock');
         exit;
     }
 

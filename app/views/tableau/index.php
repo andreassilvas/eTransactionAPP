@@ -4,16 +4,20 @@
 <body>
     <?php $activeStep = 1;
     $logoutUrl = BASE_URL . '/connexion';
-    include __DIR__ . '/../layouts/nav_releve.php'; ?>
+    include __DIR__ . '/../layouts/nav_inv.php'; ?>
 
     <div class="container my-5">
         <div class=" row">
             <div class="col mb-3">
                 <div class="mar-left mb-4">
-                    <h3 class="custom-color-g">Relevé Bancaire</h3>
+                    <h3 class="custom-color-i">Tableau de Bord</h3>
                 </div>
-                <?php require __DIR__ . '/releve_form.php';
-                ?>
+                <div class="card rounded-4">
+                    <div class="card-body">
+                        <?php require __DIR__ . '/tableau_form.php'; ?>
+                        <?php require __DIR__ . '/tableau_notifications.php'; ?>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
