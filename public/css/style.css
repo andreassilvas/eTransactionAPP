@@ -106,7 +106,13 @@ thead tr.custom-color-a {
 /* Hovering the BUTTON also affects the icon */
 .custom-btn-bg:hover .custom-edit-icon,
 .custom-btn-bg:hover .custom-check-icon,
-.custom-btn-bg:hover .custom-close-icon {
+.custom-btn-bg:hover .custom-close-icon,
+.custom-btn-bg:focus .custom-edit-icon,
+.custom-btn-bg:focus .custom-check-icon,
+.custom-btn-bg:focus .custom-close-icon,
+.custom-btn-bg:active .custom-edit-icon,
+.custom-btn-bg:active .custom-check-icon,
+.custom-btn-bg:active .custom-close-icon {
   color: var(--color-white);
 }
 

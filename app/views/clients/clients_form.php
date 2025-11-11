@@ -36,6 +36,8 @@
     </div>
 </div>
 <script src="public/js/validation-lib.js"></script>
+<script src="public/js/clientApi.js"></script>
+<script src="public/js/clientTableView.js"></script>
 
 <script>
     const API = "<?= rtrim(BASE_URL, '/') ?>/gestion-utilisateurs";

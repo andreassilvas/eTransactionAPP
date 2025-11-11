@@ -19,7 +19,7 @@
     city: /^[A-Za-zÀ-ÿ][a-zA-ZÀ-ÿ\- ]*$/,
     province: /^[A-Za-zÀ-ÿ][a-zA-ZÀ-ÿ\- ]*$/,
     postcode: /^[A-Z]\d[A-Z]\s\d[A-Z]\d$/,
-    password: /^\d{2,5}$/, // adjust if you need stronger rules
+    password: /^\d{2,4}$/, // adjust if you need stronger rules
   };
 
   // --- Formatters (keys correspond to field names you’ll use)
@@ -75,7 +75,9 @@
     inputs.forEach((el) => {
       const key = el.getAttribute("name");
       const required = requiredKeys.includes(key);
-      if (required && !el.value.trim()) {
+      const val = (el.value || "").trim();
+
+      if (required && !val) {
         el.setAttribute("aria-invalid", "true");
         el.classList.add("is-invalid");
         el.classList.remove("is-valid");
@@ -83,7 +85,16 @@
         if (!firstBad) firstBad = el;
         return;
       }
-      const ok = validateFieldByName(el);
+
+      if (!required && !val) {
+        // optional + empty is fine; clear invalid state
+        el.setAttribute("aria-invalid", "false");
+        el.classList.remove("is-invalid");
+        el.classList.remove("is-valid");
+        return;
+      }
+
+      const ok = validateFieldByName(el); // apply regex for non-empty values
       if (!ok && !firstBad) firstBad = el;
       allOk = allOk && ok;
     });

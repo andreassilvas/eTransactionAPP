@@ -1,116 +1,169 @@
 <?php
 namespace App\Models;
-use PDO;
 
-/**
- * Class Client
- *
- * Modèle responsable de la gestion des clients.
- * Permet de récupérer les informations clients par email, téléphone ou ID,
- * et de créer de nouveaux clients.
- *
- * @package App\Models
- */
+use PDO;
 
 class Client extends Model
 {
-    /**
-     * @var string Nom de la table clients
-     */
     protected $table = 'clients';
 
-    /**
-     * Récupère un client par son email.
-     *
-     * @param string $email Email du client
-     * @return array|false Tableau associatif du client ou false si non trouvé
-     */
-    public function findByEmail($email)
+    /* ---------- Lookups ---------- */
+
+    public function findByEmail(string $email)
     {
-        $stmt = $this->db->prepare("SELECT * FROM $this->table WHERE email = :email LIMIT 1");
-        $stmt->bindParam(":email", $email, PDO::PARAM_STR);
+        $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE email = :email LIMIT 1");
+        $stmt->bindValue(':email', strtolower(trim($email)), PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Récupère un client par son email ou son téléphone.
-     *
-     * @param string $email Email du client
-     * @param string $phone Téléphone du client
-     * @return array|false Tableau associatif du client ou false si non trouvé
-     */
-    public function findByEmailOrPhone($email, $phone)
+    public function findByEmailOrPhone(string $email, string $phone)
     {
-        $stmt = $this->db->prepare("SELECT * FROM $this->table WHERE email = :email OR phone = :phone LIMIT 1");
-        $stmt->bindParam(":email", $email, PDO::PARAM_STR);
-        $stmt->bindParam(":phone", $phone, PDO::PARAM_STR);
+        $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE email = :email OR phone = :phone LIMIT 1");
+        $stmt->bindValue(':email', strtolower(trim($email)), PDO::PARAM_STR);
+        $stmt->bindValue(':phone', trim($phone), PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Crée un nouveau client.
-     *
-     * @param array $data Données du client : name, lastname, phone, extention, email, address, city, province, postcode
-     * @return string ID du client créé
-     */
-    public function create($data)
+    public function existsByEmail(string $email, ?int $excludeId = null): bool
     {
-        $sql = "INSERT INTO $this->table 
-            (name, lastname, phone, extention, email, address, city, province, postcode, password)
-            VALUES (:name, :lastname, :phone, :extention, :email, :address, :city, :province, :postcode, :password)";
+        $sql = "SELECT 1 FROM {$this->table} WHERE email = :email";
+        if ($excludeId !== null)
+            $sql .= " AND id <> :id";
+        $st = $this->db->prepare($sql);
+        $st->bindValue(':email', strtolower(trim($email)));
+        if ($excludeId !== null)
+            $st->bindValue(':id', $excludeId, PDO::PARAM_INT);
+        $st->execute();
+        return (bool) $st->fetchColumn();
+    }
+
+    public function findById(int $id)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE id = :id LIMIT 1");
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    /* ---------- Listing ---------- */
+
+    /** Do NOT return password to the frontend */
+    public function all(): array
+    {
+        $sql = "SELECT id, name, lastname, phone, extention, email, address, city, province, postcode
+                FROM {$this->table}
+                ORDER BY id DESC";
+        return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /* ---------- Create ---------- */
+
+    public function create(array $data): string
+    {
+        $clean = $this->normalize($data);
+
+        $sql = "INSERT INTO {$this->table}
+                (name, lastname, phone, extention, email, address, city, province, postcode, password)
+                VALUES (:name, :lastname, :phone, :extention, :email, :address, :city, :province, :postcode, :password)";
 
         $stmt = $this->db->prepare($sql);
-        $stmt->execute([
-            ':name' => $data['name'],
-            ':lastname' => $data['lastname'],
-            ':phone' => $data['phone'],
-            ':extention' => $data['extention'],
-            ':email' => $data['email'],
-            ':address' => $data['address'],
-            ':city' => $data['city'],
-            ':province' => $data['province'],
-            ':postcode' => $data['postcode'],
-            ':password' => $data['password']
-        ]);
+        $stmt->bindValue(':name', $clean['name']);
+        $stmt->bindValue(':lastname', $clean['lastname']);
+        $stmt->bindValue(':phone', $clean['phone']);
+        $stmt->bindValue(':extention', $clean['extention']);
+        $stmt->bindValue(':email', $clean['email']);
+        $stmt->bindValue(':address', $clean['address']);
+        $stmt->bindValue(':city', $clean['city']);
+        $stmt->bindValue(':province', $clean['province']);
+        $stmt->bindValue(':postcode', $clean['postcode']);
+        $stmt->bindValue(':password', $clean['password']); // hash if you want: password_hash(...)
 
+        $stmt->execute();
         return $this->db->lastInsertId();
     }
 
+    /* ---------- Update (dynamic) ---------- */
+
     /**
-     * Récupère un client par son ID.
-     *
-     * @param int $id Identifiant du client
-     * @return array|false Tableau associatif du client ou false si non trouvé
+     * Update only provided fields; omit 'password' if empty so it isn't cleared.
+     * Also treats empty optional fields as NULL (phone, extention, address, city, province, postcode).
      */
-    public function findById($id)
+    public function updateById(int $id, array $d): int
     {
-        $stmt = $this->db->prepare("SELECT * FROM $this->table WHERE id = :id LIMIT 1");
-        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        // Normalize inputs (trim, lower email)
+        $clean = [];
+        foreach (['name', 'lastname', 'phone', 'extention', 'email', 'address', 'city', 'province', 'postcode', 'password'] as $k) {
+            if (array_key_exists($k, $d)) {
+                $v = is_string($d[$k]) ? trim($d[$k]) : $d[$k];
+                if (in_array($k, ['phone', 'extention', 'address', 'city', 'province', 'postcode'], true)) {
+                    $v = ($v === '') ? null : $v; // optional -> NULL when empty
+                }
+                $clean[$k] = $v;
+            }
+        }
+        if (isset($clean['email']))
+            $clean['email'] = strtolower($clean['email']);
+
+        // Build SET only for provided keys; skip empty password
+        $sets = [];
+        $params = [':id' => $id];
+        foreach ($clean as $k => $v) {
+            if ($k === 'password' && ($v === '' || $v === null))
+                continue;
+            $sets[] = "{$k} = :{$k}";
+            $params[":{$k}"] = $v;
+        }
+        if (!$sets)
+            return 0; // nothing to update
+
+        $sql = "UPDATE {$this->table} SET " . implode(', ', $sets) . " WHERE id = :id";
+        $st = $this->db->prepare($sql);
+        $st->execute($params);
+        return $st->rowCount(); // <-- tell us how many rows MySQL changed
     }
 
-    public function all()
+
+
+    public function deleteById(int $id): bool
     {
-        return $this->db->query("SELECT * FROM $this->table ORDER BY id DESC")
-            ->fetchAll(PDO::FETCH_ASSOC);
-    }
-    public function updateById(int $id, array $d)
-    {
-        $sql = "UPDATE $this->table SET name=:name, lastname=:lastname, phone=:phone, extention=:extention,
-        email=:email, address=:address, city=:city, province=:province, postcode=:postcode, password=:password
-        WHERE id=:id";
-        $st = $this->db->prepare($sql);
-        $d['id'] = $id;
-        $st->execute($d);
-        return true;
-    }
-    public function deleteById(int $id)
-    {
-        $st = $this->db->prepare("DELETE FROM $this->table WHERE id=:id");
+        $st = $this->db->prepare("DELETE FROM {$this->table} WHERE id = :id");
         return $st->execute([':id' => $id]);
     }
 
+    /* ---------- Helpers ---------- */
+
+    /**
+     * Trim strings, lowercase email, convert empty optional fields to NULL.
+     * Returns only known keys; ignores unknown keys.
+     */
+    private function normalize(array $d): array
+    {
+        $out = [];
+
+        // required-ish (controller should already validate)
+        foreach (['name', 'lastname', 'email'] as $k) {
+            if (isset($d[$k]))
+                $out[$k] = is_string($d[$k]) ? trim($d[$k]) : $d[$k];
+        }
+        if (isset($out['email']))
+            $out['email'] = strtolower($out['email']);
+
+        // optionals: empty string -> null
+        foreach (['phone', 'extention', 'address', 'city', 'province', 'postcode'] as $k) {
+            if (array_key_exists($k, $d)) {
+                $v = is_string($d[$k]) ? trim($d[$k]) : $d[$k];
+                $out[$k] = ($v === '' ? null : $v);
+            }
+        }
+
+        // password: keep as-is (controller may hash or omit)
+        if (array_key_exists('password', $d)) {
+            $v = is_string($d['password']) ? trim($d['password']) : $d['password'];
+            $out['password'] = ($v === '' ? '' : $v); // empty string preserved so updateById can skip it
+        }
+
+        return $out;
+    }
 }

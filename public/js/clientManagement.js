@@ -1,67 +1,44 @@
+// Controller: DataTable init + events + inline edit
 document.addEventListener("DOMContentLoaded", () => {
-  const API = window.API || "/gestion-utilisateurs";
+  const { list, store, update, remove } = window.ClientAPI;
+  const { input, actionBtns, editBtns } = window.ClientTableView;
 
-  // Helpers
-  const esc = (s) =>
-    String(s ?? "").replace(
-      /[&<>"']/g,
-      (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[m])
-    );
+  // Single source of truth for columns/validation
+  const FIELDS = [
+    { key: "id", type: "readonly" },
+    { key: "name", type: "text", required: "create+update" },
+    { key: "lastname", type: "text", required: "create+update" },
+    { key: "phone", type: "text", required: "create+update", maxLength: 12 },
+    { key: "extention", type: "text", required: "optional", maxLength: 5 },
+    { key: "email", type: "email", required: "create+update" },
+    { key: "address", type: "text", required: "create+update" },
+    { key: "city", type: "text", required: "create+update" },
+    { key: "province", type: "text", required: "create+update" }, // no maxLength
+    { key: "postcode", type: "text", required: "create+update", maxLength: 7 },
+    {
+      key: "password",
+      type: "password",
+      required: "createOnly",
+      maxLength: 4,
+    },
+  ];
 
-  const colIndex = {
-    id: 0,
-    name: 1,
-    lastname: 2,
-    phone: 3,
-    extention: 4,
-    email: 5,
-    address: 6,
-    city: 7,
-    province: 8,
-    postcode: 9,
-    password: 10,
-    actions: 11,
-  };
+  // Table column index map (to avoid magic numbers)
+  const colIndex = FIELDS.reduce((acc, f, i) => {
+    acc[f.key] = i;
+    return acc;
+  }, {});
+  colIndex.actions = FIELDS.length; // action column at the end
 
-  // Server JSON fetch
-  const jsonFetch = async (u, o) => {
-    const resp = await fetch(u, o);
-    if (!resp.ok) throw new Error(`HTTP ${resp.status} ${u}`);
-    const contentType = resp.headers.get("content-type") || "";
-    const txt = await resp.text();
-    if (!contentType.includes("application/json"))
-      throw new Error("Not JSON: " + txt.slice(0, 200));
-    return JSON.parse(txt);
-  };
-
-  // Allow "name" attribute so Validation can identify the field
-  const input = (val, type = "text", nameAttr = "") =>
-    `<input class="form-control form-control-sm dt-inline" ${
-      nameAttr ? `name="${esc(nameAttr)}"` : ""
-    } type="${type}" value="${esc(val)}">`;
-
-  const actionBtns = (row) => `
-    <div class="d-grid gap-2 d-md-block">
-      <button class="btn btn-sm btn-edit custom-btn-bg" data-id="${row.id}"><i class="fa-solid fa-pen custom-edit-icon"></i></button>
-      <button class="btn btn-sm btn-del custom-btn-bg" data-id="${row.id}"><i class="fa-solid fa-trash custom-edit-icon"></i></button>
-    </div>`;
-
-  const editBtns = () => `
-    <div class="d-grid gap-2 d-md-block">
-      <button class="btn btn-sm btn-save custom-btn-bg" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-check custom-check-icon"></i></button>
-      <button class="btn btn-sm btn-cancel custom-btn-bg"><i class="fa-solid fa-xmark custom-close-icon"></i></button>
-    </div>`;
-
-  // Init table
   (async function init() {
-    // guard to help debug connection
-    if (typeof Validation === "undefined") {
-      console.error(
-        "validation-lib.js not loaded. Make sure it is included before clientManagement.js"
-      );
-    }
+    // Load rows
+    const rows = await list();
 
-    const rows = await jsonFetch(`${API}/list`);
+    // Ensure password masked in the grid (server should already do this, but just in case)
+    rows.forEach((r) => {
+      if ("password" in r) r.password = "••••••";
+    });
+
     const table = $("#tbl").DataTable({
       data: rows,
       columns: [
@@ -75,157 +52,129 @@ document.addEventListener("DOMContentLoaded", () => {
         { data: "city" },
         { data: "province" },
         { data: "postcode" },
-        { data: "password" },
+        { data: "password" }, // masked; not prefilled for edit
         { data: null, orderable: false, render: (_, __, r) => actionBtns(r) },
       ],
     });
 
-    let editingTr = null; // currently edited <tr>
-    let createMode = false; // true when adding a new blank row
+    let editingTr = null;
+    let createMode = false;
 
-    // Turn a row into inline edit
+    // Build required keys for Validation from FIELDS
+    function requiredKeysFor(isCreate) {
+      return FIELDS.filter(
+        (f) =>
+          f.required === "create+update" ||
+          (isCreate && f.required === "createOnly")
+      ).map((f) => f.key);
+    }
+
+    function setCellEditor(td, field, row) {
+      const val = row[field.key] ?? "";
+      if (field.type === "readonly") {
+        td.textContent = val;
+        return;
+      }
+
+      // Password always blank on edit
+      if (field.key === "password") {
+        td.innerHTML = input("", "text", "password", {
+          maxLength: field.maxLength,
+        });
+        return;
+      }
+
+      td.innerHTML = input(val, field.type, field.key, {
+        maxLength: field.maxLength,
+      });
+    }
+
     function toEdit(tr) {
       if (editingTr && editingTr !== tr) cancelEdit(editingTr);
       editingTr = tr;
 
       const data = table.row(tr).data();
-      $(tr).data("orig", { ...data }); // keep copy
+      $(tr).data("orig", { ...data });
 
       const tds = tr.querySelectorAll("td");
 
-      // Pass field key as nameAttr so Validation knows what it is
-      tds[colIndex.name].innerHTML = input(data.name, "text", "name");
-      tds[colIndex.lastname].innerHTML = input(
-        data.lastname,
-        "text",
-        "lastname"
-      );
-      tds[colIndex.phone].innerHTML = input(data.phone, "text", "phone");
-      tds[colIndex.extention].innerHTML = input(
-        data.extention,
-        "text",
-        "extention"
-      );
-      tds[colIndex.email].innerHTML = input(data.email, "email", "email");
-      tds[colIndex.address].innerHTML = input(data.address, "text", "address");
-      tds[colIndex.city].innerHTML = input(data.city, "text", "city");
-      tds[colIndex.province].innerHTML = input(
-        data.province,
-        "text",
-        "province"
-      );
-      tds[colIndex.postcode].innerHTML = input(
-        data.postcode,
-        "text",
-        "postcode"
-      );
-      tds[colIndex.password].innerHTML = input(
-        data.password,
-        "text",
-        "password"
-      );
+      // Render editors for field columns
+      FIELDS.forEach((f, i) => setCellEditor(tds[i], f, data));
+
+      // Actions
       tds[colIndex.actions].innerHTML = editBtns();
 
-      // Initial validation pass for all inputs
+      // Initial validation pass (marks fields)
       tr.querySelectorAll("input.dt-inline").forEach((el) => {
-        if (window.Validation) Validation.validateFieldByName(el);
+        if (window.Validation) window.Validation.validateFieldByName(el);
       });
 
-      // Focus first input
+      // Focus first editable
       tds[colIndex.name].querySelector("input")?.focus();
     }
 
     function collect(tr) {
       const tds = tr.querySelectorAll("td");
-      return {
-        id: table.row(tr).data().id,
-        name: tds[colIndex.name].querySelector("input").value.trim(),
-        lastname: tds[colIndex.lastname].querySelector("input").value.trim(),
-        phone: tds[colIndex.phone].querySelector("input").value.trim(),
-        extention: tds[colIndex.extention].querySelector("input").value.trim(),
-        email: tds[colIndex.email].querySelector("input").value.trim(),
-        address: tds[colIndex.address].querySelector("input").value.trim(),
-        city: tds[colIndex.city].querySelector("input").value.trim(),
-        province: tds[colIndex.province].querySelector("input").value.trim(),
-        postcode: tds[colIndex.postcode].querySelector("input").value.trim(),
-        password: tds[colIndex.password].querySelector("input").value.trim(),
-      };
-    }
-
-    // Delegated events
-    document.addEventListener("click", async (e) => {
-      const btn = e.target.closest("button");
-      if (!btn) return;
-
-      if (btn.classList.contains("btn-edit")) {
-        const tr = btn.closest("tr");
-        toEdit(tr);
-      }
-
-      if (btn.classList.contains("btn-del")) {
-        const id = btn.dataset.id;
-        if (confirm("Supprimer ce client ?")) {
-          await jsonFetch(`${API}/delete?id=${encodeURIComponent(id)}`);
-          table.row(btn.closest("tr")).remove().draw(false);
-        }
-      }
-
-      if (btn.classList.contains("btn-save")) {
-        await saveEdit(btn.closest("tr"));
-      }
-
-      if (btn.classList.contains("btn-cancel")) {
-        cancelEdit(btn.closest("tr"));
-      }
-    });
-
-    // Delegated live validation for any inline input
-    document.addEventListener("input", (e) => {
-      const el = e.target;
-      if (!(el instanceof HTMLInputElement)) return;
-      if (!el.classList.contains("dt-inline")) return;
-      if (window.Validation) Validation.validateFieldByName(el);
-    });
-
-    async function saveEdit(tr) {
-      // Block save if row invalid; focuses first invalid
-      if (window.Validation) {
-        const ok = Validation.validateRow(tr, {
-          requiredKeys: ["name", "lastname", "email", "password"],
-        });
-        if (!ok) {
-          console.warn("Veuillez corriger les champs en rouge.");
+      const out = {};
+      // Read all fields from the row editors
+      FIELDS.forEach((f, i) => {
+        if (f.type === "readonly") {
+          // keep id from original DataTables row
+          if (f.key === "id") out.id = table.row(tr).data().id;
           return;
         }
+        const el = tds[i].querySelector("input");
+        out[f.key] = el ? el.value.trim() : table.row(tr).data()[f.key] ?? "";
+      });
+      return out;
+    }
+
+    async function saveEdit(tr) {
+      try {
+        const current = table.row(tr).data();
+        const isCreate = createMode || !current?.id;
+
+        // Validate using required keys from metadata
+        if (window.Validation) {
+          const ok = window.Validation.validateRow(tr, {
+            requiredKeys: requiredKeysFor(isCreate),
+          });
+          if (!ok) return;
+        }
+
+        const payload = collect(tr);
+
+        // On UPDATE, if password is empty, don't send it so server won't overwrite hash
+        if (!isCreate && (!payload.password || payload.password === "")) {
+          delete payload.password;
+        }
+
+        // Create vs Update
+        if (isCreate) {
+          const res = await store(payload);
+          payload.id = res.id;
+          createMode = false;
+        } else {
+          await update(payload);
+        }
+
+        // Mask password in table view
+        payload.password = "••••••";
+
+        // Redraw the row
+        table.row(tr).data(payload);
+        tr.querySelectorAll("td")[colIndex.actions].innerHTML =
+          actionBtns(payload);
+        table.row(tr).invalidate().draw(false);
+        editingTr = null;
+      } catch (err) {
+        console.error("[saveEdit] error:", err);
+        alert(
+          err && err.message && err.message.includes("409")
+            ? "Email already exists"
+            : (err && err.message) || "Une erreur est survenue"
+        );
       }
-
-      const payload = collect(tr);
-
-      if (createMode || !payload.id) {
-        // CREATE
-        const res = await jsonFetch(`${API}/store`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-
-        payload.id = res.id;
-        createMode = false;
-      } else {
-        // UPDATE
-        await jsonFetch(`${API}/update`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-      }
-
-      // Redraw row with plain text + action buttons
-      table.row(tr).data(payload);
-      tr.querySelectorAll("td")[colIndex.actions].innerHTML =
-        actionBtns(payload);
-      table.row(tr).invalidate().draw(false);
-      editingTr = null;
     }
 
     function cancelEdit(tr) {
@@ -239,26 +188,55 @@ document.addEventListener("DOMContentLoaded", () => {
       editingTr = null;
     }
 
-    // "Ajouter" button:
+    // Delegated actions on tbody (works with DataTables redraws)
+    const $tbody = $("#tbl tbody");
+
+    $tbody.on("click", "button.btn-edit", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      toEdit($(this).closest("tr").get(0));
+    });
+
+    $tbody.on("click", "button.btn-save", async function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      await saveEdit($(this).closest("tr").get(0));
+    });
+
+    $tbody.on("click", "button.btn-cancel", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      cancelEdit($(this).closest("tr").get(0));
+    });
+
+    $tbody.on("click", "button.btn-del", async function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const id = this.dataset.id;
+      if (confirm("Supprimer ce client ?")) {
+        await remove(id);
+        table.row($(this).closest("tr")).remove().draw(false);
+      }
+    });
+
+    // Live validation for inline inputs
+    document.addEventListener("input", (e) => {
+      const el = e.target;
+      if (!(el instanceof HTMLInputElement)) return;
+      if (!el.classList.contains("dt-inline")) return;
+      if (window.Validation) window.Validation.validateFieldByName(el);
+    });
+
+    // Add row
     const addBtn = document.getElementById("ajouterUtilisateur");
-
     if (addBtn) {
-      addBtn.addEventListener("click", async () => {
+      addBtn.addEventListener("click", (e) => {
+        e.preventDefault();
         if (editingTr) cancelEdit(editingTr);
-        const blank = {
-          id: "",
-          name: "",
-          lastname: "",
-          phone: "",
-          extention: "",
-          email: "",
-          address: "",
-          city: "",
-          province: "",
-          postcode: "",
-          password: "",
-        };
-
+        const blank = FIELDS.reduce((acc, f) => {
+          acc[f.key] = "";
+          return acc;
+        }, {});
         const tr = table.row.add(blank).draw(false).node();
         $(tr).data("orig", { ...blank });
         createMode = true;
