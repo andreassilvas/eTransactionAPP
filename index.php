@@ -124,6 +124,31 @@ $router->get('/gestion-utilisateurs/delete', function () {
 });
 
 
+/* --- Geo API (used by clientManagement.js dropdowns) --- */
+// $router->get('/geo/provinces', function (): void {
+//     authMiddleware(); // remove if you want it public
+//     (new \App\Controllers\GeoController())->provinces();
+// });
+
+// $router->get('/geo/provinces/cities', function (): void {
+//     // expects ?code=QC&search=&limit=&offset=
+//     authMiddleware();
+//     (new \App\Controllers\GeoController())->citiesByProvince();
+// });
+
+// $router->get('/geo/cities', function (): void {
+//     // optional: ?province=QC&search=&limit=&offset=
+//     authMiddleware();
+//     (new \App\Controllers\GeoController())->cities();
+// });
+
+// $router->get('/geo/cities/show', function (): void {
+//     // expects ?id=123
+//     authMiddleware();
+//     (new \App\Controllers\GeoController())->cityShow();
+// });
+
+
 /* Handle form submission */
 $router->post('/expeditions/store', 'ExpeditionController@store');
 

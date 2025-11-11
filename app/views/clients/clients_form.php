@@ -35,6 +35,8 @@
         </div>
     </div>
 </div>
+<script src="public/js/validation-lib.js"></script>
+
 <script>
     const API = "<?= rtrim(BASE_URL, '/') ?>/gestion-utilisateurs";
 </script>

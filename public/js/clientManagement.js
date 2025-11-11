@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const API = window.API || "/gestion-utilisateurs";
 
-  // helpers
+  // Helpers
   const esc = (s) =>
     String(s ?? "").replace(
       /[&<>"']/g,
@@ -23,23 +23,22 @@ document.addEventListener("DOMContentLoaded", () => {
     actions: 11,
   };
 
-  // server JSON fetch
+  // Server JSON fetch
   const jsonFetch = async (u, o) => {
     const resp = await fetch(u, o);
-
     if (!resp.ok) throw new Error(`HTTP ${resp.status} ${u}`);
     const contentType = resp.headers.get("content-type") || "";
     const txt = await resp.text();
-
     if (!contentType.includes("application/json"))
       throw new Error("Not JSON: " + txt.slice(0, 200));
     return JSON.parse(txt);
   };
 
-  const input = (val, type = "text") =>
-    `<input class="form-control form-control-sm dt-inline" type="${type}" value="${esc(
-      val
-    )}">`;
+  // Allow "name" attribute so Validation can identify the field
+  const input = (val, type = "text", nameAttr = "") =>
+    `<input class="form-control form-control-sm dt-inline" ${
+      nameAttr ? `name="${esc(nameAttr)}"` : ""
+    } type="${type}" value="${esc(val)}">`;
 
   const actionBtns = (row) => `
     <div class="d-grid gap-2 d-md-block">
@@ -49,12 +48,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const editBtns = () => `
     <div class="d-grid gap-2 d-md-block">
-      <button class="btn btn-sm btn-save custom-btn-bg"><i class="fa-solid fa-check custom-edit-icon"></i></button>
-      <button class="btn btn-sm btn-cancel custom-btn-bg"><i class="fa-solid fa-xmark custom-edit-icon"></i></button>
+      <button class="btn btn-sm btn-save custom-btn-bg" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-check custom-check-icon"></i></button>
+      <button class="btn btn-sm btn-cancel custom-btn-bg"><i class="fa-solid fa-xmark custom-close-icon"></i></button>
     </div>`;
 
-  // 1) init table
+  // Init table
   (async function init() {
+    // guard to help debug connection
+    if (typeof Validation === "undefined") {
+      console.error(
+        "validation-lib.js not loaded. Make sure it is included before clientManagement.js"
+      );
+    }
+
     const rows = await jsonFetch(`${API}/list`);
     const table = $("#tbl").DataTable({
       data: rows,
@@ -77,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let editingTr = null; // currently edited <tr>
     let createMode = false; // true when adding a new blank row
 
-    // turn a row into inline edit
+    // Turn a row into inline edit
     function toEdit(tr) {
       if (editingTr && editingTr !== tr) cancelEdit(editingTr);
       editingTr = tr;
@@ -87,18 +93,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const tds = tr.querySelectorAll("td");
 
-      tds[colIndex.name].innerHTML = input(data.name);
-      tds[colIndex.lastname].innerHTML = input(data.lastname);
-      tds[colIndex.phone].innerHTML = input(data.phone);
-      tds[colIndex.extention].innerHTML = input(data.extention);
-      tds[colIndex.email].innerHTML = input(data.email, "email");
-      tds[colIndex.address].innerHTML = input(data.address);
-      tds[colIndex.city].innerHTML = input(data.city);
-      tds[colIndex.province].innerHTML = input(data.province);
-      tds[colIndex.postcode].innerHTML = input(data.postcode);
-      tds[colIndex.password].innerHTML = input(data.password);
+      // Pass field key as nameAttr so Validation knows what it is
+      tds[colIndex.name].innerHTML = input(data.name, "text", "name");
+      tds[colIndex.lastname].innerHTML = input(
+        data.lastname,
+        "text",
+        "lastname"
+      );
+      tds[colIndex.phone].innerHTML = input(data.phone, "text", "phone");
+      tds[colIndex.extention].innerHTML = input(
+        data.extention,
+        "text",
+        "extention"
+      );
+      tds[colIndex.email].innerHTML = input(data.email, "email", "email");
+      tds[colIndex.address].innerHTML = input(data.address, "text", "address");
+      tds[colIndex.city].innerHTML = input(data.city, "text", "city");
+      tds[colIndex.province].innerHTML = input(
+        data.province,
+        "text",
+        "province"
+      );
+      tds[colIndex.postcode].innerHTML = input(
+        data.postcode,
+        "text",
+        "postcode"
+      );
+      tds[colIndex.password].innerHTML = input(
+        data.password,
+        "text",
+        "password"
+      );
       tds[colIndex.actions].innerHTML = editBtns();
-      // focus first input
+
+      // Initial validation pass for all inputs
+      tr.querySelectorAll("input.dt-inline").forEach((el) => {
+        if (window.Validation) Validation.validateFieldByName(el);
+      });
+
+      // Focus first input
       tds[colIndex.name].querySelector("input")?.focus();
     }
 
@@ -119,55 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
       };
     }
 
-    const emailRe = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
-
-    async function saveEdit(tr) {
-      const payload = collect(tr);
-      if (!payload.name || !payload.lastname || !emailRe.test(payload.email)) {
-        alert("Prénom/Nom requis et courriel valide.");
-        return;
-      }
-
-      if (createMode || !payload.id) {
-        // CREATE
-        const res = await jsonFetch(`${API}/store`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-
-        payload.id = res.id;
-        createMode = false;
-      } else {
-        // UPDATE
-        await jsonFetch(`${API}/update`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-      }
-
-      // redraw row with plain text + action buttons
-      table.row(tr).data(payload);
-      tr.querySelectorAll("td")[colIndex.actions].innerHTML =
-        actionBtns(payload);
-      table.row(tr).invalidate().draw(false);
-      editingTr = null;
-    }
-
-    function cancelEdit(tr) {
-      const orig = $(tr).data("orig");
-      if (createMode && (!orig || !orig.id)) {
-        // cancel brand-new row
-        table.row(tr).remove().draw(false);
-        createMode = false;
-      } else if (orig) {
-        table.row(tr).data(orig).invalidate().draw(false);
-      }
-      editingTr = null;
-    }
-
-    // 2) Delegated events
+    // Delegated events
     document.addEventListener("click", async (e) => {
       const btn = e.target.closest("button");
       if (!btn) return;
@@ -194,8 +179,69 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // 3) "Ajouter" button:
+    // Delegated live validation for any inline input
+    document.addEventListener("input", (e) => {
+      const el = e.target;
+      if (!(el instanceof HTMLInputElement)) return;
+      if (!el.classList.contains("dt-inline")) return;
+      if (window.Validation) Validation.validateFieldByName(el);
+    });
+
+    async function saveEdit(tr) {
+      // Block save if row invalid; focuses first invalid
+      if (window.Validation) {
+        const ok = Validation.validateRow(tr, {
+          requiredKeys: ["name", "lastname", "email", "password"],
+        });
+        if (!ok) {
+          console.warn("Veuillez corriger les champs en rouge.");
+          return;
+        }
+      }
+
+      const payload = collect(tr);
+
+      if (createMode || !payload.id) {
+        // CREATE
+        const res = await jsonFetch(`${API}/store`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        payload.id = res.id;
+        createMode = false;
+      } else {
+        // UPDATE
+        await jsonFetch(`${API}/update`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+      }
+
+      // Redraw row with plain text + action buttons
+      table.row(tr).data(payload);
+      tr.querySelectorAll("td")[colIndex.actions].innerHTML =
+        actionBtns(payload);
+      table.row(tr).invalidate().draw(false);
+      editingTr = null;
+    }
+
+    function cancelEdit(tr) {
+      const orig = $(tr).data("orig");
+      if (createMode && (!orig || !orig.id)) {
+        table.row(tr).remove().draw(false);
+        createMode = false;
+      } else if (orig) {
+        table.row(tr).data(orig).invalidate().draw(false);
+      }
+      editingTr = null;
+    }
+
+    // "Ajouter" button:
     const addBtn = document.getElementById("ajouterUtilisateur");
+
     if (addBtn) {
       addBtn.addEventListener("click", async () => {
         if (editingTr) cancelEdit(editingTr);
@@ -212,6 +258,7 @@ document.addEventListener("DOMContentLoaded", () => {
           postcode: "",
           password: "",
         };
+
         const tr = table.row.add(blank).draw(false).node();
         $(tr).data("orig", { ...blank });
         createMode = true;

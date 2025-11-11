@@ -12,7 +12,7 @@
                 <div class="card bg-light">
                     <div class="card-body">
                         <?php require __DIR__ . '/clients_form.php'; ?>
-
+                        <?php require_once __DIR__ . '/../layouts/modals/success.php'; ?>
                     </div>
                 </div>
             </div>

@@ -5,11 +5,13 @@
     --color-primary-b: #005F84;
     --color-primary-c: #064747;
     --color-green-toned: #005F66;
+    --color-dark-green-toned: #05472A;
     --color-opal: #A8C3BC;
     --color-gray: #6C7570;
     --color-dark-gray: #546373;
     --color-white: #f2f2f2;
-    --color-success: #008000;
+    /* --color-success: #008000;  */
+    --color-success: #198754; 
     --color-warning: #BE5103;
     --color-info: #0d6efd;
     --color-purple-toned: #5C5CFF;
@@ -17,7 +19,6 @@
     --color-purple: #000047;
     --color-dark-purple: #290245;
     --color-blue-toned: #00738A;
-    --color-dark-green: #2E6F40;
     --color-navbar-releve: #A6C3A8;
     --color-info-danger: #E73121;
     
@@ -103,7 +104,9 @@ thead tr.custom-color-a {
 }
 
 /* Hovering the BUTTON also affects the icon */
-.custom-btn-bg:hover .custom-edit-icon {
+.custom-btn-bg:hover .custom-edit-icon,
+.custom-btn-bg:hover .custom-check-icon,
+.custom-btn-bg:hover .custom-close-icon {
   color: var(--color-white);
 }
 
@@ -121,6 +124,13 @@ thead tr.custom-color-a {
   color: var(--color-white) !important;
   border-color: inherit !important;
   box-shadow: none !important;
+}
+
+.custom-check-icon{
+    color: var(--color-success);
+}
+.custom-close-icon{
+    color: var(--color-info-danger);
 }
 
 
@@ -145,8 +155,9 @@ thead tr.custom-color-a {
 .custom-color-white { color: var(--color-white); }
 .custom-color-e { color: var(--color-warning); }
 .custom-color-f { color: var(--color-info); }
-.custom-color-g { color: #05472A; }
+.custom-color-g { color: var(--color-dark-green-toned); }
 .custom-color-h { color: var(--color-dark-purple); }
 .custom-color-i { color: var(--color-dark-gray); }
 .custom-success { color: var(--color-success); }
+
 
