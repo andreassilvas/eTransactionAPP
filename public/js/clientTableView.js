@@ -16,6 +16,32 @@ window.ClientTableView = (function () {
     return `<input ${attrs}>`;
   };
 
+  const select = (
+    name,
+    options,
+    value,
+    { placeholder, disabled = false } = {}
+  ) => `
+    <select class="form-select form-select-sm dt-inline"
+            name="${esc(name)}" ${disabled ? "disabled" : ""}>
+      ${
+        placeholder
+          ? `<option value="" ${!value ? "selected" : ""} disabled>${esc(
+              placeholder
+            )}</option>`
+          : ""
+      }
+      ${options
+        .map(
+          (o) =>
+            `<option value="${esc(o.value)}" ${
+              o.value == value ? "selected" : ""
+            }>${esc(o.label)}</option>`
+        )
+        .join("")}
+    </select>
+  `;
+
   const actionBtns = (row) => `
     <div class="d-grid gap-2 d-md-block">
       <button type="button" class="btn btn-sm btn-edit custom-btn-bg" data-id="${row.id}">
@@ -36,5 +62,5 @@ window.ClientTableView = (function () {
       </button>
     </div>`;
 
-  return { input, actionBtns, editBtns };
+  return { input, actionBtns, editBtns, select };
 })();

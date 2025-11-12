@@ -1,20 +1,27 @@
 // Controller: DataTable init + events + inline edit
 document.addEventListener("DOMContentLoaded", () => {
   const { list, store, update, remove } = window.ClientAPI;
-  const { input, actionBtns, editBtns } = window.ClientTableView;
+  const { input, select, actionBtns, editBtns } = window.ClientTableView;
+  const { listProvinces, listCitiesByProvince } = window.GeoAPI;
+
+  // province caches (controller state)
+  let PROVINCES = []; // [{ code, name }]
+  let PROV_BY_NAME = {}; // name -> code
+  let NAME_BY_CODE = {}; // code -> name
 
   // Single source of truth for columns/validation
   const FIELDS = [
     { key: "id", type: "readonly" },
     { key: "name", type: "text", required: "create+update" },
     { key: "lastname", type: "text", required: "create+update" },
-    { key: "phone", type: "text", required: "create+update", maxLength: 12 },
+    { key: "phone", type: "text", required: "create+update", maxLength: 14 },
     { key: "extention", type: "text", required: "optional", maxLength: 5 },
     { key: "email", type: "email", required: "create+update" },
     { key: "address", type: "text", required: "create+update" },
-    { key: "city", type: "text", required: "create+update" },
-    { key: "province", type: "text", required: "create+update" }, // no maxLength
+    { key: "city", type: "select-city", required: "create+update" },
+    { key: "province", type: "select-province", required: "create+update" },
     { key: "postcode", type: "text", required: "create+update", maxLength: 7 },
+
     {
       key: "password",
       type: "password",
@@ -28,9 +35,23 @@ document.addEventListener("DOMContentLoaded", () => {
     acc[f.key] = i;
     return acc;
   }, {});
+
   colIndex.actions = FIELDS.length; // action column at the end
 
   (async function init() {
+    // Load provinces once for row editors
+    const provRows = await listProvinces(); // [{id, code, name}]
+    PROVINCES = provRows
+      .map((p) => ({ code: (p.code || "").toUpperCase(), name: p.name }))
+      .sort((a, b) => a.code.localeCompare(b.code)); // show by code
+
+    PROV_BY_NAME = {};
+    NAME_BY_CODE = {};
+    PROVINCES.forEach((p) => {
+      PROV_BY_NAME[p.name] = p.code;
+      NAME_BY_CODE[p.code] = p.name;
+    });
+
     // Load rows
     const rows = await list();
 
@@ -71,6 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function setCellEditor(td, field, row) {
       const val = row[field.key] ?? "";
+
       if (field.type === "readonly") {
         td.textContent = val;
         return;
@@ -84,6 +106,113 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      if (field.type === "select-province") {
+        // row.province might be a NAME (old data) or a CODE (new). Normalize to CODE.
+        const currentRaw = row.province || "";
+        const currentCode = NAME_BY_CODE[currentRaw]
+          ? currentRaw
+          : PROV_BY_NAME[currentRaw] || currentRaw;
+        const options = PROVINCES.map((p) => ({
+          value: p.code,
+          label: p.code,
+        })); // show CODE
+        td.innerHTML = select("province", options, currentCode, {
+          placeholder: "Select",
+          disabled: false,
+        });
+
+        const provSel = td.querySelector('select[name="province"]');
+        provSel.classList.add("dt-inline"); // ensure validation picks it up
+
+        // ✅ validate province right away so it gets is-valid/is-invalid immediately
+        if (window.Validation) {
+          window.Validation.validateFieldByName(provSel);
+        }
+
+        // province change => reload cities list for this row
+        provSel.addEventListener("change", async () => {
+          const tr = td.closest("tr");
+          const tds = tr.querySelectorAll("td");
+          const provCode = provSel.value;
+
+          const cityCell = tds[colIndex.city];
+          if (!provCode) {
+            cityCell.innerHTML = select("city", [], "", {
+              placeholder: "— Select a province first —",
+              disabled: false,
+            });
+          } else {
+            const res = await listCitiesByProvince(provCode);
+            const cityOptions = (res.items || []).map((c) => ({
+              value: c.name,
+              label: c.name,
+            }));
+            cityCell.innerHTML = select("city", cityOptions, "", {
+              placeholder: "— Select a province first —",
+              disabled: false,
+            });
+          }
+
+          const citySel = tds[colIndex.city].querySelector(
+            'select[name="city"]'
+          );
+          if (window.Validation) {
+            window.Validation.validateFieldByName(provSel);
+            const citySel = td
+              .closest("tr")
+              .querySelectorAll("td")
+              [colIndex.city].querySelector('select[name="city"]');
+            if (citySel) window.Validation.validateFieldByName(citySel);
+          }
+        });
+        return;
+      }
+
+      if (field.type === "select-city") {
+        // find province code in this row (may be name or code previously)
+        const provRaw = row.province || "";
+        const provCode = NAME_BY_CODE[provRaw]
+          ? provRaw
+          : PROV_BY_NAME[provRaw] || provRaw;
+
+        if (!provCode) {
+          // keep current city so it doesn't look blank/invalid if user didn't touch province
+          const currentCity = row.city || "";
+          const opts = currentCity
+            ? [{ value: currentCity, label: currentCity }]
+            : [];
+          td.innerHTML = select("city", opts, currentCity, {
+            placeholder: "Select a province first",
+            disabled: false,
+          });
+          const citySel = td.querySelector('select[name="city"]');
+          citySel.classList.add("dt-inline");
+          return;
+        }
+
+        // async load cities for current province
+        td.innerHTML = select("city", [], "", {
+          placeholder: "Loading…",
+          disabled: false,
+        });
+        (async () => {
+          const res = await listCitiesByProvince(provCode);
+          const cityOptions = (res.items || []).map((c) => ({
+            value: c.name,
+            label: c.name,
+          }));
+          td.innerHTML = select("city", cityOptions, row.city || "", {
+            placeholder: "Select",
+            disabled: false,
+          });
+          const citySel = td.querySelector('select[name="city"]');
+          citySel.classList.add("dt-inline");
+          if (window.Validation) window.Validation.validateFieldByName(citySel);
+        })();
+        return;
+      }
+
+      // default input
       td.innerHTML = input(val, field.type, field.key, {
         maxLength: field.maxLength,
       });
@@ -105,7 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
       tds[colIndex.actions].innerHTML = editBtns();
 
       // Initial validation pass (marks fields)
-      tr.querySelectorAll("input.dt-inline").forEach((el) => {
+      tr.querySelectorAll("input.dt-inline, select.dt-inline").forEach((el) => {
         if (window.Validation) window.Validation.validateFieldByName(el);
       });
 
@@ -116,15 +245,22 @@ document.addEventListener("DOMContentLoaded", () => {
     function collect(tr) {
       const tds = tr.querySelectorAll("td");
       const out = {};
-      // Read all fields from the row editors
       FIELDS.forEach((f, i) => {
         if (f.type === "readonly") {
-          // keep id from original DataTables row
           if (f.key === "id") out.id = table.row(tr).data().id;
           return;
         }
-        const el = tds[i].querySelector("input");
-        out[f.key] = el ? el.value.trim() : table.row(tr).data()[f.key] ?? "";
+        if (f.type && f.type.startsWith("select-")) {
+          const sel = tds[i].querySelector("select");
+          const v = sel ? (sel.value || "").trim() : "";
+          // keep existing table value if user didn’t choose anything in this select
+          out[f.key] = v !== "" ? v : table.row(tr).data()[f.key] ?? "";
+        } else {
+          const inp = tds[i].querySelector("input");
+          out[f.key] = inp
+            ? (inp.value || "").trim()
+            : table.row(tr).data()[f.key] ?? "";
+        }
       });
       return out;
     }
@@ -134,7 +270,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const current = table.row(tr).data();
         const isCreate = createMode || !current?.id;
 
-        // Validate using required keys from metadata
         if (window.Validation) {
           const ok = window.Validation.validateRow(tr, {
             requiredKeys: requiredKeysFor(isCreate),
@@ -144,12 +279,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const payload = collect(tr);
 
-        // On UPDATE, if password is empty, don't send it so server won't overwrite hash
+        // do not overwrite password unless user typed one
         if (!isCreate && (!payload.password || payload.password === "")) {
           delete payload.password;
         }
 
-        // Create vs Update
         if (isCreate) {
           const res = await store(payload);
           payload.id = res.id;
@@ -158,10 +292,7 @@ document.addEventListener("DOMContentLoaded", () => {
           await update(payload);
         }
 
-        // Mask password in table view
-        payload.password = "••••••";
-
-        // Redraw the row
+        payload.password = "••••••"; // mask in table
         table.row(tr).data(payload);
         tr.querySelectorAll("td")[colIndex.actions].innerHTML =
           actionBtns(payload);
@@ -219,7 +350,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Live validation for inline inputs
+    // live validation (inputs + selects)
     document.addEventListener("input", (e) => {
       const el = e.target;
       if (!(el instanceof HTMLInputElement)) return;
@@ -227,16 +358,21 @@ document.addEventListener("DOMContentLoaded", () => {
       if (window.Validation) window.Validation.validateFieldByName(el);
     });
 
-    // Add row
+    document.addEventListener("change", (e) => {
+      const el = e.target;
+      if (!(el instanceof HTMLSelectElement)) return;
+      if (!el.classList.contains("dt-inline")) return;
+      if (window.Validation) window.Validation.validateFieldByName(el);
+    });
+
+    // add row
     const addBtn = document.getElementById("ajouterUtilisateur");
     if (addBtn) {
       addBtn.addEventListener("click", (e) => {
         e.preventDefault();
         if (editingTr) cancelEdit(editingTr);
-        const blank = FIELDS.reduce((acc, f) => {
-          acc[f.key] = "";
-          return acc;
-        }, {});
+
+        const blank = FIELDS.reduce((acc, f) => ((acc[f.key] = ""), acc), {});
         const tr = table.row.add(blank).draw(false).node();
         $(tr).data("orig", { ...blank });
         createMode = true;

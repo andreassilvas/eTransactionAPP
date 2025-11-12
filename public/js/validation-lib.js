@@ -16,8 +16,8 @@
     phone: /^\(?\d{3}\)?\s?\d{3}\s?\d{4}$/u,
     email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
     address: /^\d+\s[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ\s]*$/u,
-    city: /^[A-Za-zÀ-ÿ][a-zA-ZÀ-ÿ\- ]*$/,
-    province: /^[A-Za-zÀ-ÿ][a-zA-ZÀ-ÿ\- ]*$/,
+    city: /^(?!\s*$).+/,
+    province: /^(?!\s*$).+/,
     postcode: /^[A-Z]\d[A-Z]\s\d[A-Z]\d$/,
     password: /^\d{2,4}$/, // adjust if you need stronger rules
   };
@@ -39,27 +39,49 @@
 
   // --- Core validate helper (same as your pattern)
   const validate = (inputEl, pattern, extraCheck = null) => {
-    const value = inputEl.value.trim();
-    let isValid = pattern.test(value);
+    if (!inputEl) return true;
 
+    // 1) Skip disabled controls (and clear any classes)
+    if (inputEl.disabled) {
+      inputEl.classList.remove("is-valid", "is-invalid");
+      inputEl.setAttribute("aria-invalid", "false");
+      return true;
+    }
+
+    const value = (inputEl.value || "").trim();
+    let isValid = pattern.test(value);
     if (isValid && extraCheck) isValid = extraCheck(value);
+
     inputEl.setAttribute("aria-invalid", String(!isValid));
-    inputEl.classList.toggle("is-valid", isValid);
-    inputEl.classList.toggle("is-invalid", !isValid);
+
+    // 2) Apply Bootstrap classes to inputs *and* selects
+    if (inputEl.tagName === "INPUT" || inputEl.tagName === "SELECT") {
+      inputEl.classList.remove("is-valid", "is-invalid");
+      inputEl.classList.add(isValid ? "is-valid" : "is-invalid");
+    }
+
     return isValid;
   };
 
   // Validate a single input by its name against regex/formatters maps
   const validateFieldByName = (inputEl) => {
     if (!inputEl) return true;
+
     const key = inputEl.getAttribute("name");
     if (!key) return true;
-    if (formatters[key]) {
+
+    const isSelect = inputEl.tagName === "SELECT";
+
+    // For inputs only, apply formatters (e.g., phone, postcode)
+    if (!isSelect && formatters[key]) {
       const after = formatters[key](inputEl.value);
       if (after !== inputEl.value) inputEl.value = after;
     }
-    const re = regex[key];
+
+    // Choose regex: field-specific if present; otherwise for selects use "non-empty"
+    const re = regex[key] || (isSelect ? /^(?!\s*$).+/ : null);
     if (!re) return true;
+
     return validate(inputEl, re);
   };
 
@@ -68,7 +90,8 @@
     tr,
     { requiredKeys = ["name", "lastname", "email"] } = {}
   ) => {
-    const inputs = tr.querySelectorAll("input.dt-inline");
+    const inputs = tr.querySelectorAll("input.dt-inline, select.dt-inline");
+
     let allOk = true;
     let firstBad = null;
 
