@@ -61,7 +61,7 @@ $health = $total > 0 ? round($ok * 100 / $total) : 0;
                         Santé globale du stock
                     </div>
                     <div class="card-body d-flex flex-column align-items-center justify-content-center">
-                        <canvas id="chart-health" height="120"></canvas>
+                        <canvas id="chart-health"></canvas>
                         <div class="mt-3 text-muted small">
                             <?= $health ?>% des produits ont un stock &gt; 5.
                         </div>
@@ -72,7 +72,7 @@ $health = $total > 0 ? round($ok * 100 / $total) : 0;
             <!-- Column 2: Stock by category -->
             <div class="col-md-4">
                 <div class="card shadow-sm h-100">
-                    <div class="card-header fw-semibold custom-header-dashboard">
+                    <div class="card-header text-center fw-semibold custom-header-dashboard">
                         Stock total par catégorie
                     </div>
                     <div class="card-body">
@@ -84,7 +84,7 @@ $health = $total > 0 ? round($ok * 100 / $total) : 0;
             <!-- Column 3: Critical products -->
             <div class="col-md-4">
                 <div class="card shadow-sm h-100">
-                    <div class="card-header fw-semibold custom-header-dashboard">
+                    <div class="card-header text-center fw-semibold custom-header-dashboard">
                         Produits critiques (alerte)
                     </div>
                     <div class="card-body">
@@ -125,15 +125,16 @@ $health = $total > 0 ? round($ok * 100 / $total) : 0;
         <div class="row g-3">
             <div class="col-md-4">
                 <div class="card shadow-sm h-100">
-                    <div class="card-header fw-semibold custom-header-dashboard">Statut des expéditions</div>
-                    <div class="card-body">
-                        <canvas id="chart-expedition" height="220"></canvas>
+                    <div class="card-header text-center fw-semibold custom-header-dashboard">Statut des expéditions
+                    </div>
+                    <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                        <canvas id="chart-expedition"></canvas>
                     </div>
                 </div>
             </div>
             <div class="col-md-8">
                 <div class="card shadow-sm h-100">
-                    <div class="card-header fw-semibold custom-header-dashboard">Top produits expédiés</div>
+                    <div class="card-header text-center fw-semibold custom-header-dashboard">Top produits expédiés</div>
                     <div class="card-body">
                         <?php if (empty($topShipped)): ?>
                             <div class="text-muted small custom-color-i">Aucune expédition enregistrée.</div>

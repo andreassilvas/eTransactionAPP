@@ -44,10 +44,18 @@ body {
 .nav-link {
     font-weight: 600;
 }
-
-.nav-link:focus, .nav-link:hover {
-    color: var(--color-primary-c);
+nav#navbar-releve .nav-link:hover,
+nav#navbar-releve .nav-link:focus {
+    color: var(--color-blue-toned);
 }
+
+nav#navbar-inventory .nav-link:hover,
+nav#navbar-inventory .nav-link:focus {
+    color: var(--color-light-violet);
+}
+
+
+
 .nav-link.custom-hover:focus, .nav-link.custom-hover:hover{
     color: var(--color-warning);
 }
@@ -205,6 +213,10 @@ thead tr.custom-color-a {
         color: var(--color-white);
         background-color: var(--color-info-warning);
     }
+    #chart-health, #chart-expedition {
+        height: 350px !important;
+        width: 350px !important;    
+}
 
 /* =====================================================
    COULEURS UTILITAIRES
