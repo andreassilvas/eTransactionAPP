@@ -90,16 +90,23 @@ thead tr.custom-color-a {
 
 /* =======PAGINATION======= */
 
-.page-link.custom.active {
-    background-color: var(--color-dark-green);
-    border-color: var(--color-dark-green);
-    color: var(--color-white);
+.releve-pagination .page-link.active,
+.releve-pagination .active > .page-link  {
+    background-color: var(--color-primary-c) !important;
+    border-color: var(--color-primary-c) !important;
+    color: var(--color-white) !important;
 }
 
-.active>.page-link, .page-link.active {
-    background-color: var(--color-blue-toned);
-    border-color: var(--color-blue-toned);
-    
+.products-pagination .page-link.active,
+.products-pagination .active > .page-link  {
+    background-color: var(--color-dark-purple) !important;
+    border-color: var(--color-dark-purple) !important;
+}
+
+.commands-pagination .page-link.active,
+.commands-pagination .active > .page-link  {
+    background-color: var(--color-dark-gray) !important;
+    border-color: var(--color-dark-gray) !important;
 }
 /* =======CLIENT PAGE ICONS======= */
 

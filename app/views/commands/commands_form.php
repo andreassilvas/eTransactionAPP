@@ -3,14 +3,14 @@ require __DIR__ . '/../../Helpers/TableHelper.php';
 
 // Définition des en-têtes du tableau
 $headers = [
-    ['text' => 'Date', 'style' => 'width:110px;'],
-    ['text' => 'Exp. Id', 'style' => 'width:100px;'],
-    ['text' => 'Acheteur', 'style' => 'width:130px;'],
-    ['text' => 'Courriel acheteur', 'style' => 'width:180px;'],
+    ['text' => 'Date', 'style' => ''],
+    ['text' => 'Exp. Id', 'style' => ''],
+    ['text' => 'Acheteur', 'style' => ''],
+    ['text' => 'Courriel acheteur', 'style' => ''],
     ['text' => 'Produits', 'style' => ''],
-    ['text' => 'Montant', 'style' => 'width:95px;'],
+    ['text' => 'Montant', 'style' => ''],
     ['text' => 'Payé', 'style' => ''],
-    ['text' => 'Payer par', 'style' => 'width:110px;'],
+    ['text' => 'Payer par', 'style' => ''],
 ];
 
 // Définition des champs à afficher pour chaque ligne
@@ -26,5 +26,7 @@ $fields = [
 ];
 
 // Appel de la fonction pour afficher le tableau paginé
-renderTableWithPagination($commands, $headers, $fields, 5, 'custom', $_SESSION['client_name'] ?? '');
+renderDataTable($commands, "tbl-commands", "Relevés de commandes", $headers, $fields, 'commands-pagination', $_SESSION['client_name'] ?? '');
 
+?>
+<script src="public/js/tables/dataTableCommands.js"></script>

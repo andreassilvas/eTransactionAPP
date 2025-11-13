@@ -20,5 +20,6 @@ $fields = [
     'stock' => null,
 ];
 
-renderTableWithPagination($products, "Produits en Stock", $headers, $fields, 5, 'custom-prod');
-
+renderDataTable($products, "tbl-products", "Produits en Stock", $headers, $fields, 'products-pagination');
+?>
+<script src="public/js/tables/dataTableProducts.js"></script>

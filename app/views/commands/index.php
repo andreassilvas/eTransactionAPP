@@ -6,12 +6,9 @@
     $logoutUrl = BASE_URL . '/connexion';
     include __DIR__ . '/../layouts/nav_releve.php'; ?>
 
-    <div class="container my-5">
+    <div class="container-fluid py-5 px-5">
         <div class=" row">
             <div class="col mb-3">
-                <div class="mar-left mb-4">
-                    <h3 class="custom-color-g">Relevés de commandes</h3>
-                </div>
                 <?php require __DIR__ . '/commands_form.php'; ?>
             </div>
         </div>
