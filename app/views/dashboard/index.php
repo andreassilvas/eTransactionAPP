@@ -2,20 +2,15 @@
 <?php include __DIR__ . '/../layouts/header.php'; ?>
 
 <body>
-    <?php $activeStep = 3;
+    <?php $activeStep = 1;
     $logoutUrl = BASE_URL . '/connexion';
     include __DIR__ . '/../layouts/nav_inv.php'; ?>
 
-    <div class="container my-5">
-        <div class=" row">
-            <div class="col mb-3">
-                <div class="mar-left mb-4">
-                    <h3 class="custom-color-b">Produits en stock</h3>
-                </div>
-                <?php require __DIR__ . '/products_form.php'; ?>
-            </div>
-        </div>
+    <div class="container-fluid p-4">
+        <?php require __DIR__ . '/dashboard_form.php'; ?>
     </div>
+
+
 
     <!-- <?php
     // Test the session

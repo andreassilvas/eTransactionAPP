@@ -9,13 +9,17 @@
     --color-opal: #A8C3BC;
     --color-gray: #6C7570;
     --color-dark-gray: #546373;
+    --color-light-gray: #D3D3D3;
     --color-white: #f2f2f2;
     /* --color-success: #008000;  */
     --color-success: #198754; 
     --color-warning: #BE5103;
+    --color-info-warning: #CC7722;
     --color-info: #0d6efd;
     --color-purple-toned: #5C5CFF;
     --color-light-purple: #E6E6FF;
+    --color-violet: #B163FF;
+    --color-light-violet: #E0B0FF;
     --color-purple: #000047;
     --color-dark-purple: #290245;
     --color-blue-toned: #00738A;
@@ -63,9 +67,9 @@ a.inactive {
 .custom-navbar-releve { background-color: var(--color-navbar-releve) !important;}
 
 /* Navbar Inventaire */
-.nav-link.active-step-c { color: var(--color-blue-toned); }
-.navbar .badge.active-step-c { background-color: var(--color-blue-toned); }
-.custom-navbar-inventaire { background-color: var( --color-light-purple) !important;}
+.nav-link.active-step-c { color: var(--color-light-violet); }
+.navbar .badge.active-step-c { background-color: var(--color-violet); }
+.custom-navbar-inventaire { background-color: var(--color-dark-purple) !important;}
 
 
 /* ======TABLES / FORMS====== */
@@ -151,6 +155,50 @@ thead tr.custom-color-a {
 .card-header.custom-color-notifications {
     background-color: var(--color-dark-gray);
 }
+
+/*==========Dashboard==========*/
+    .card-kpi {
+        text-align: center;
+    }
+
+    .card-kpi h2 {
+        font-size: 2rem;
+        margin-bottom: .25rem;
+    }
+
+    .card-kpi span.label {
+        font-size: .85rem;
+        text-transform: uppercase;
+        letter-spacing: .05em;
+        font-weight: 700;
+    }
+
+    .avatar-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #dee2e6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+    }
+    .card-header.custom-header-dashboard{
+        background-color: var(--color-dark-purple);
+        color: var(--color-light-gray)
+    }
+    th.custom-color-i{
+         color: var(--color-dark-gray) !important; 
+    }
+    td.custom-success{
+         color: var(--color-success) !important;
+         font-weight: 500; 
+    }
+    .text-bg-warning-custom { 
+        color: var(--color-white);
+        background-color: var(--color-info-warning);
+    }
+
 /* =====================================================
    COULEURS UTILITAIRES
 ===================================================== */
@@ -165,5 +213,7 @@ thead tr.custom-color-a {
 .custom-color-h { color: var(--color-dark-purple); }
 .custom-color-i { color: var(--color-dark-gray); }
 .custom-success { color: var(--color-success); }
+.custom-warning { color: var(--color-info-warning);}
+.custom-danger { color: var(--color-info-danger); }
 
 

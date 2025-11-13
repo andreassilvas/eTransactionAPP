@@ -78,11 +78,11 @@ $router->get('/expedition', function (): void {
     require __DIR__ . '/app/Views/expedition/index.php';
 });
 
-/* =============== Tableau de Bord page (protected)======================
+/* =============== Tableau de Bord page (protected) Dashboard============
 ========================================================================= */
 $router->get('/tableau-de-bord', function (): void {
     authMiddleware();
-    $controller = new \App\Controllers\TableauDeBordController();
+    $controller = new \App\Controllers\DashboardController();
     $controller->index();
 });
 
@@ -147,6 +147,7 @@ $router->get('/geo/cities/show', function (): void {
     authMiddleware();
     (new \App\Controllers\GeoController())->cityShow();
 });
+
 
 
 /* Handle form submission */

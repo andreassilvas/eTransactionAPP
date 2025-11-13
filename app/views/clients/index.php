@@ -6,15 +6,11 @@
     $logoutUrl = BASE_URL . '/connexion';
     include __DIR__ . '/../layouts/nav_inv.php'; ?>
 
-    <div class="container-fluid my-5">
-        <div class=" row">
+    <div class="container-fluid p-4">
+        <div class="row">
             <div class="col mb-3">
-                <div class="card bg-light">
-                    <div class="card-body">
-                        <?php require __DIR__ . '/clients_form.php'; ?>
-                        <?php require_once __DIR__ . '/../layouts/modals/success.php'; ?>
-                    </div>
-                </div>
+                <?php require __DIR__ . '/clients_form.php'; ?>
+                <?php require_once __DIR__ . '/../layouts/modals/success.php'; ?>
             </div>
         </div>
     </div>

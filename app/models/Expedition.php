@@ -137,4 +137,19 @@ class Expedition extends Model
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    // App/Models/Expedition.php
+
+    public function getStatusSummary(): array
+    {
+        $sql = "
+        SELECT
+            SUM(CASE WHEN status = 'pending'   THEN 1 ELSE 0 END) AS pending,
+            SUM(CASE WHEN status = 'shipped'   THEN 1 ELSE 0 END) AS shipped,
+            SUM(CASE WHEN status = 'delivered' THEN 1 ELSE 0 END) AS delivered
+        FROM {$this->table}
+    ";
+        $stmt = $this->db->query($sql);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
 }

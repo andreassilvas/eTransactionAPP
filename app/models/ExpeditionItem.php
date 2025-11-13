@@ -52,4 +52,25 @@ class ExpeditionItem extends Model
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+    // App/Models/ExpeditionItem.php
+
+    public function getTopShippedProducts(int $limit = 5): array
+    {
+        $sql = "
+        SELECT p.name AS product_name,
+               SUM(ei.quantity) AS total_quantity
+        FROM {$this->table} ei
+        INNER JOIN expeditions e ON e.id = ei.expedition_id
+        INNER JOIN products   p ON p.id = ei.product_id
+        WHERE e.status IN ('shipped', 'delivered')
+        GROUP BY ei.product_id
+        ORDER BY total_quantity DESC
+        LIMIT :limit
+    ";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
 }

@@ -2,22 +2,14 @@
 <?php include __DIR__ . '/../layouts/header.php'; ?>
 
 <body>
-    <?php $activeStep = 1;
+    <?php $activeStep = 3;
     $logoutUrl = BASE_URL . '/connexion';
     include __DIR__ . '/../layouts/nav_inv.php'; ?>
 
-    <div class="container my-5">
+    <div class="container-fluid py-5 px-5">
         <div class=" row">
             <div class="col mb-3">
-                <div class="mar-left mb-4">
-                    <h3 class="custom-color-i">Tableau de Bord</h3>
-                </div>
-                <div class="card rounded-4">
-                    <div class="card-body">
-                        <?php require __DIR__ . '/tableau_form.php'; ?>
-                        <?php require __DIR__ . '/tableau_notifications.php'; ?>
-                    </div>
-                </div>
+                <?php require __DIR__ . '/products_form.php'; ?>
             </div>
         </div>
     </div>

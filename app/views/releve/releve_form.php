@@ -32,6 +32,6 @@ if (!empty($transactions)) {
 
 
 
-renderTableWithPagination($transactions, $headers, $fields, 5, 'custom', $_SESSION['client_name'] ?? '', $solde);
+renderTableWithPagination($transactions, "Releve Bancaire", $headers, $fields, 5, 'custom', $_SESSION['client_name'] ?? '', $solde);
 
 
