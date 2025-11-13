@@ -20,7 +20,7 @@ function initHealthChart(healthPct) {
       datasets: [
         {
           data: [healthPct, 100 - healthPct],
-          backgroundColor: ["#198754", "#e9ecef"],
+          backgroundColor: ["#00738A", "#e9ecef"],
           borderWidth: 0,
         },
       ],
@@ -50,6 +50,7 @@ function initCategoryChart(stockByCategory) {
         {
           data: values,
           borderWidth: 1,
+          backgroundColor: ["#DFEFB2"],
         },
       ],
     },
@@ -77,6 +78,7 @@ function initExpeditionChart(expStatus) {
             Number(expStatus.shipped || 0),
             Number(expStatus.delivered || 0),
           ],
+          backgroundColor: ["#5C5CFF", "#ADEBB3", "#198754"],
           borderWidth: 0,
         },
       ],
