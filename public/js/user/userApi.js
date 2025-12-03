@@ -1,5 +1,5 @@
 // UMD-ish namespace so it works without a bundler
-window.ClientAPI = (function () {
+window.UserAPI = (function () {
   const API = window.API || "/gestion-utilisateurs";
 
   const esc = (s) =>

@@ -27,10 +27,10 @@ class ExpeditionItem extends Model
     {
         $sql = "INSERT INTO $this->table (expedition_id, product_id, quantity, unit_price)
                 VALUES (:expedition_id, :product_id, :quantity, :unit_price)";
-        $stmt = $this->db->prepare($sql);
+        $sqlcreate = $this->db->prepare($sql);
 
         // Exécute la requête avec les données fournies
-        return $stmt->execute($data);
+        return $sqlcreate->execute($data);
     }
 
     /**
@@ -47,30 +47,48 @@ class ExpeditionItem extends Model
                 FROM $this->table ei
                 INNER JOIN products p ON ei.product_id = p.id
                 WHERE ei.expedition_id = :expedition_id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':expedition_id', $expeditionId, \PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $sqlexpedition = $this->db->prepare($sql);
+        $sqlexpedition->bindParam(':expedition_id', $expeditionId, \PDO::PARAM_INT);
+        $sqlexpedition->execute();
+        return $sqlexpedition->fetchAll(\PDO::FETCH_ASSOC);
     }
-    // App/Models/ExpeditionItem.php
 
-    public function getTopShippedProducts(int $limit = 5): array
+    public function getTotalExpeditionQuantity(): int
     {
+        $sql = "
+        SELECT SUM(ei.quantity) AS total_quantity
+        FROM expedition_items ei
+        INNER JOIN expeditions e ON e.id = ei.expedition_id
+        WHERE e.status IN ('pending', 'shipped', 'delivered')
+        ";
+        $sqlshipped = $this->db->prepare($sql);
+        $sqlshipped->execute();
+        $result = $sqlshipped->fetch(\PDO::FETCH_ASSOC);
+        return (int) ($result['total_quantity'] ?? 0);
+    }
+
+    public function getTopProductsByStatus(string $status, int $limit = 5): array
+    {
+        $status_stage = ['delivered', 'shipped', 'pending'];
+        if (!in_array($status, $status_stage))
+            return [];
+
         $sql = "
         SELECT p.name AS product_name,
                SUM(ei.quantity) AS total_quantity
         FROM {$this->table} ei
         INNER JOIN expeditions e ON e.id = ei.expedition_id
-        INNER JOIN products   p ON p.id = ei.product_id
-        WHERE e.status IN ('shipped', 'delivered')
+        INNER JOIN products p ON p.id = ei.product_id
+        WHERE e.status = :status
         GROUP BY ei.product_id
         ORDER BY total_quantity DESC
         LIMIT :limit
     ";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-    }
+        $sqlstatus = $this->db->prepare($sql);
+        $sqlstatus->bindValue(':status', $status);
+        $sqlstatus->bindValue(':limit', $limit, \PDO::PARAM_INT);
+        $sqlstatus->execute();
 
+        return $sqlstatus->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }

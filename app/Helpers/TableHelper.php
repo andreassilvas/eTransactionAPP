@@ -11,6 +11,7 @@
  * @param string $customClass Classe CSS personnalisée (facultatif).
  * @param string|null $clientName Nom du client au-dessus du tableau (optionnel).
  * @param float|null  $solde  Solde au-dessus du tableau (optionnel).
+ * @param string|null $name   Bouton d'action  
  */
 function renderDataTable(
     array $data,
@@ -20,7 +21,8 @@ function renderDataTable(
     array $fields,
     string $customClass = '',
     ?string $clientName = null,
-    ?float $solde = null
+    ?float $solde = null,
+    ?string $useBtn = null
 ) {
     $clientName = $clientName ? htmlspecialchars($clientName) : null;
     ?>
@@ -29,6 +31,20 @@ function renderDataTable(
         <div class="card-body">
             <?php if ($cardHeader): ?>
                 <h3 class="card-title custom-color-i pb-3 pt-4"><?= htmlspecialchars($cardHeader) ?></h3>
+            <?php endif; ?>
+            <?php if ($useBtn): ?>
+                <div class="d-flex justify-content-start align-items-center mb-2 mt-5">
+                    <?php
+                    $btnText = "Ajouter un utilisateur";
+                    $btnId = "ajouterUtilisateur";
+                    $btnBg = '#5C5CFF';
+                    $btnBorder = '#5C5CFF';
+                    $btnTextColor = '#fff';
+                    $btnHoverBg = '#00738A';
+                    $btnHoverBorder = '#00738A';
+                    include __DIR__ . '/../Views/components/base_button.php';
+                    ?>
+                </div>
             <?php endif; ?>
 
             <?php if ($clientName): ?>

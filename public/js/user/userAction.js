@@ -1,5 +1,5 @@
-window.ClientTableView = (function () {
-  const { esc } = window.ClientAPI;
+window.UserAction = (function () {
+  const { esc } = window.UserAPI;
 
   const input = (val, type = "text", nameAttr = "", opts = {}) => {
     const attrs = [
@@ -55,10 +55,10 @@ window.ClientTableView = (function () {
   const editBtns = () => `
     <div class="d-grid gap-2 d-md-block">
       <button type="button" class="btn btn-sm btn-save custom-btn-bg">
-        <i class="fa-solid fa-check custom-check-icon"></i>
+        <i class="fa-solid fa-check custom-check-icon fa-lg"></i>
       </button>
       <button type="button" class="btn btn-sm btn-cancel custom-btn-bg">
-        <i class="fa-solid fa-xmark custom-close-icon"></i>
+        <i class="fa-solid fa-xmark custom-close-icon fa-lg"></i>
       </button>
     </div>`;
 

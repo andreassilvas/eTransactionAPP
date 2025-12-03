@@ -31,6 +31,10 @@ function initHealthChart(healthPct) {
       plugins: {
         legend: { position: "bottom" },
       },
+      animation: {
+        duration: 1000,
+        easing: "easeOutQuart",
+      },
     },
   });
 }
@@ -50,7 +54,7 @@ function initCategoryChart(stockByCategory) {
         {
           data: values,
           borderWidth: 1,
-          backgroundColor: ["#DFEFB2"],
+          backgroundColor: ["#751253", "#B5C7EB"],
         },
       ],
     },
@@ -58,6 +62,10 @@ function initCategoryChart(stockByCategory) {
       plugins: { legend: { display: false } },
       scales: {
         y: { beginAtZero: true },
+      },
+      animation: {
+        duration: 1000,
+        easing: "easeOutQuart",
       },
     },
   });
@@ -87,6 +95,10 @@ function initExpeditionChart(expStatus) {
       cutout: "60%",
       plugins: {
         legend: { position: "bottom" },
+      },
+      animation: {
+        duration: 1000,
+        easing: "easeOutQuart",
       },
     },
   });

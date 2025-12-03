@@ -48,11 +48,9 @@ class Client extends Model
     }
 
     /* ---------- Listing ---------- */
-
-    /** Do NOT return password to the frontend */
     public function all(): array
     {
-        $sql = "SELECT id, name, lastname, phone, extention, email, address, city, province, postcode
+        $sql = "SELECT id, name, lastname, phone, extention, email, address, city, province, postcode, password
                 FROM {$this->table}
                 ORDER BY id DESC";
         return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);

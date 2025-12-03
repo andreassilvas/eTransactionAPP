@@ -4,11 +4,11 @@
             <?php
             $btnText = "Ajouter un utilisateur";
             $btnId = "ajouterUtilisateur";
-            $btnBg = '#00738A';
-            $btnBorder = '#00738A';
+            $btnBg = '#5C5CFF';
+            $btnBorder = '#5C5CFF';
             $btnTextColor = '#fff';
-            $btnHoverBg = '#00738A';
-            $btnHoverBorder = '#00738A';
+            $btnHoverBg = '#7F00FF';
+            $btnHoverBorder = '#7F00FF';
             include __DIR__ . '/../components/base_button.php';
             ?>
         </div>
@@ -34,11 +34,11 @@
     </div>
 </div>
 <script src="public/js/validation-lib.js"></script>
-<script src="public/js/clientApi.js"></script>
-<script src="public/js/geoApi.js"></script>
-<script src="public/js/clientTableView.js"></script>
+<script src="public/js/user/userApi.js"></script>
+<script src="public/js/user/geoApi.js"></script>
+<script src="public/js/user/userAction.js"></script>
 
 <script>
     const API = "<?= rtrim(BASE_URL, '/') ?>/gestion-utilisateurs";
 </script>
-<script src="public/js/clientManagement.js"></script>
+<script src="public/js/user/userManagement.js"></script>

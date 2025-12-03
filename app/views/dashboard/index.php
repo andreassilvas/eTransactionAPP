@@ -10,13 +10,4 @@
         <?php require __DIR__ . '/dashboard_form.php'; ?>
     </div>
 
-
-
-    <!-- <?php
-    // Test the session
-    echo '<pre>';
-    print_r($_SESSION);
-    echo '</pre>';
-    ?> -->
-
     <?php require_once __DIR__ . '/../layouts/footer.php'; ?>

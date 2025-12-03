@@ -7,7 +7,7 @@ use App\Models\ExpeditionItem;
 
 class DashboardController
 {
-    public function index(): void
+    public function index(string $view = 'dashboard/index.php'): void
     {
         $productModel = new Products();
         $expeditionModel = new Expedition();
@@ -18,9 +18,12 @@ class DashboardController
         $criticalProducts = $productModel->getCriticalProducts(5);
 
         $expStatus = $expeditionModel->getStatusSummary();
-        $topShipped = $expeditionItemModel->getTopShippedProducts(5);
+        $totalExpeditions = $expeditionItemModel->getTotalExpeditionQuantity();
+        $delivered = $expeditionItemModel->getTopProductsByStatus('delivered', 5);
+        $shipped = $expeditionItemModel->getTopProductsByStatus('shipped', 5);
+        $pending = $expeditionItemModel->getTopProductsByStatus('pending', 5);
 
         // Pass everything to the view
-        require __DIR__ . '/../Views/dashboard/index.php';
+        require __DIR__ . '/../Views/' . $view;
     }
 }

@@ -83,14 +83,7 @@ $router->get('/expedition', function (): void {
 $router->get('/tableau-de-bord', function (): void {
     authMiddleware();
     $controller = new \App\Controllers\DashboardController();
-    $controller->index();
-});
-
-/*Ajouter / Modifier un Produit page (protected)*/
-$router->get('/ajouter-modifier-produit', function (): void {
-    authMiddleware();
-    $controller = new \App\Controllers\ProductController();
-    $controller->index();
+    $controller->index('dashboard/index.php');
 });
 
 /* Voir les Produits en stock page (protected) */
@@ -99,6 +92,20 @@ $router->get('/produits-en-stock', function (): void {
     $controller = new \App\Controllers\ProductController();
     $controller->index();
 });
+
+/* Voir les Produits livré page (protected) */
+$router->get('/produits-livre', function (): void {
+    authMiddleware();
+    $controller = new \App\Controllers\DashboardController();
+    $controller->index('products_delivered/index.php');
+});
+
+// /*Ajouter / Modifier un Produit page (protected)*/
+// $router->get('/gestion-des-produits', function (): void {
+//     authMiddleware();
+//     $controller = new \App\Controllers\ProductController();
+//     $controller->index();
+// });
 
 /* Gestion des Utilisateurs (protected) */
 $router->get('/gestion-utilisateurs', function (): void {

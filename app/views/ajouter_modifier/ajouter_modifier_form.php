@@ -20,5 +20,5 @@ $fields = [
     'stock' => null,
 ];
 
-renderTableWithPagination($products, $headers, $fields, 5, 'custom-prod');
+renderDataTable($products, $headers, $fields, 5, 'custom-prod');
 

@@ -7,19 +7,7 @@
     include __DIR__ . '/../layouts/nav_inv.php'; ?>
 
     <div class="container-fluid p-4">
-        <div class=" row">
-            <div class="col mb-3">
-                <?php require __DIR__ . '/products_stock.php'; ?>
-            </div>
-        </div>
+        <?php require __DIR__ . '/delivered_product_page.php'; ?>
     </div>
-
-    <!-- <?php
-    // Test the session
-    echo '<pre>';
-    print_r($_SESSION);
-    echo '</pre>';
-
-    ?> -->
 
     <?php require_once __DIR__ . '/../layouts/footer.php'; ?>

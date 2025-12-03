@@ -2,7 +2,7 @@
 <?php include __DIR__ . '/../layouts/header.php'; ?>
 
 <body>
-    <?php $activeStep = 5;
+    <?php $activeStep = 3;
     $logoutUrl = BASE_URL . '/connexion';
     include __DIR__ . '/../layouts/nav_inv.php'; ?>
 

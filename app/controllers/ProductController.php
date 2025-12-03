@@ -29,6 +29,7 @@ class ProductController
 
         // Récupère tous les produits
         $products = $productModel->all();
+        $stockSummary = $productModel->getStockSummary();
 
         // Charge la vue des produits et lui transmet les données
         require __DIR__ . '/../Views/products/index.php';

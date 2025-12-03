@@ -15,6 +15,7 @@ class ClientManagementController
 
     public function index()
     {
+        $clients = $this->clients->all();
         require __DIR__ . "/../Views/clients/index.php";
     }
 

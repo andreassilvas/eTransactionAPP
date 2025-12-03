@@ -1,7 +1,7 @@
 // Controller: DataTable init + events + inline edit
 document.addEventListener("DOMContentLoaded", () => {
-  const { list, store, update, remove } = window.ClientAPI;
-  const { input, select, actionBtns, editBtns } = window.ClientTableView;
+  const { list, store, update, remove } = window.UserAPI;
+  const { input, select, actionBtns, editBtns } = window.UserAction;
   const { listProvinces, listCitiesByProvince } = window.GeoAPI;
 
   // province caches (controller state)
@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const provSel = td.querySelector('select[name="province"]');
         provSel.classList.add("dt-inline"); // ensure validation picks it up
 
-        // ✅ validate province right away so it gets is-valid/is-invalid immediately
+        //validate province right away so it gets is-valid/is-invalid immediately
         if (window.Validation) {
           window.Validation.validateFieldByName(provSel);
         }

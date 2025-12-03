@@ -10,6 +10,8 @@
     --color-gray: #6C7570;
     --color-dark-gray: #546373;
     --color-light-gray: #D3D3D3;
+    --color-indust-gray: #878787;
+    --color-alabaster: #E5E5F0;
     --color-white: #f2f2f2;
     /* --color-success: #008000;  */
     --color-success: #198754; 
@@ -54,15 +56,17 @@ nav#navbar-inventory .nav-link:focus {
     color: var(--color-light-violet);
 }
 
-
-
 .nav-link.custom-hover:focus, .nav-link.custom-hover:hover{
     color: var(--color-warning);
 }
 
 /* Navbar inactive */
-a.inactive {
+nav#navbar-releve a.inactive {
     color: var(--color-dark-gray);
+} 
+
+nav#navbar-inventory a.inactive {
+    color: var(--color-indust-gray)
 }
 
 /* Navbar Expeditions */
@@ -116,10 +120,16 @@ thead tr.custom-color-a {
     background-color: var(--color-dark-gray) !important;
     border-color: var(--color-dark-gray) !important;
 }
+
+.page-link.active,
+.active > .page-link  {
+    background-color: var(--color-purple-toned) !important;
+    border-color: var(--color-purple-toned) !important;
+}
 /* =======CLIENT PAGE ICONS======= */
 
 .custom-edit-icon {
-  color: var(--color-blue-toned);
+  color: var(--color-purple-toned);
 }
 
 /* Hovering the BUTTON also affects the icon */
@@ -137,15 +147,15 @@ thead tr.custom-color-a {
 
 /* Button base */
 .custom-btn-bg {
-  background-color: var(--color-white);
-  border-color: var(--color-blue-toned) !important;
+  background-color: var(--color-alabaster) !important;
+  border-color: var(--color-alabaster) !important;
 }
 
 /* Button hover/focus/active */
 .custom-btn-bg:hover,
 .custom-btn-bg:focus,
 .custom-btn-bg:active {
-  background-color: var(--color-blue-toned) !important;
+  background-color: var(--color-purple-toned) !important;
   color: var(--color-white) !important;
   border-color: inherit !important;
   box-shadow: none !important;
@@ -170,7 +180,10 @@ thead tr.custom-color-a {
 .card-header.custom-color-notifications {
     background-color: var(--color-dark-gray);
 }
-
+.card-header.custom-header-dashboard{
+    background-color: var(--color-dark-purple);
+    color: var(--color-light-gray)
+}
 /*==========Dashboard==========*/
     .card-kpi {
         text-align: center;
@@ -198,10 +211,7 @@ thead tr.custom-color-a {
         justify-content: center;
         font-weight: 600;
     }
-    .card-header.custom-header-dashboard{
-        background-color: var(--color-dark-purple);
-        color: var(--color-light-gray)
-    }
+
     th.custom-color-i{
          color: var(--color-dark-gray) !important; 
     }
@@ -216,8 +226,11 @@ thead tr.custom-color-a {
     #chart-health, #chart-expedition {
         height: 350px !important;
         width: 350px !important;    
-}
-
+    }
+    .custom-health-table > tr > th{
+        color: var(--color-light-gray);
+        background-color: var(--color-dark-purple);
+    }
 /* =====================================================
    COULEURS UTILITAIRES
 ===================================================== */

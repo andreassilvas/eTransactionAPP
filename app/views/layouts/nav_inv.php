@@ -21,31 +21,9 @@ $logoutUrl = $logoutUrl ?? BASE_URL . '/logout.php';
         </li>
         <li class="nav-item">
             <a class="nav-link d-flex align-items-center gap-3 <?= $activeStep == 2 ? 'active-step-c' : 'inactive' ?>"
-                href="<?= BASE_URL . '/ajouter-modifier-produit' ?>">
+                href="<?= BASE_URL . '/gestion-des-produits' ?>">
                 <span
                     class="badge rounded-circle d-flex align-items-center justify-content-center <?= $activeStep == 2 ? 'active-step-c' : 'text-bg-secondary' ?>"
-                    style="width: 32px; height: 32px;">
-                    <i class="fa-solid fa-plus"></i>
-                </span>
-                Ajouter / Modifier un Produit
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-3 <?= $activeStep == 3 ? 'active-step-c' : 'inactive' ?>"
-                href="<?= BASE_URL . '/produits-en-stock' ?>">
-                <span
-                    class="badge rounded-circle d-flex align-items-center justify-content-center <?= $activeStep == 3 ? 'active-step-c' : 'text-bg-secondary' ?>"
-                    style="width: 32px; height: 32px;">
-                    <i class="fa-solid fa-eye"></i>
-                </span>
-                Voir les Produits en stock
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-3 <?= $activeStep == 4 ? 'active-step-c' : 'inactive' ?>"
-                href="<?= BASE_URL . '/produits' ?>">
-                <span
-                    class="badge rounded-circle d-flex align-items-center justify-content-center <?= $activeStep == 4 ? 'active-step-c' : 'text-bg-secondary' ?>"
                     style="width: 32px; height: 32px;">
                     <i class="fa-solid fa-list-check"></i>
                 </span>
@@ -53,10 +31,10 @@ $logoutUrl = $logoutUrl ?? BASE_URL . '/logout.php';
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-3 <?= $activeStep == 5 ? 'active-step-c' : 'inactive' ?>"
+            <a class="nav-link d-flex align-items-center gap-3 <?= $activeStep == 3 ? 'active-step-c' : 'inactive' ?>"
                 href="<?= BASE_URL ?>/gestion-utilisateurs">
                 <span
-                    class="badge rounded-circle d-flex align-items-center justify-content-center <?= $activeStep == 5 ? 'active-step-c' : 'text-bg-secondary' ?>"
+                    class="badge rounded-circle d-flex align-items-center justify-content-center <?= $activeStep == 3 ? 'active-step-c' : 'text-bg-secondary' ?>"
                     style="width: 32px; height: 32px;">
                     <i class="fa-solid fa-users"></i>
                 </span>

@@ -4,7 +4,7 @@ $stockSummary = $stockSummary ?? [];
 $stockByCategory = $stockByCategory ?? [];
 $criticalProducts = $criticalProducts ?? [];
 $expStatus = $expStatus ?? [];
-$topShipped = $topShipped ?? [];
+
 
 // compute health percentage
 $total = (int) ($stockSummary['total_products'] ?? 0);
@@ -22,7 +22,9 @@ $health = $total > 0 ? round($ok * 100 / $total) : 0;
             <div class="col-6 col-md-3">
                 <div class="card card-kpi shadow-sm">
                     <div class="card-body custom-color-i">
-                        <span class="label">Total produits</span>
+                        <a href="<?= BASE_URL . '/produits-en-stock' ?>">
+                            <span class="label">Produits en stock</span>
+                        </a>
                         <h2><?= (int) $stockSummary['total_products'] ?></h2>
                     </div>
                 </div>
@@ -30,7 +32,7 @@ $health = $total > 0 ? round($ok * 100 / $total) : 0;
             <div class="col-6 col-md-3">
                 <div class="card card-kpi shadow-sm">
                     <div class="card-body">
-                        <span class="label custom-warning">Sous min (1–5)</span>
+                        <span class="label custom-warning">Faible stock(1–5)</span>
                         <h2 class="custom-warning"><?= (int) $stockSummary['low_stock'] ?></h2>
                     </div>
                 </div>
@@ -46,8 +48,10 @@ $health = $total > 0 ? round($ok * 100 / $total) : 0;
             <div class="col-6 col-md-3">
                 <div class="card card-kpi shadow-sm">
                     <div class="card-body">
-                        <span class="label text-success">Expéditions livrées</span>
-                        <h2 class="text-success"><?= (int) ($expStatus['delivered'] ?? 0) ?></h2>
+                        <a href="<?= BASE_URL . '/produits-livre' ?>">
+                            <span class="label text-success">Produits expédiés</span>
+                        </a>
+                        <h2 class="text-success"><?= $totalExpeditions ?></h2>
                     </div>
                 </div>
             </div>
@@ -96,7 +100,7 @@ $health = $total > 0 ? round($ok * 100 / $total) : 0;
                                     <?php
                                     $isOut = ((int) $p['stock'] === 0);
                                     $badgeClass = $isOut ? 'danger' : 'warning-custom';
-                                    $badgeText = $isOut ? 'RUPTURE' : 'Sous min';
+                                    $badgeText = $isOut ? 'RUPTURE' : 'Faible stock';
                                     ?>
                                     <div class="list-group-item d-flex align-items-center gap-3">
                                         <div class="avatar-circle flex-shrink-0">
@@ -116,45 +120,6 @@ $health = $total > 0 ? round($ok * 100 / $total) : 0;
                                     </div>
                                 <?php endforeach; ?>
                             </div>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row g-3">
-            <div class="col-md-4">
-                <div class="card shadow-sm h-100">
-                    <div class="card-header text-center fw-semibold custom-header-dashboard">Statut des expéditions
-                    </div>
-                    <div class="card-body d-flex flex-column align-items-center justify-content-center">
-                        <canvas id="chart-expedition"></canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="card shadow-sm h-100">
-                    <div class="card-header text-center fw-semibold custom-header-dashboard">Top produits expédiés</div>
-                    <div class="card-body">
-                        <?php if (empty($topShipped)): ?>
-                            <div class="text-muted small custom-color-i">Aucune expédition enregistrée.</div>
-                        <?php else: ?>
-                            <table class="table mb-0 align-middle">
-                                <thead>
-                                    <tr>
-                                        <th class="custom-color-i">Produit</th>
-                                        <th class="text-end custom-color-i">Quantité expédiée</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($topShipped as $item): ?>
-                                        <tr>
-                                            <td class="custom-success"><?= htmlspecialchars($item['product_name']) ?></td>
-                                            <td class="text-end custom-success"><?= (int) $item['total_quantity'] ?></td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
                         <?php endif; ?>
                     </div>
                 </div>
