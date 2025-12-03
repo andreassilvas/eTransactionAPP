@@ -20,14 +20,14 @@ $health = $total > 0 ? round($ok * 100 / $total) : 0;
         <!-- TOP KPIs -->
         <div class="row g-3 mb-4">
             <div class="col-6 col-md-3">
-                <div class="card card-kpi shadow-sm">
-                    <div class="card-body custom-color-i">
-                        <a href="<?= BASE_URL . '/produits-en-stock' ?>">
+                <a href="<?= BASE_URL . '/produits-en-stock' ?>" class="text-decoration-none">
+                    <div class="card card-kpi shadow-sm card-clickable">
+                        <div class="card-body custom-color-i">
                             <span class="label">Produits en stock</span>
-                        </a>
-                        <h2><?= (int) $stockSummary['total_products'] ?></h2>
+                            <h2><?= (int) $stockSummary['total_products'] ?></h2>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-6 col-md-3">
                 <div class="card card-kpi shadow-sm">
@@ -46,14 +46,14 @@ $health = $total > 0 ? round($ok * 100 / $total) : 0;
                 </div>
             </div>
             <div class="col-6 col-md-3">
-                <div class="card card-kpi shadow-sm">
-                    <div class="card-body">
-                        <a href="<?= BASE_URL . '/produits-livre' ?>">
+                <a href="<?= BASE_URL . '/produits-livre' ?>" class="text-decoration-none">
+                    <div class="card card-kpi shadow-sm card-clickable">
+                        <div class="card-body">
                             <span class="label text-success">Produits expédiés</span>
-                        </a>
-                        <h2 class="text-success"><?= $totalExpeditions ?></h2>
+                            <h2 class="text-success"><?= $totalExpeditions ?></h2>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
 
@@ -77,7 +77,7 @@ $health = $total > 0 ? round($ok * 100 / $total) : 0;
             <div class="col-md-4">
                 <div class="card shadow-sm h-100">
                     <div class="card-header text-center fw-semibold custom-header-dashboard">
-                        Stock total par catégorie
+                        Stock total de produits par catégorie
                     </div>
                     <div class="card-body">
                         <canvas id="chart-category" height="220"></canvas>
