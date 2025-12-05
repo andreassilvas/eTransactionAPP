@@ -4,9 +4,9 @@ require_once __DIR__ . '/../../Helpers/TableHelper.php';
 $headers = [
     ['text' => 'Date', 'style' => ''],
     ['text' => 'Description', 'style' => ''],
-    ['text' => 'Crédit', 'style' => ''],
-    ['text' => 'Débit', 'style' => ''],
-    ['text' => 'Balance', 'style' => '']
+    ['text' => 'Crédit', 'style' => 'text-align: end;'],
+    ['text' => 'Débit', 'style' => 'text-align: end;'],
+    ['text' => 'Balance', 'style' => 'text-align: end;']
 ];
 
 $fields = [

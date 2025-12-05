@@ -114,7 +114,7 @@ foreach ($products as $product) {
                     </div>
                     <div class="card-body table-responsive">
                         <table class="table table-hover align-middle mb-0" id="productsTable">
-                            <thead class="custom-health-table">
+                            <thead class="custom-product-stock-table">
                                 <tr>
                                     <th>ID</th>
                                     <th>Nom</th>

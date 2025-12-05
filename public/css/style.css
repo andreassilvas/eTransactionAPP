@@ -57,7 +57,8 @@ nav#navbar-inventory .nav-link:focus {
     color: var(--color-light-violet);
 }
 
-.nav-link.custom-hover:focus, .nav-link.custom-hover:hover{
+.nav-link.custom-hover:focus, 
+.nav-link.custom-hover:hover{
     color: var(--color-warning);
 }
 
@@ -103,7 +104,7 @@ thead tr.custom-color-a {
 
 /* =======PAGINATION======= */
 
-.releve-pagination .page-link.active,
+/* .releve-pagination .page-link.active,
 .releve-pagination .active > .page-link  {
     background-color: var(--color-primary-c) !important;
     border-color: var(--color-primary-c) !important;
@@ -120,14 +121,15 @@ thead tr.custom-color-a {
 .commands-pagination .active > .page-link  {
     background-color: var(--color-dark-gray) !important;
     border-color: var(--color-dark-gray) !important;
-}
+} */
 
 .page-link.active,
 .active > .page-link  {
-    background-color: var(--color-purple-toned) !important;
-    border-color: var(--color-purple-toned) !important;
+    background-color: var(--color-dark-gray) !important;
+    border-color: var(--color-dark-gray) !important;
 }
-/* =======CLIENT PAGE ICONS======= */
+
+/* ======= GESTION DES UTILISATEURS PAGE ICONS ======= */
 
 .custom-edit-icon {
   color: var(--color-purple-toned);
@@ -169,6 +171,46 @@ thead tr.custom-color-a {
     color: var(--color-info-danger);
 }
 
+/* ======= GESTION DES PRODUITS PAGE ICONS ======= */
+.custom-edit-icon-products {
+  color: var(--color-blue-toned);
+}
+
+/* Hovering the BUTTON also affects the icon */
+.custom-btn-bg-products:hover .custom-edit-icon-products,
+.custom-btn-bg-products:hover .custom-check-icon-products,
+.custom-btn-bg-products:hover .custom-close-icon-products,
+.custom-btn-bg-products:focus .custom-edit-icon-products,
+.custom-btn-bg-products:focus .custom-check-icon-products,
+.custom-btn-bg-products:focus .custom-close-icon-products,
+.custom-btn-bg-products:active .custom-edit-icon-products,
+.custom-btn-bg-products:active .custom-check-icon-products,
+.custom-btn-bg-products:active .custom-close-icon-products {
+  color: var(--color-white);
+}
+
+/* Button base */
+.custom-btn-bg-products {
+  background-color: var(--color-alabaster) !important;
+  border-color: var(--color-alabaster) !important;
+}
+
+/* Button hover/focus/active */
+.custom-btn-bg-products:hover,
+.custom-btn-bg-products:focus,
+.custom-btn-bg-products:active {
+  background-color: var(--color-blue-toned) !important;
+  color: var(--color-white) !important;
+  border-color: inherit !important;
+  box-shadow: none !important;
+}
+
+.custom-check-icon-products{
+    color: var(--color-success);
+}
+.custom-close-icon-products{
+    color: var(--color-info-danger);
+}
 
 /* =======CARDS======= */
 .card-header.custom-color-inventaire, 
@@ -231,9 +273,28 @@ thead tr.custom-color-a {
         height: 350px !important;
         width: 350px !important;    
     }
-    .custom-health-table > tr > th{
+
+     .custom-product-stock-table > tr > th{
         color: var(--color-light-gray);
         background-color: var(--color-dark-purple);
+    }
+    .custom-gestion-product-table > tr > th{
+        color: var(--color-light-gray);
+        background-color: var( --color-blue-toned);
+    }
+    .custom-gestion-utilisateurs-table > tr > th{
+        color: var(--color-light-gray);
+        background-color: var(--color-purple-toned);
+    }
+
+    /*========== SEARCH INPUT ==========*/
+    div.dataTables_wrapper div.dataTables_filter input {
+        border: 2px solid #878787;
+        border-radius: 8px;
+        font-size: 16px;
+        outline: none;
+        transition: all 0.3s ease;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
     }
 /* =====================================================
    COULEURS UTILITAIRES

@@ -13,7 +13,7 @@
             ?>
         </div>
         <table id="tbl" class="table table-hover w-100 pt-4 pb-4">
-            <thead>
+            <thead class="custom-gestion-utilisateurs-table">
                 <tr>
                     <th>Id</th>
                     <th>Prénom</th>

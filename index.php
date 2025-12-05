@@ -90,7 +90,7 @@ $router->get('/tableau-de-bord', function (): void {
 $router->get('/produits-en-stock', function (): void {
     authMiddleware();
     $controller = new \App\Controllers\ProductController();
-    $controller->index();
+    $controller->index('products/index.php');
 });
 
 /* Voir les Produits livré page (protected) */
@@ -100,12 +100,69 @@ $router->get('/produits-livre', function (): void {
     $controller->index('products_delivered/index.php');
 });
 
-// /*Ajouter / Modifier un Produit page (protected)*/
-// $router->get('/gestion-des-produits', function (): void {
-//     authMiddleware();
-//     $controller = new \App\Controllers\ProductController();
-//     $controller->index();
-// });
+/* Gestion des produits page (protected)*/
+$router->get('/gestion-des-produits', function (): void {
+    authMiddleware();
+    $controller = new \App\Controllers\ProductController();
+    $controller->index('product_management/index.php');
+});
+
+$router->get('/gestion-des-produits/list', function () {
+    authMiddleware();
+    (new \App\Controllers\ProductController())->list();
+});
+$router->post('/gestion-des-produits/store', function () {
+    // authMiddleware();
+    (new \App\Controllers\ProductController())->store();
+});
+$router->post('/gestion-des-produits/update', function () {
+    authMiddleware();
+    (new \App\Controllers\ProductController())->update();
+});
+$router->get('/gestion-des-produits/delete', function () {
+    authMiddleware();
+    (new \App\Controllers\ProductController())->delete();
+});
+$router->get('/gestion-des-produits/options/category', function () {
+    authMiddleware();
+    (new \App\Controllers\ProductController())->options('category');
+});
+
+$router->get('/gestion-des-produits/options/brand', function () {
+    authMiddleware();
+    (new \App\Controllers\ProductController())->options('brand');
+});
+
+$router->get('/gestion-des-produits/options/model', function () {
+    authMiddleware();
+    (new \App\Controllers\ProductController())->options('model');
+});
+
+$router->get('/gestion-des-produits/options/supplier', function () {
+    authMiddleware();
+    (new \App\Controllers\ProductController())->options('supplier');
+});
+
+$router->get('/gestion-des-produits/options/warranty_period', function () {
+    authMiddleware();
+    (new \App\Controllers\ProductController())->options('warranty_period');
+});
+
+$router->get('/gestion-des-produits/options/support_level', function () {
+    authMiddleware();
+    (new \App\Controllers\ProductController())->options('support_level');
+});
+
+
+
+
+
+
+
+
+
+
+
 
 /* Gestion des Utilisateurs (protected) */
 $router->get('/gestion-utilisateurs', function (): void {
@@ -118,7 +175,7 @@ $router->get('/gestion-utilisateurs/list', function () {
     (new \App\Controllers\ClientManagementController())->list();
 });
 $router->post('/gestion-utilisateurs/store', function () {
-    authMiddleware();
+    // authMiddleware();
     (new \App\Controllers\ClientManagementController())->store();
 });
 $router->post('/gestion-utilisateurs/update', function () {
@@ -155,6 +212,7 @@ $router->get('/geo/cities/show', function (): void {
     (new \App\Controllers\GeoController())->cityShow();
 });
 
+/* Gestion des produits (protected) */
 
 
 /* Handle form submission */

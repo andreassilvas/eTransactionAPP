@@ -67,7 +67,13 @@ function renderDataTable(
                         <thead>
                             <tr>
                                 <?php foreach ($headers as $header): ?>
-                                    <th <?= !empty($header['style']) ? "style=\"{$header['style']}\"" : '' ?>>
+                                    <?php
+                                        $thClass = '';
+                                        if (in_array($header['text'], ['Crédit', 'Débit', 'Balance'], true)) {
+                                            $thClass = 'px-5';
+                                        }
+                                        ?>
+                                    <th class="<?= $thClass ?>" <?= !empty($header['style']) ? "style=\"{$header['style']}\"" : '' ?>>
                                         <?= htmlspecialchars($header['text']) ?>
                                     </th>
                                 <?php endforeach; ?>
@@ -80,7 +86,7 @@ function renderDataTable(
                                         <?php
                                         $tdClass = '';
                                         if (in_array($key, ['credit', 'debit', 'balance'], true)) {
-                                            $tdClass = 'text-start';
+                                            $tdClass = 'text-end px-5';
                                         }
                                         $value = $row[$key] ?? '';
                                         ?>

@@ -53,8 +53,8 @@ class Products extends Model
      */
     public function create($data)
     {
-        $sql = "INSERT INTO $this->table (name, category, brand, model, specs, price, stock, warranty_period, support_level, supplier)
-                VALUES (:name, :category, :brand, :model, :specs, :price, :stock, :warranty_period, :support_level, :supplier)";
+        $sql = "INSERT INTO $this->table (name, category, brand, model, specs_desc, price, stock, warranty_period, support_level, supplier)
+                VALUES (:name, :category, :brand, :model, :specs_desc, :price, :stock, :warranty_period, :support_level, :supplier)";
         $stmt = $this->db->prepare($sql);
         $stmt->execute($data);
         return $this->db->lastInsertId();
@@ -67,16 +67,46 @@ class Products extends Model
      * @param array $data Données à mettre à jour
      * @return bool Succès de l'exécution
      */
-    public function update($id, $data)
+
+    public function update(int $id, array $data): bool
     {
-        $fields = [];
-        foreach ($data as $key => $value) {
-            $fields[] = "$key = :$key";
+        $allowedFields = [
+            'name',
+            'category',
+            'brand',
+            'model',
+            'specs_desc',
+            'price',
+            'stock',
+            'warranty_period',
+            'support_level',
+            'supplier'
+        ];
+
+        $set = [];
+        $params = [];
+
+        foreach ($allowedFields as $field) {
+            if (array_key_exists($field, $data)) {
+                $set[] = "$field = :$field";
+                $params[":$field"] = $data[$field];
+            }
         }
-        $sql = "UPDATE $this->table SET " . implode(", ", $fields) . " WHERE id = :id";
+
+        if (empty($set))
+            return false;
+
+        $sql = "UPDATE {$this->table} SET " . implode(", ", $set) . " WHERE id = :id";
+        $params[':id'] = $id;
+
         $stmt = $this->db->prepare($sql);
-        $data['id'] = $id;
-        return $stmt->execute($data);
+        return $stmt->execute($params);
+    }
+
+    public function delete(int $id): bool
+    {
+        $stmt = $this->db->prepare("DELETE FROM products WHERE id = :id");
+        return $stmt->execute([':id' => $id]);
     }
 
     // App/Models/Products.php
@@ -126,6 +156,15 @@ class Products extends Model
         $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getDistinctOptions($column)
+    {
+        $sql = "SELECT DISTINCT $column FROM {$this->table} 
+            WHERE $column IS NOT NULL AND $column != '' 
+            ORDER BY $column ASC";
+
+        $stmt = $this->db->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 
 }
