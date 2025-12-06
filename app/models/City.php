@@ -105,36 +105,4 @@ class City extends Model
         $row = $st->fetch(\PDO::FETCH_ASSOC);
         return $row ?: null;
     }
-
-    /** CRUD minimal (facultatif) */
-    public function create(array $data): bool
-    {
-        $sql = "INSERT INTO {$this->table} (province_id, name, slug, is_active)
-                VALUES (:province_id, :name, :slug, :is_active)";
-        $st = $this->db->prepare($sql);
-        return $st->execute([
-            ':province_id' => (int) $data['province_id'],
-            ':name' => $data['name'],
-            ':slug' => $data['slug'] ?? null,
-            ':is_active' => $data['is_active'] ?? 1,
-        ]);
-    }
-
-    public function updateById(int $id, array $data): bool
-    {
-        $sql = "UPDATE {$this->table}
-                   SET province_id = :province_id,
-                       name        = :name,
-                       slug        = :slug,
-                       is_active   = :is_active
-                 WHERE id = :id";
-        $st = $this->db->prepare($sql);
-        return $st->execute([
-            ':province_id' => (int) $data['province_id'],
-            ':name' => $data['name'],
-            ':slug' => $data['slug'] ?? null,
-            ':is_active' => $data['is_active'] ?? 1,
-            ':id' => $id,
-        ]);
-    }
 }

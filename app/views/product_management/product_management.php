@@ -1,5 +1,8 @@
 <div class="card px-3">
     <div class="card-body">
+        <h3 class="card-title custom-color-i pt-4">Administration des produits</h3>
+        <p class="card-text mb-4 custom-color-i">Gérez vos produits, suivez les stocks et mettez à jour les
+            informations.</p>
         <div class="d-flex justify-content-start align-items-center mb-5 mt-4">
             <?php
             $btnText = "Ajouter un nouveau produit";
@@ -7,11 +10,12 @@
             $btnBg = '#00738A';
             $btnBorder = '#00738A';
             $btnTextColor = '#fff';
-            $btnHoverBg = '#7F00FF';
-            $btnHoverBorder = '#7F00FF';
+            $btnHoverBg = '#005F84';
+            $btnHoverBorder = '#005F84';
             include __DIR__ . '/../components/base_button.php';
             ?>
         </div>
+
         <table id="tbl" class="table table-hover w-100 pt-4 pb-4">
             <thead class="custom-gestion-product-table">
                 <tr>
@@ -33,6 +37,7 @@
         </table>
     </div>
 </div>
+
 <script src="public/js/validation/gestionProductsValidation.js"></script>
 <script src="public/js/products/productApi.js"></script>
 <script src="public/js/products/productAction.js"></script>

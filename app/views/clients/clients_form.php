@@ -1,5 +1,8 @@
 <div class="card px-3">
     <div class="card-body">
+        <h3 class="card-title custom-color-i pt-4">Administration des utilisateurs</h3>
+        <p class="card-text mb-5 custom-color-i">Gestion des utilisateurs, ajouter, modifier et supprimer des
+            utilisateurs.</p>
         <div class="d-flex justify-content-start align-items-center mb-5 mt-4">
             <?php
             $btnText = "Ajouter un utilisateur";

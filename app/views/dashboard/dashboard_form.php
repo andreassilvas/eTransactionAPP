@@ -12,9 +12,9 @@ $ok = (int) ($stockSummary['ok_stock'] ?? 0);
 $health = $total > 0 ? round($ok * 100 / $total) : 0;
 ?>
 
-<div class="card py-4 px-5">
+<div class="card px-3">
     <div class="card-body">
-        <h3 class="card-title custom-color-i">Tableau de Bord - Inventaire & Expéditions</h3>
+        <h3 class="card-title custom-color-i pt-4">Tableau de Bord - Inventaire & Expéditions</h3>
         <p class="card-text mb-4 custom-color-i">Vue globale du stock, des alertes et des expéditions.</p>
 
         <!-- TOP KPIs -->

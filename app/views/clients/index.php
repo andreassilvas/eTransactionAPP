@@ -2,16 +2,15 @@
 <?php include __DIR__ . '/../layouts/header.php'; ?>
 
 <body>
-    <?php $activeStep = 3;
-    $logoutUrl = BASE_URL . '/connexion';
-    include __DIR__ . '/../layouts/nav_inv.php'; ?>
+    <?php $logoutUrl = BASE_URL . '/connexion';
+    include __DIR__ . '/../layouts/nav_top_dash.php'; ?>
 
-    <div class="container-fluid p-4">
-        <div class="row">
-            <div class="col mb-3">
-                <?php require __DIR__ . '/clients_form.php'; ?>
-                <?php require_once __DIR__ . '/../layouts/modals/success.php'; ?>
-            </div>
-        </div>
+    <div class="position-fixed top-0 start-0 h-100 border-end p-3 my-2" style="width: 260px;">
+        <?php include __DIR__ . '/../layouts/nav_side_dash.php'; ?>
     </div>
+
+    <div class="px-4" style="margin-left: 260px; overflow-y: auto;">
+        <?php require __DIR__ . '/clients_form.php'; ?>
+    </div>
+
     <?php require_once __DIR__ . '/../layouts/footer.php'; ?>

@@ -1,6 +1,6 @@
 // UMD-ish namespace so it works without a bundler
 window.ProductAPI = (function () {
-  const API = window.API || "/gestion-des-produits";
+  const API = window.API || "administration-des-produits";
 
   const esc = (s) =>
     String(s ?? "").replace(

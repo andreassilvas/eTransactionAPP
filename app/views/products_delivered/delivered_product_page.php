@@ -5,10 +5,10 @@ $delivered = $delivered ?? [];
 $pending = $pending ?? [];
 ?>
 
-<div class="card py-4 px-5">
+<div class="card px-3 pb-3">
     <div class="card-body">
-        <h3 class="card-title custom-color-i">Produits expédiés</h3>
-        <p class="card-text mb-4 custom-color-i">Vue globale du produits expédiés.</p>
+        <h3 class="card-title custom-color-i pt-4">Produits expédiés</h3>
+        <p class="card-text mb-5 custom-color-i">Vue globale du produits expédiés.</p>
 
         <div class="row g-3">
             <div class="col-md-3">

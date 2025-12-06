@@ -71,8 +71,6 @@ class ClientManagementController
         return $this->json(['ok' => true, 'rows' => $rows], 200);
     }
 
-
-
     public function delete()
     {
         $id = (int) ($_GET['id'] ?? 0);

@@ -101,54 +101,54 @@ $router->get('/produits-livre', function (): void {
 });
 
 /* Gestion des produits page (protected)*/
-$router->get('/gestion-des-produits', function (): void {
+$router->get('/administration-des-produits', function (): void {
     authMiddleware();
     $controller = new \App\Controllers\ProductController();
     $controller->index('product_management/index.php');
 });
 
-$router->get('/gestion-des-produits/list', function () {
+$router->get('/administration-des-produits/list', function () {
     authMiddleware();
     (new \App\Controllers\ProductController())->list();
 });
-$router->post('/gestion-des-produits/store', function () {
+$router->post('/administration-des-produits/store', function () {
     // authMiddleware();
     (new \App\Controllers\ProductController())->store();
 });
-$router->post('/gestion-des-produits/update', function () {
+$router->post('/administration-des-produits/update', function () {
     authMiddleware();
     (new \App\Controllers\ProductController())->update();
 });
-$router->get('/gestion-des-produits/delete', function () {
+$router->get('/administration-des-produits/delete', function () {
     authMiddleware();
     (new \App\Controllers\ProductController())->delete();
 });
-$router->get('/gestion-des-produits/options/category', function () {
+$router->get('/administration-des-produits/options/category', function () {
     authMiddleware();
     (new \App\Controllers\ProductController())->options('category');
 });
 
-$router->get('/gestion-des-produits/options/brand', function () {
+$router->get('/administration-des-produits/options/brand', function () {
     authMiddleware();
     (new \App\Controllers\ProductController())->options('brand');
 });
 
-$router->get('/gestion-des-produits/options/model', function () {
+$router->get('/administration-des-produits/options/model', function () {
     authMiddleware();
     (new \App\Controllers\ProductController())->options('model');
 });
 
-$router->get('/gestion-des-produits/options/supplier', function () {
+$router->get('/administration-des-produits/options/supplier', function () {
     authMiddleware();
     (new \App\Controllers\ProductController())->options('supplier');
 });
 
-$router->get('/gestion-des-produits/options/warranty_period', function () {
+$router->get('/administration-des-produits/options/warranty_period', function () {
     authMiddleware();
     (new \App\Controllers\ProductController())->options('warranty_period');
 });
 
-$router->get('/gestion-des-produits/options/support_level', function () {
+$router->get('/administration-des-produits/options/support_level', function () {
     authMiddleware();
     (new \App\Controllers\ProductController())->options('support_level');
 });

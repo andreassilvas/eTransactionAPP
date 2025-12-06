@@ -78,7 +78,7 @@ nav#navbar-inventory a.inactive {
 /* Navbar Relevés */
 .nav-link.active-step-b { color: var(--color-primary-c); }
 .navbar .badge.active-step-b { background-color: var(--color-primary-c); }
-.custom-navbar-releve { background-color: var(--color-navbar-releve) !important;}
+.custom-navbar-releve { background-color: var(--color-primary-c) !important;}
 
 /* Navbar Inventaire */
 .nav-link.active-step-c { color: var(--color-light-violet); }
@@ -213,9 +213,11 @@ thead tr.custom-color-a {
 }
 
 /* =======CARDS======= */
-.card-header.custom-color-inventaire, 
-.card-header.custom-color-releve{
+.card-header.custom-color-inventaire{
     background-color: var(--color-primary-c);
+}
+.card-header.custom-color-releve{
+    background-color: var(--color-green-toned);
 }
 .card-header.custom-color-expedition {
     background-color: var(--color-green-toned);

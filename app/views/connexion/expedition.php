@@ -1,5 +1,5 @@
 <div class="card">
-    <div class="card-header custom-color-white fw-semibold custom-color-expedition">Expédition</div>
+    <div class="card-header custom-color-white fw-semibold custom-color-expedition">Expédition Client</div>
     <div class="card-body">
         <h5 class="card-title mb-4 mt-3 custom-color-d">Connexion à l’expédition</h5>
         <p class="card-text mb-4">

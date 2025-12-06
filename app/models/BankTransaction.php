@@ -55,26 +55,6 @@ class BankTransaction
     }
 
     /**
-     * Récupère le solde le plus récent pour un client donné.
-     *
-     * @param int $clientId Identifiant du client
-     * @return float Solde actuel ou 0.00 si aucune transaction
-     */
-    public function getBalance($clientId)
-    {
-        $sql = "SELECT balance 
-                FROM {$this->table} 
-                WHERE client_id = :client_id 
-                ORDER BY transaction_date DESC 
-                LIMIT 1";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([':client_id' => $clientId]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $row ? floatval($row['balance']) : 0.00;
-    }
-
-    /**
      * Crée une nouvelle transaction bancaire (crédit ou débit).
      *
      * @param array $data Données de la transaction :

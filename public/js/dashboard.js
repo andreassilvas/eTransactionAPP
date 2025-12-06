@@ -54,7 +54,7 @@ function initCategoryChart(stockByCategory) {
         {
           data: values,
           borderWidth: 1,
-          backgroundColor: ["#751253", "#B5C7EB"],
+          backgroundColor: ["#751253", "#5C5CFF"],
         },
       ],
     },

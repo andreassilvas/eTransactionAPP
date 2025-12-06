@@ -13,11 +13,6 @@ namespace App\Models;
 class Command extends Model
 {
     /**
-     * @var string Nom de la table des expéditions
-     */
-    protected $table = 'expeditions';
-
-    /**
      * Récupère toutes les commandes/expéditions d'un client.
      *
      * Pour chaque expédition, inclut :

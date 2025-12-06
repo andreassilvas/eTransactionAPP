@@ -58,66 +58,6 @@ class Expedition extends Model
     }
 
     /**
-     * Récupère toutes les expéditions d'un client donné.
-     *
-     * @param int $clientId Identifiant du client
-     * @return array Tableau associatif des expéditions
-     */
-    public function getByClientId($clientId)
-    {
-        $sql = "SELECT * FROM $this->table WHERE client_id = :client_id ORDER BY date DESC";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':client_id', $clientId, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    /**
-     * Récupère une expédition par son ID.
-     *
-     * @param int $id Identifiant de l'expédition
-     * @return array|false Tableau associatif de l'expédition ou false si non trouvé
-     */
-    public function findById($id)
-    {
-        $sql = "SELECT * FROM $this->table WHERE id = :id LIMIT 1";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    /**
-     * Met à jour le statut d'une expédition.
-     *
-     * @param int $id Identifiant de l'expédition
-     * @param string $status Nouveau statut
-     * @return bool Succès de l'exécution
-     */
-    public function updateStatus($id, $status)
-    {
-        $sql = "UPDATE $this->table SET status = :status WHERE id = :id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':status', $status, PDO::PARAM_STR);
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        return $stmt->execute();
-    }
-
-    /**
-     * Supprime une expédition.
-     *
-     * @param int $id Identifiant de l'expédition
-     * @return bool Succès de l'exécution
-     */
-    public function delete($id)
-    {
-        $sql = "DELETE FROM $this->table WHERE id = :id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-        return $stmt->execute();
-    }
-
-    /**
      * Récupère une expédition avec les informations du client.
      *
      * @param int $expeditionId Identifiant de l'expédition

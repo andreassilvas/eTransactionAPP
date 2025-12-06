@@ -15,16 +15,13 @@
 
         <!-- Collapsible menu -->
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="nav nav-underline">
+            <ul class="nav nav-underline gap-4">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" style="color:#94AEE3">Produits</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-links" href="#" style="color:#94AEE3" data-bs-toggle="modal"
-                        data-bs-target="#loginModal">Se connecter</a>
-                </li>
-                <li class="nav-item">
-                    <button class="btn btn-outline-info">Créer un compte</button>
+                    <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#loginModal">Se
+                        connecter</button>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link nav-links" style="color:#94AEE3">

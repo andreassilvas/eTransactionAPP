@@ -67,13 +67,6 @@ class GeoController
         $this->json($row);
     }
 
-    // ---- helpers (same spirit as your ClientManagementController) ----
-    private function payload()
-    {
-        $raw = file_get_contents('php://input');
-        return $raw ? json_decode($raw, true) : $_POST;
-    }
-
     private function json($data, int $code = 200)
     {
         http_response_code($code);

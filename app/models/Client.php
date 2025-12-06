@@ -17,15 +17,6 @@ class Client extends Model
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function findByEmailOrPhone(string $email, string $phone)
-    {
-        $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE email = :email OR phone = :phone LIMIT 1");
-        $stmt->bindValue(':email', strtolower(trim($email)), PDO::PARAM_STR);
-        $stmt->bindValue(':phone', trim($phone), PDO::PARAM_STR);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
     public function existsByEmail(string $email, ?int $excludeId = null): bool
     {
         $sql = "SELECT 1 FROM {$this->table} WHERE email = :email";
@@ -121,8 +112,6 @@ class Client extends Model
         $st->execute($params);
         return $st->rowCount(); // <-- tell us how many rows MySQL changed
     }
-
-
 
     public function deleteById(int $id): bool
     {

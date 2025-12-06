@@ -36,7 +36,8 @@ foreach ($products as $product) {
 
 <div class="card px-3">
     <div class="card-body">
-        <h3 class="card-title custom-color-i pb-5 pt-4">Produits en stock</h3>
+        <h3 class="card-title custom-color-i pt-4">Produits en stock</h3>
+        <p class="card-text mb-4 custom-color-i">Vue globale du stock.</p>
 
         <div class="row g-3 mb-4">
             <div class="col-md-2">
@@ -57,7 +58,7 @@ foreach ($products as $product) {
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="card card-kpi shadow-sm">
                     <div class="card-body custom-color-i">
                         <h6 class="text-muted mb-1">Valeur de l’inventaire</h6>
@@ -68,7 +69,7 @@ foreach ($products as $product) {
                 </div>
             </div>
 
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <div class="card card-kpi shadow-sm">
                     <div class="card-body custom-warning">
                         <h6 class="mb-1">Produits en faible stock (≤ <?= $lowStock ?>)</h6>
@@ -81,7 +82,7 @@ foreach ($products as $product) {
                 <div class="card card-kpi shadow-sm">
                     <div class="card-body custom-warning">
                         <h6 class="mb-1 text-danger">Rupture stock</h6>
-                        <h3 class="text-danger"><?= (int) $stockSummary['out_of_stock'] ?></h3>
+                        <h3 class="mb-0 text-danger"><?= (int) $stockSummary['out_of_stock'] ?></h3>
                     </div>
                 </div>
             </div>
