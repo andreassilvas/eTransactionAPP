@@ -1,4 +1,3 @@
-// Controller: DataTable init + events + inline edit
 document.addEventListener("DOMContentLoaded", () => {
   const { list, store, update, remove } = window.UserAPI;
   const { input, select, actionBtns, editBtns } = window.UserAction;
@@ -107,7 +106,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (field.type === "select-province") {
-        // row.province might be a NAME (old data) or a CODE (new). Normalize to CODE.
         const currentRaw = row.province || "";
         const currentCode = NAME_BY_CODE[currentRaw]
           ? currentRaw
@@ -138,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const cityCell = tds[colIndex.city];
           if (!provCode) {
             cityCell.innerHTML = select("city", [], "", {
-              placeholder: "— Select a province first —",
+              placeholder: "-Select a province first-",
               disabled: false,
             });
           } else {
@@ -148,7 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
               label: c.name,
             }));
             cityCell.innerHTML = select("city", cityOptions, "", {
-              placeholder: "— Select a province first —",
+              placeholder: "-Select a province first-",
               disabled: false,
             });
           }
@@ -169,7 +167,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (field.type === "select-city") {
-        // find province code in this row (may be name or code previously)
         const provRaw = row.province || "";
         const provCode = NAME_BY_CODE[provRaw]
           ? provRaw

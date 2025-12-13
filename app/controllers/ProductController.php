@@ -141,7 +141,6 @@ class ProductController
     {
         $allowed = ['category', 'brand', 'model', 'warranty_period', 'support_level', 'supplier'];
 
-        // Is the column allowed?
         if (!in_array($type, $allowed)) {
             http_response_code(400);
             echo json_encode(['error' => 'Invalid option type']);

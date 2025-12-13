@@ -22,7 +22,7 @@ class Database
                 );
                 // Définir le mode d'erreur sur Exception
                 self::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            } catch (\PDOException $e) {  // <-- add leading backslash
+            } catch (\PDOException $e) {
                 die("Database connection failed: " . $e->getMessage());
             }
         }

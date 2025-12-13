@@ -39,6 +39,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  const emailInput = document.getElementById("email_adresse");
+  loginModalEl.addEventListener("shown.bs.modal", () => {
+    emailInput.focus();
+  });
+
   // Réinitialiser le formulaire et les erreurs lorsque la modale est fermée
   loginModalEl.addEventListener("hidden.bs.modal", () => {
     loginForm.reset();

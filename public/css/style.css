@@ -104,25 +104,6 @@ thead tr.custom-color-a {
 
 /* =======PAGINATION======= */
 
-/* .releve-pagination .page-link.active,
-.releve-pagination .active > .page-link  {
-    background-color: var(--color-primary-c) !important;
-    border-color: var(--color-primary-c) !important;
-    color: var(--color-white) !important;
-}
-
-.products-pagination .page-link.active,
-.products-pagination .active > .page-link  {
-    background-color: var(--color-dark-purple) !important;
-    border-color: var(--color-dark-purple) !important;
-}
-
-.commands-pagination .page-link.active,
-.commands-pagination .active > .page-link  {
-    background-color: var(--color-dark-gray) !important;
-    border-color: var(--color-dark-gray) !important;
-} */
-
 .page-link.active,
 .active > .page-link  {
     background-color: var(--color-dark-gray) !important;

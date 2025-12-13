@@ -1,6 +1,5 @@
-// public/js/geoApi.js
 window.GeoAPI = (function () {
-  const GEO = "/geo"; // matches your GeoController routes
+  const GEO = "/geo"; //GeoController routes
 
   const jsonFetch = async (u) => {
     const r = await fetch(u);

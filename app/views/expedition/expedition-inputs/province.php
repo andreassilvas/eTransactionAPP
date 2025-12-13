@@ -19,5 +19,5 @@ $options = [
     "Saskatchewan" => "SK",
     "Newfoundland and Labrador" => "NL",
 ];
-$selected = $_POST['province'] ?? null; // optional preselection
+$selected = $_POST['province'] ?? null;
 include __DIR__ . "/../../layouts/base-form-inputs/input_select.php";

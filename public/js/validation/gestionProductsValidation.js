@@ -1,6 +1,4 @@
 "use strict";
-
-// --- Regex patterns for validation
 const regex = {
   name: /^[A-Za-z0-9À-ÿ\s\-]{1,150}$/u,
   category: /^[A-Za-zÀ-ÿ\s\-]{1,150}$/u,
@@ -71,7 +69,7 @@ const validateRow = (tr, { requiredKeys = [] } = {}) => {
       return;
     }
 
-    if (!val) return; // optional empty is fine
+    if (!val) return;
 
     const ok = validateFieldByName(el);
     allOk = allOk && ok;

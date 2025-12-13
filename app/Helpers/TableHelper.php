@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Affiche un tableau compatible DataTables (sans pagination PHP).
+ * Affiche un tableau compatible DataTables.
  *
  * @param array  $data        Les données à afficher dans le tableau.
  * @param string $tableId     ID HTML du tableau (pour DataTables JS).

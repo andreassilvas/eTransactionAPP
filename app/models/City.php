@@ -4,8 +4,6 @@ namespace App\Models;
 class City extends Model
 {
     protected $table = 'cities';
-
-    /** Villes par code de province, avec recherche/pagination */
     public function byProvinceCode(string $code, string $search = '', int $limit = 50, int $offset = 0): array
     {
         $sql = "SELECT c.id, c.name, p.code AS province_code
@@ -16,7 +14,7 @@ class City extends Model
 
         if ($search !== '') {
             $sql .= " AND c.name LIKE :q";
-            $params[':q'] = $search . '%'; // utilisez '%'.$search.'%' si nécessaire
+            $params[':q'] = $search . '%';
         }
 
         $count = "SELECT COUNT(*)

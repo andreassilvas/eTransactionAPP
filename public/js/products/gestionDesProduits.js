@@ -1,4 +1,3 @@
-// Controller: DataTable init + events + inline edit
 document.addEventListener("DOMContentLoaded", () => {
   const { list, store, update, remove } = window.ProductAPI;
   const { input, select, actionBtns, editBtns } = window.ProductAction;
@@ -187,7 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
           if (!ok) return;
         }
 
-        let payload = collect(tr); // let, so we can overwrite
+        let payload = collect(tr);
 
         if (isCreate) {
           const res = await store(payload); // server returns saved product object
@@ -234,7 +233,6 @@ document.addEventListener("DOMContentLoaded", () => {
       editingTr = null;
     }
 
-    // Delegated actions on tbody (works with DataTables redraws)
     const $tbody = $("#tbl tbody");
 
     $tbody.on("click", "button.btn-edit", function (e) {

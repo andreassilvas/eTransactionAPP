@@ -9,7 +9,7 @@
         <?php include __DIR__ . '/../layouts/nav_side_dash.php'; ?>
     </div>
 
-    <div class="px-4" style="margin-left: 260px; overflow-y: auto;">
+    <div class="px-4" style="margin-left: 260px;">
         <?php require __DIR__ . '/product_management.php'; ?>
     </div>
 

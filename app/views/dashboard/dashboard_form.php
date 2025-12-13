@@ -1,10 +1,8 @@
 <?php
-
 $stockSummary = $stockSummary ?? [];
 $stockByCategory = $stockByCategory ?? [];
 $criticalProducts = $criticalProducts ?? [];
 $expStatus = $expStatus ?? [];
-
 
 // compute health percentage
 $total = (int) ($stockSummary['total_products'] ?? 0);

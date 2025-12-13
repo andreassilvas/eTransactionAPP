@@ -10,7 +10,7 @@ window.UserAction = (function () {
       'class="form-control form-control-sm dt-inline"',
       `value="${esc(val)}"`,
     ]
-      .filter(Boolean) //remove empty/null entries
+      .filter(Boolean)
       .join(" ");
 
     return `<input ${attrs}>`;

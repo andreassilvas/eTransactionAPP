@@ -1,4 +1,3 @@
-// UMD-ish namespace so it works without a bundler
 window.UserAPI = (function () {
   const API = window.API || "/gestion-utilisateurs";
 
@@ -11,14 +10,14 @@ window.UserAPI = (function () {
   // inside clientApi.js
   // Server JSON fetch
   const jsonFetch = async (u, o) => {
-    console.log("[jsonFetch] →", u, o); // LOG URL + options
+    console.log("[jsonFetch]", u, o); // LOG URL + options
     const resp = await fetch(u, o);
     const text = await resp.text();
     let data = null;
     try {
       data = JSON.parse(text);
     } catch {}
-    console.log("[jsonFetch] ←", resp.status, data || text);
+    console.log("[jsonFetch]", resp.status, data || text);
     if (!resp.ok) {
       const err = new Error(
         (data && data.error) || text || `HTTP ${resp.status}`

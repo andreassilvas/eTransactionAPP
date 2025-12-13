@@ -1,5 +1,5 @@
 <div class="card px-3">
-    <div class="card-body">
+    <div class="card-body p-0">
         <h3 class="card-title custom-color-i pt-4">Administration des produits</h3>
         <p class="card-text mb-4 custom-color-i">Gérez vos produits, suivez les stocks et mettez à jour les
             informations.</p>

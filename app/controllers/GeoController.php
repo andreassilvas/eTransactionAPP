@@ -18,7 +18,7 @@ class GeoController
 
     /**
      * GET /geo/provinces
-     * Returns: [{"id": 11, "code": "QC", "name": "Québec"}, ...]
+     * Returns: [{"id": 1,"code": "AB","name": "Alberta"}, ...]
      */
     public function provinces()
     {
@@ -27,11 +27,10 @@ class GeoController
 
     /**
      * GET /geo/provinces/{code}/cities?search=&limit=&offset=
-     * Returns: { items: [...], total: 123, limit: 50, offset: 0 }
+     * Returns: { items: [...], total: 12, limit: 50, offset: 0 }
      */
     public function citiesByProvince()
     {
-        // If you use a simple router, grab {code} from $_GET or your router var
         $code = strtoupper($_GET['code'] ?? '');
         $search = $_GET['search'] ?? '';
         $limit = max(1, min(200, (int) ($_GET['limit'] ?? 50)));
@@ -42,7 +41,7 @@ class GeoController
 
     /**
      * GET /geo/cities?province=QC&search=&limit=&offset=
-     * Returns: { items: [...], total: 123, limit: 50, offset: 0 }
+     * Returns: { items: [...],  "limit": 1,"offset": 0,"total": 5}
      */
     public function cities()
     {
@@ -55,8 +54,8 @@ class GeoController
     }
 
     /**
-     * GET /geo/cities/show?id=123
-     * Returns: { "id": 123, "name": "...", "province_code": "QC" }
+     * GET /geo/cities/show?id=12
+     * Returns: {"id":12,"name":"Hamilton","province_code":"ON"}
      */
     public function cityShow()
     {

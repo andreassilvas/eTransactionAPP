@@ -109,11 +109,10 @@ class Products extends Model
         return $stmt->execute([':id' => $id]);
     }
 
-    // App/Models/Products.php
 
     public function getStockSummary(): array
     {
-        // low stock = 1..5 just as an example threshold
+        // low stock = 1..5 units, out of stock = 0 units
         $sql = "
         SELECT
             COUNT(*) AS total_products,

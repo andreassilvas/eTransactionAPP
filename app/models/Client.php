@@ -7,8 +7,6 @@ class Client extends Model
 {
     protected $table = 'clients';
 
-    /* ---------- Lookups ---------- */
-
     public function findByEmail(string $email)
     {
         $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE email = :email LIMIT 1");
@@ -67,7 +65,7 @@ class Client extends Model
         $stmt->bindValue(':city', $clean['city']);
         $stmt->bindValue(':province', $clean['province']);
         $stmt->bindValue(':postcode', $clean['postcode']);
-        $stmt->bindValue(':password', $clean['password']); // hash if you want: password_hash(...)
+        $stmt->bindValue(':password', $clean['password']);
 
         $stmt->execute();
         return $this->db->lastInsertId();
@@ -110,7 +108,7 @@ class Client extends Model
         $sql = "UPDATE {$this->table} SET " . implode(', ', $sets) . " WHERE id = :id";
         $st = $this->db->prepare($sql);
         $st->execute($params);
-        return $st->rowCount(); // <-- tell us how many rows MySQL changed
+        return $st->rowCount(); //how many rows MySQL changed
     }
 
     public function deleteById(int $id): bool
@@ -128,8 +126,7 @@ class Client extends Model
     private function normalize(array $d): array
     {
         $out = [];
-
-        // required-ish (controller should already validate)
+        // required fields
         foreach (['name', 'lastname', 'email'] as $k) {
             if (isset($d[$k]))
                 $out[$k] = is_string($d[$k]) ? trim($d[$k]) : $d[$k];
@@ -144,8 +141,7 @@ class Client extends Model
                 $out[$k] = ($v === '' ? null : $v);
             }
         }
-
-        // password: keep as-is (controller may hash or omit)
+        // password
         if (array_key_exists('password', $d)) {
             $v = is_string($d['password']) ? trim($d['password']) : $d['password'];
             $out['password'] = ($v === '' ? '' : $v); // empty string preserved so updateById can skip it

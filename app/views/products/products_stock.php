@@ -88,9 +88,7 @@ foreach ($products as $product) {
             </div>
         </div>
 
-        <!-- Graph + Tableau -->
         <div class="row g-3">
-            <!-- Graphique stock par catégorie -->
             <div class="col-lg-4">
                 <div class="card shadow-sm h-100">
                     <div class="card-header bg-white d-flex justify-content-between align-items-center">
@@ -101,8 +99,6 @@ foreach ($products as $product) {
                     </div>
                 </div>
             </div>
-
-            <!-- Tableau des produits -->
             <div class="col-lg-8">
                 <div class="card shadow-sm h-100">
                     <div class="card-header bg-white d-flex justify-content-between align-items-center">
