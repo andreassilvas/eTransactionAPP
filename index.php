@@ -1,9 +1,13 @@
 <?php
+
+use App\Controllers\LoginController;
 require_once __DIR__ . '/app/Helpers/AuthHelper.php';
 require_once __DIR__ . '/core/Router.php';
 require_once __DIR__ . '/core/Controller.php';
 require_once __DIR__ . '/core/Model.php';
 require_once __DIR__ . '/app/init.php';
+
+
 
 /* Chargement automatique des contrôleurs et des modèles */
 spl_autoload_register(function ($class): void {
@@ -33,6 +37,10 @@ $router = new Router();
 $basePath = '/eTransactionAPP';
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $path = rtrim(str_replace($basePath, '', $uri), '/') ?: '/';
+
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 /* -------------------- Routes -------------------- */
 
@@ -235,5 +243,30 @@ $router->get('/geo/cities/show', function (): void {
     $controller->cityShow();
 });
 
+/** APIs ********************************************************** */
+//Login
+$router->post('/api/login', 'LoginController@loginAPI');
+
+require_once __DIR__ . '/app/middleware/apiAuth.php';
+
+$router->get('/api/test', function () {
+    apiAuth();
+
+    echo json_encode([
+        'status' => 'success',
+        'message' => 'You are authenticated'
+    ]);
+});
+
+//Products
+$router->get('/api/products', 'ProductController@getProductsAPI');
+
+
+
+//TEST Routes
+// var_dump($path);
+// exit;
+
 /* Run router */
 $router->run($path);
+

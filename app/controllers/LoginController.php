@@ -77,4 +77,55 @@ class LoginController
         echo json_encode(['status' => 'success', 'redirect' => BASE_URL . '/connexion']);
         exit;
     }
+
+    /**
+     * Traite la requête de connexion via API.
+     *
+     * - Vérifie que la requête est de type POST.
+     * - Récupère les données JSON envoyées.
+     * - Authentifie le client et renvoie une réponse JSON avec le statut de la connexion.
+     *
+     * @return void
+     */
+
+    public function loginAPI()
+    {
+        header('Content-Type: application/json');
+
+        // Read JSON input (IMPORTANT for API)
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        $email = trim($data['email'] ?? '');
+        $password = $data['password'] ?? '';
+
+        if (empty($email) || empty($password)) {
+            http_response_code(400);
+            echo json_encode(['status' => 'error', 'message' => 'Champs requis']);
+            return;
+        }
+
+        $clientModel = new Client();
+        $client = $clientModel->findByEmail($email);
+
+        if (!$client || $password !== $client['password']) {
+            http_response_code(401);
+            echo json_encode(['status' => 'error', 'message' => 'Identifiants invalides']);
+            return;
+        }
+
+        //Unauthorized"
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $_SESSION['client_id'] = $client['id'];
+
+        echo json_encode([
+            'status' => 'success',
+            'user' => [
+                'id' => $client['id'],
+                'name' => $client['name']
+            ]
+        ]);
+    }
 }

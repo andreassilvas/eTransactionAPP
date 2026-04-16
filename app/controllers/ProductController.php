@@ -15,6 +15,27 @@ use App\Models\Products;
 
 class ProductController
 {
+    /* ---------- helpers ---------- */
+    private function payload()
+    {
+        $raw = file_get_contents('php://input');
+        return $raw ? (array) json_decode($raw, true) : $_POST;
+    }
+
+    private function getAllProducts()
+    {
+        $productModel = new Products();
+        return $productModel->all();
+    }
+
+    private function json($data)
+    {
+        header('Content-Type: application/json');
+        echo json_encode($data);
+        exit;
+    }
+
+    /* ---------- Products API ---------- */
     /**
      * Affiche la liste de tous les produits.
      *
@@ -28,29 +49,17 @@ class ProductController
         $productModel = new Products();
 
         // Récupère tous les produits
-        $products = $productModel->all();
+        $products = $this->getAllProducts();
         $stockSummary = $productModel->getStockSummary();
 
         // Charge la vue des produits et lui transmet les données
         require __DIR__ . '/../Views/' . $view;
-
-        // Debugging line
-        // echo "<pre>";
-        // print_r($products);
-        // echo "</pre>";
-        // error_log(print_r($products, true));
-
-        // print_r($productModel->all());
-
     }
 
     public function list()
     {
-        $productModel = new Products();
-        $products = $productModel->all();
-        header('Content-Type: application/json');
-
-        echo json_encode($products);
+        $products = $this->getAllProducts();
+        $this->json($products);
         exit;
     }
 
@@ -61,7 +70,7 @@ class ProductController
 
         if (!$payload || !isset($payload['id'])) {
             http_response_code(400);
-            echo json_encode(['error' => 'ID manquant']);
+            $this->json(['error' => 'ID manquant']);
             return;
         }
 
@@ -72,13 +81,14 @@ class ProductController
 
         $ok = $productModel->update($id, $payload);
 
-        echo json_encode(['success' => $ok]);
+        $this->json(['success' => $ok]);
     }
 
     public function delete()
     {
         if (!isset($_GET['id'])) {
-            echo json_encode(['error' => 'ID missing']);
+            $this->json(['error' => 'ID missing']);
+
             http_response_code(400);
             return;
         }
@@ -86,9 +96,9 @@ class ProductController
         $id = (int) $_GET['id'];
         $productModel = new Products();
 
-        $ok = $productModel->delete($id);
+        $delete = $productModel->delete($id);
 
-        echo json_encode(['success' => $ok]);
+        $this->json(['success' => $delete ? 'Product deleted' : 'Failed to delete']);
     }
 
     /**
@@ -127,12 +137,12 @@ class ProductController
         ]);
 
         $newProduct = $productModel->find($id);
-        header('Content-Type: application/json');
-        echo json_encode($newProduct);
+        $this->json($newProduct);
 
         error_log("Payload: " . print_r($data, true));
         error_log("Creating product...");
         error_log("Created product ID: $id");
+
         $newProduct = $productModel->find($id);
         error_log("New Product: " . print_r($newProduct, true));
     }
@@ -143,21 +153,29 @@ class ProductController
 
         if (!in_array($type, $allowed)) {
             http_response_code(400);
-            echo json_encode(['error' => 'Invalid option type']);
+            $this->json(['error' => 'Invalid option type']);
             return;
         }
 
         $productModel = new Products();
         $options = $productModel->getDistinctOptions($type);
 
-        header('Content-Type: application/json');
-        echo json_encode($options);
+        $this->json($options);
     }
 
-    /* ---------- helpers ---------- */
-    private function payload()
+
+    public function getProductsAPI()
     {
-        $raw = file_get_contents('php://input');
-        return $raw ? (array) json_decode($raw, true) : $_POST;
+        //Protected route
+        require_once __DIR__ . '/../middleware/apiAuth.php';
+        apiAuth();
+
+        //Get products
+        $products = $this->getAllProducts();
+
+        $this->json([
+            'success' => true,
+            'data' => $products
+        ]);
     }
 }
