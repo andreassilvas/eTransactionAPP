@@ -21,6 +21,15 @@
                         <?php include __DIR__ . '/../layouts/base-form-inputs/policy_statement.php' ?>
                     </div>
 
+                    <div>
+                        <ul class="list-group">
+                            <li class="list-group-item border-0 p-1" style="font-size: 0.7rem;">Test courriel :
+                                maisel@andrea.com</li>
+                            <li class="list-group-item border-0 p-1" style="font-size: 0.7rem;">Test Mot de passe : 5678
+                            </li>
+                        </ul>
+                    </div>
+
                     <div id="loginErrorContainer" style="min-height: 40px;"></div>
 
                     <!-- Bouton de soumission -->

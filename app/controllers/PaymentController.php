@@ -23,6 +23,15 @@ use App\Models\Products;
 
 class PaymentController
 {
+    //Helper pour envoyer une réponse JSON
+    private function json($data, $statusCode)
+    {
+        http_response_code($statusCode);
+        header('Content-Type: application/json');
+        echo json_encode($data);
+        exit;
+    }
+
     /**
      * Traite le paiement pour les produits sélectionnés.
      *
@@ -85,7 +94,6 @@ class PaymentController
             $prod = $productModel->find($item['id']);
             $totalAmount += $prod['price'] * $item['quantity'];
         }
-
 
         // Étape 4 : Récupération des informations de carte de crédit
         $cardName = trim($_POST['card_name'] ?? '');
@@ -224,7 +232,7 @@ class PaymentController
             $newBalance = $currentBalance - $totalAmount;
             $transactionModel->addTransaction(
                 $clientId,
-                "Paiement pour l’expédition #$expeditionId",
+                "Paiement (expédition #$expeditionId)",
                 0.00,
                 $totalAmount,
                 $newBalance
@@ -241,6 +249,197 @@ class PaymentController
             $_SESSION['payment_error'] = "Échec du paiement : " . $e->getMessage();
             header("Location: " . BASE_URL . "/payment");
             exit;
+        }
+    }
+
+
+    public function paymentAPI()
+    {
+        require_once __DIR__ . '/../middleware/apiAuth.php';
+        apiAuth();
+
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        $products = $data['products'] ?? [];
+
+        if (empty($products)) {
+            $this->json([
+                'status' => 'error',
+                'message' => 'Products required'
+            ], 400);
+        }
+
+        //API - Check stock + calculate total
+        $productModel = new Products();
+        $totalAmount = 0;
+
+        foreach ($products as $item) {
+            $prod = $productModel->find($item['id']);
+
+            if (!$prod) {
+                $this->json(
+                    [
+                        'status' => 'error',
+                        'message' => "Produit introuvable"
+                    ],
+                    404
+                );
+            }
+
+            if ($prod['stock'] < $item['quantity']) {
+                $this->json([
+                    'status' => 'error',
+                    'message' => "Stock insuffisant pour {$prod['name']}"
+                ], 400);
+            }
+            $totalAmount += $prod['price'] * $item['quantity'];
+        }
+
+        //API - Payment Validation - check card in DB
+        $clientId = $_SESSION['client_id'];
+        $cardName = $data['card_name'] ?? '';
+        $cardNumber = $data['card_number'] ?? '';
+        $codePostal = $data['postcode'] ?? '';
+        $expiryDate = $data['expiry_date'] ?? '';
+        $cvv = $data['cvv'] ?? '';
+        $products = $data['products'] ?? [];
+
+        // VALIDATE REQUIRED FIELDS
+        if (
+            empty($clientId) ||
+            empty($cardName) ||
+            empty($cardNumber) ||
+            empty($codePostal) ||
+            empty($expiryDate) ||
+            empty($cvv)
+        ) {
+            $this->json([
+                'status' => 'error',
+                'message' => 'Informations de carte incomplètes'
+            ], 400);
+        }
+
+        // API - Check card in DB
+        $paymentValidationModel = new PaymentValidation();
+        $cardValid = $paymentValidationModel->findValidCard(
+            $clientId,
+            $cardName,
+            $cardNumber,
+            $codePostal,
+            $expiryDate,
+            $cvv
+        );
+
+        // API - Final card validation
+        if (empty($cardValid)) {
+            $this->json([
+                'status' => 'error',
+                'message' => 'Informations de carte invalides'
+            ], 400);
+        }
+
+        //API - Start transaction --------------------------------
+        $db = Database::getConnection();
+
+        try {
+            $db->beginTransaction();
+
+            //Get client from session
+            $clientId = $_SESSION['client_id'];
+
+            // Check client exists
+            $clientModel = new Client();
+            $client = $clientModel->findById($clientId);
+
+            if (!$client) {
+                throw new \Exception("Client introuvable.");
+            }
+
+            // API - Check balance
+            $transactionModel = new BankTransaction($db);
+            $transactions = $transactionModel->getByClientId($clientId);
+
+            // API - Take latest balance
+            $currentBalance = $transactions[0]['balance'] ?? 0;
+
+            if ($currentBalance < $totalAmount) {
+                throw new \Exception("Fonds insuffisants.");
+            }
+
+            // API - Création de l'expédition 
+            $expeditionModel = new Expedition();
+            $expeditionId = $expeditionModel->create([
+                'client_id' => $clientId,
+                'ship_name' => 'API',
+                'ship_lastname' => "User",
+                'ship_email' => "api@example.com",
+                'ship_address' => "123 API St",
+                'ship_city' => "API City",
+                'ship_province' => "API Province",
+                'ship_postcode' => "API 123",
+                'ship_phone' => "000-000-0000",
+                'status' => 'pending',
+                'date' => date('Y-m-d')
+            ]);
+
+            // API - Création des items et mise à jour du stock
+            $expeditionItemModel = new ExpeditionItem();
+            foreach ($products as $item) {
+                $prod = $productModel->find($item['id']);
+                if (!$prod) {
+                    throw new \Exception("Produit introuvable.");
+                }
+
+                $expeditionItemModel->create([
+                    'expedition_id' => $expeditionId,
+                    'product_id' => $prod['id'],
+                    'quantity' => $item['quantity'],
+                    'unit_price' => $prod['price']
+                ]);
+
+                $newStock = max(0, $prod['stock'] - $item['quantity']);
+                $productModel->update($prod['id'], ['stock' => $newStock]);
+            }
+
+            //API - Create payment record
+            $paymentModel = new Payment();
+            $paymentId = $paymentModel->create([
+                'client_id' => $clientId,
+                'expedition_id' => $expeditionId,
+                'amount' => $totalAmount,
+                'status' => 'success',
+                'last4' => substr(str_replace(' ', '', $data['card_number']), -4),
+                'method' => 'API Carte'
+            ]);
+
+            //API - Bank transaction (balance update)
+            $newBalance = $currentBalance - $totalAmount;
+            $transactionModel->addTransaction(
+                $clientId,
+                "API Paiement (expedition #$expeditionId)",
+                0.00,
+                $totalAmount,
+                $newBalance
+            );
+
+            // API - success response
+            $db->commit();
+
+            $this->json([
+                'status' => 'success',
+                'message' => 'Paiement effectué avec succès',
+                'payment_id' => $paymentId,
+                'expedition_id' => $expeditionId,
+                'total' => $totalAmount
+            ], 200);
+
+        } catch (\Exception $e) {
+            $db->rollBack();
+
+            $this->json([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ], 400);
         }
     }
 }

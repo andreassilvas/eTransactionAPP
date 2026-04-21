@@ -92,4 +92,16 @@ class Expedition extends Model
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getByClientId($clientId)
+    {
+        $sql = "SELECT * 
+                FROM {$this->table} 
+                WHERE client_id = :client_id
+                ORDER BY id DESC";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['client_id' => $clientId]);
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }

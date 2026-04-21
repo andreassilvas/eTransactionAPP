@@ -2,6 +2,9 @@
 namespace App\Controllers;
 
 use App\Models\Database;
+use App\Models\Expedition;
+use App\Models\ExpeditionItem;
+use App\Models\Payment;
 
 /**
  * Class ExpeditionController
@@ -157,5 +160,90 @@ class ExpeditionController
         // Rediriger vers la page de paiement
         header("Location: " . BASE_URL . "/payment");
         exit;
+    }
+
+    //Helper pour envoyer une réponse JSON
+    private function json($data, $statusCode)
+    {
+        http_response_code($statusCode);
+        header('Content-Type: application/json');
+        echo json_encode($data);
+        exit;
+    }
+
+    public function expeditionsAPI()
+    {
+        require_once __DIR__ . '/../middleware/apiAuth.php';
+        apiAuth();
+
+        if (!isset($_SESSION['client_id'])) {
+            $this->json([
+                'status' => 'error',
+                'message' => 'Client non authentifié'
+            ], 401);
+        }
+
+        $clientId = $_SESSION['client_id'];
+
+        $expeditionModel = new Expedition();
+        $expeditions = $expeditionModel->getByClientId($clientId);
+
+        $this->json([
+            'status' => 'success',
+            'message' => 'Expédition traitée avec succès',
+            'data' => $expeditions
+        ], 200);
+    }
+
+    public function expeditionDetailsAPI()
+    {
+        require_once __DIR__ . '/../middleware/apiAuth.php';
+        apiAuth();
+
+        if (!isset($_SESSION['client_id'])) {
+            $this->json([
+                'status' => 'error',
+                'message' => 'Client non authentifié'
+            ], 401);
+        }
+
+        $expeditionId = $_GET['id'] ?? null;
+
+        if (!$expeditionId) {
+            $this->json([
+                'status' => 'error',
+                'message' => 'Expedition ID is required'
+            ], 400);
+        }
+
+        $clientId = $_SESSION['client_id'];
+
+        $expeditionModel = new Expedition();
+        $expeditionItemModel = new ExpeditionItem();
+        $paymentModel = new Payment();
+
+        $expedition = $expeditionModel->findWithClientById($expeditionId);
+
+        if (!$expedition || $expedition['client_id'] != $clientId) {
+            $this->json([
+                'status' => 'error',
+                'message' => 'Expédition non trouvée ou accès refusé'
+            ], 404);
+        }
+
+        //Get Items
+        $items = $expeditionItemModel->getItemsByExpeditionId($expeditionId);
+
+        //Get Payment
+        $payment = $paymentModel->findByExpedition($expeditionId);
+
+        $this->json([
+            'status' => 'success',
+            'data' => [
+                'expedition' => $expedition,
+                'items' => $items,
+                'payment' => $payment
+            ]
+        ], 200);
     }
 }

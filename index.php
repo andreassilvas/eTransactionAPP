@@ -244,7 +244,7 @@ $router->get('/geo/cities/show', function (): void {
 });
 
 /** APIs ********************************************************** */
-//Login
+//-------Login
 $router->post('/api/login', 'LoginController@loginAPI');
 
 require_once __DIR__ . '/app/middleware/apiAuth.php';
@@ -258,10 +258,22 @@ $router->get('/api/test', function () {
     ]);
 });
 
-//Products
+//-------Products
 $router->get('/api/products', 'ProductController@getProductsAPI');
 
+//-------Card
+$router->post('/api/card/add', 'CardController@add');
+$router->get('/api/card', 'CardController@get');
+$router->post('/api/card/remove', 'CardController@remove');
 
+//-------Payment
+$router->post('/api/payment', 'PaymentController@paymentAPI');
+
+//-------Expeditions
+$router->get('/api/expedition', 'ExpeditionController@expeditionsAPI');
+
+//-------Expeditions Details {id}
+$router->get('/api/expedition/details', 'ExpeditionController@expeditionDetailsAPI');
 
 //TEST Routes
 // var_dump($path);

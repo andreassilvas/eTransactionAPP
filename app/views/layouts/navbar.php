@@ -20,6 +20,9 @@
                     <a class="nav-link active" aria-current="page" style="color:#94AEE3">Produits</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" aria-current="page" style="color:#94AEE3">Documentation</a>
+                </li>
+                <li class="nav-item">
                     <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#loginModal">Se
                         connecter</button>
                 </li>
