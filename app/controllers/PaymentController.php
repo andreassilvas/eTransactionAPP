@@ -295,6 +295,27 @@ class PaymentController
             $totalAmount += $prod['price'] * $item['quantity'];
         }
 
+        // Format validation
+        if (!preg_match('/^\d{4}\s\d{4}\s\d{4}\s\d{4}$/', $cardNumber)) {
+            $this->json(['status' => 'error', 'message' => 'Numéro de carte invalide'], 400);
+        }
+
+        if (!preg_match('/^[A-Za-zÀ-ÿ\s]{2,50}$/u', $cardName)) {
+            $this->json(['status' => 'error', 'message' => 'Nom invalide'], 400);
+        }
+
+        if (!preg_match('/^[A-Za-z]\d[A-Za-z]\s\d[A-Za-z]\d$/', $codePostal)) {
+            $this->json(['status' => 'error', 'message' => 'Code postal invalide'], 400);
+        }
+
+        if (!preg_match('/^(0[1-9]|1[0-2])\/\d{2}$/', $expiryDate)) {
+            $this->json(['status' => 'error', 'message' => 'Date expiration invalide'], 400);
+        }
+
+        if (!preg_match('/^\d{3,4}$/', $cvv)) {
+            $this->json(['status' => 'error', 'message' => 'CVV invalide'], 400);
+        }
+
         //API - Payment Validation - check card in DB
         $clientId = $_SESSION['client_id'];
         $cardName = $data['card_name'] ?? '';

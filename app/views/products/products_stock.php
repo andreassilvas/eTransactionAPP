@@ -123,41 +123,7 @@ foreach ($products as $product) {
                                     <th>Statut</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <?php foreach ($products as $p): ?>
-                                    <?php
-                                    $stock = (int) ($p['stock'] ?? 0);
-                                    $isOutStock = $stock === 0;
-                                    $isLowStock = $stock > 0 && $stock <= $lowStock;
-                                    ?>
-                                    <tr>
-                                        <td><?= htmlspecialchars($p['id']) ?></td>
-                                        <td><?= htmlspecialchars($p['name']) ?></td>
-                                        <td><?= htmlspecialchars($p['category']) ?></td>
-                                        <td><?= htmlspecialchars($p['brand']) ?></td>
-                                        <td><?= htmlspecialchars($p['model']) ?></td>
-                                        <td class="text-end">
-                                            <?= number_format((float) $p['price'], 2, ',', ' ') ?> $
-                                        </td>
-                                        <td class="text-end"><?= $stock ?></td>
-                                        <td>
-                                            <?php if ($isOutStock): ?>
-                                                <span class="badge text-bg-danger">
-                                                    Rupture stock
-                                                </span>
-                                            <?php elseif ($isLowStock): ?>
-                                                <span class="badge text-bg-warning-custom border border-warning-subtle">
-                                                    Faible stock
-                                                </span>
-                                            <?php else: ?>
-                                                <span class="badge text-bg-success">
-                                                    OK
-                                                </span>
-                                            <?php endif; ?>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
+                            <tbody id="productsBody"></tbody>
                         </table>
                     </div>
                 </div>
@@ -173,3 +139,40 @@ foreach ($products as $product) {
     console.log("Injected data:", window.DASHBOARD_PROD_DATA);
 </script>
 <script src="public/js/products/productsDashboard.js"></script>
+<script>
+    fetch("/api/products")
+        .then(res => res.json())
+        .then(data => {
+            console.log("API DATA:", data);
+            const products = data.data;
+            const tbody = document.getElementById("productsBody");
+
+            products.forEach(p => {
+                const stock = parseInt(p.stock || 0);
+
+                let status = "OK";
+                let badge = "success";
+
+                if (stock === 0) {
+                    status = "Rupture stock";
+                    badge = "danger";
+                } else if (stock <= 5) {
+                    status = "Faible stock";
+                    badge = "warning";
+                }
+
+                tbody.innerHTML += `
+        <tr>
+          <td>${p.id}</td>
+          <td>${p.name}</td>
+          <td>${p.category}</td>
+          <td>${p.brand}</td>
+          <td>${p.model}</td>
+          <td class="text-end">${parseFloat(p.price).toFixed(2)} $</td>
+          <td class="text-end">${stock}</td>
+          <td><span class="badge text-bg-${badge}">${status}</span></td>
+        </tr>
+      `;
+            });
+        });
+</script>
