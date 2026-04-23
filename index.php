@@ -261,10 +261,12 @@ $router->get('/api/test', function () {
 //-------Products
 $router->get('/api/products', 'ProductController@getProductsAPI');
 
-//-------Card
-$router->post('/api/card/add', 'CardController@add');
-$router->get('/api/card', 'CardController@get');
-$router->post('/api/card/remove', 'CardController@remove');
+//-------Cart
+$router->post('/api/cart/add', 'CartController@add');
+$router->get('/api/cart', 'CartController@get');
+$router->post('/api/cart/remove', 'CartController@remove');
+$router->post('/api/cart/update', 'CartController@update');
+$router->post('/api/cart/clear', 'CartController@clear');
 
 //-------Payment
 $router->post('/api/payment', 'PaymentController@paymentAPI');

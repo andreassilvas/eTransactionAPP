@@ -1,68 +1,98 @@
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("Cart JS Loaded");
-  const container = document.querySelector(".cart-component");
+  document.querySelectorAll(".cart-component").forEach((component) => {
+    const addBtn = component.querySelector(".add-to-cart");
+    const stepper = component.querySelector(".stepper");
+    const valueInput = component.querySelector(".value");
+    const increment = component.querySelector(".increment");
+    const decrement = component.querySelector(".decrement");
 
-  const addBtn = document.getElementById("add-to-cart");
-  const stepper = container.querySelector(".stepper");
-  const valueInput = document.querySelector(".value");
-  const incrementBtn = document.getElementById("increment");
-  const decrementBtn = document.getElementById("decrement");
-  const toAddToCartBtn = container.querySelector(".to-add-to-cart");
+    const productId = component.dataset.productId;
+    const BASE = "/eTransactionAPP";
+    console.log(productId);
 
-  let value = 1;
-  const min = 1;
-  const max = 10;
+    let value = 1;
+    const max = 10;
 
-  addBtn.addEventListener("click", function () {
-    value = 1;
-    updateCart();
+    function updateCartUI() {
+      valueInput.value = value;
 
-    addBtn.classList.add("d-none");
-    stepper.classList.remove("d-none");
-
-    console.log("Added to cart:", value);
-  });
-
-  function updateCart() {
-    valueInput.value = value;
-
-    decrement.textContent = value === 1 ? "🗑" : "−";
-    increment.disabled = value >= max;
-  }
-
-  incrementBtn.addEventListener("click", function () {
-    if (value < max) {
-      value++;
-      updateCart();
+      decrement.textContent = value === 1 ? "🗑" : "−";
+      increment.disabled = value >= max;
     }
-  });
 
-  decrementBtn.addEventListener("click", function () {
-    if (value > min) {
-      value--;
-    } else {
-      console.log("Remove Item from Cart");
+    addBtn.addEventListener("click", async function () {
+      value = 1;
+      updateCartUI();
 
-      stepper.classList.add("d-none");
-      addBtn.classList.remove("d-none");
+      addBtn.classList.add("d-none");
+      stepper.classList.remove("d-none");
 
-      value = 1; // reset
-    }
-    updateCart();
-  });
+      try {
+        console.log("SENDING productId:", JSON.stringify(productId));
+        const response = await fetch(`${BASE}/api/cart/add`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            product_id: productId,
+            quantity: value,
+          }),
+        });
 
-  document.getElementById("add-to-cart").addEventListener("click", () => {
-    console.log("Add to cart:", value);
+        const data = await response.json();
 
-    // Example API call
-    /*
-    fetch('/api/cart', {
-        method: 'POST',
-        body: JSON.stringify({ quantity: value }),
-        headers: { 'Content-Type': 'application/json' }
+        console.log("API response:", data);
+      } catch (error) {
+        console.error("API error:", error);
+      }
     });
-    */
-  });
 
-  updateCart();
+    increment.addEventListener("click", async function () {
+      if (value < max) {
+        value++;
+        updateCartUI();
+
+        await fetch(`${BASE}/api/cart/update`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            product_id: productId,
+            quantity: value,
+          }),
+        });
+      }
+    });
+
+    decrement.addEventListener("click", async function () {
+      if (value > 1) {
+        value--;
+        updateCartUI();
+
+        await fetch(`${BASE}/api/cart/update`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            product_id: productId,
+            quantity: value,
+          }),
+        });
+      } else {
+        await fetch(`${BASE}/api/cart/remove`, {
+          method: "POST",
+          body: JSON.stringify({ product_id: productId }),
+        });
+
+        stepper.classList.add("d-none");
+        addBtn.classList.remove("d-none");
+        value = 1;
+      }
+    });
+
+    updateCartUI();
+  });
 });
