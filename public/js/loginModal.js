@@ -1,21 +1,41 @@
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("loginModal.js loaded");
   const loginForm = document.getElementById("loginForm");
   const loginModalEl = document.getElementById("loginModal");
   const loginModal = new bootstrap.Modal(loginModalEl);
   const errorContainer = document.getElementById("loginErrorContainer");
   const inputs = loginForm.querySelectorAll("input");
 
+  const title = document.getElementById("loginModalLabel");
+
+  loginModalEl.addEventListener("show.bs.modal", (event) => {
+    const trigger = event.relatedTarget; // button or link clicked
+
+    if (!trigger) return;
+
+    const source = trigger.getAttribute("data-source");
+
+    if (source === "admin") {
+      title.textContent = "Connexion administrateur";
+    } else {
+      title.textContent = "Connexion utilisateur";
+    }
+  });
+
   // Gérer la soumission du formulaire
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
+    console.log("FORM SUBMITTED");
 
     const formData = new FormData(loginForm);
+
     const response = await fetch(loginForm.action, {
       method: "POST",
       body: formData,
     });
 
     const result = await response.json();
+    console.log("RESULT:", result);
 
     // Effacer les erreurs précédentes
     errorContainer.innerHTML = "";
@@ -48,5 +68,10 @@ document.addEventListener("DOMContentLoaded", () => {
   loginModalEl.addEventListener("hidden.bs.modal", () => {
     loginForm.reset();
     errorContainer.innerHTML = "";
+  });
+
+  //Fix aria-hidden bootstrap focus issue
+  loginModalEl.addEventListener("hidden.bs.modal", () => {
+    document.activeElement.blur(); // remove focus from button
   });
 });

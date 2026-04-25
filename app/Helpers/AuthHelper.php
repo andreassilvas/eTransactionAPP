@@ -1,7 +1,18 @@
 <?php
-function authMiddleware()
+function authMiddleware($role = null)
 {
-    require_once __DIR__ . '/../middleware/auth.php';
-}
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
 
+    if (!isset($_SESSION['user_id'])) {
+        header("Location: " . BASE_URL);
+        exit;
+    }
+
+    if ($role && $_SESSION['role'] !== $role) {
+        header("Location: " . BASE_URL);
+        exit;
+    }
+}
 

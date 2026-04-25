@@ -3,7 +3,10 @@
         <div class="modal-content px-3 py-3">
 
             <div class="modal-header" style="border-bottom: none;">
-                <h5 class="modal-title" id="loginModalLabel">Se connecter</h5>
+
+                <!-- Dynamic title implementation using JS -->
+                <h5 class="modal-title" id="loginModalLabel">Connexion</h5>
+
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -60,36 +63,3 @@
     </div>
 </div>
 <script src="public/js/loginModal.js"></script>
-<script>
-    document.getElementById("loginForm").addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        const data = {
-            email: document.getElementById("email").value,
-            password: document.getElementById("password").value
-        };
-
-        fetch("/api/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-        })
-            .then(res => res.json())
-            .then(response => {
-                console.log("LOGIN RESPONSE:", response);
-
-                if (response.status === "success") {
-                    alert("Login successful!");
-                    window.location.href = "/verification/success?id=" + response.user_id;
-                } else {
-                    alert(response.message);
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                alert("Erreur login");
-            });
-    });
-</script>

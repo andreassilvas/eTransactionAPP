@@ -23,12 +23,14 @@
                     <a class="nav-link" aria-current="page" style="color:#94AEE3">Documentation</a>
                 </li>
                 <li class="nav-item">
-                    <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#loginModal">Se
-                        connecter</button>
+                    <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#loginModal"
+                        data-source="admin">Connexion admin</button>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-links" style="color:#94AEE3">
-                        <i class="fa-solid fa-cart-shopping" style="color:#94AEE3"></i>
+                    <a class="nav-link nav-links" data-bs-toggle="modal" data-bs-target="#loginModal"
+                        data-source="client" style="color:#31D2F2">
+                        <i class="fa-solid fa-cart-shopping" style="color:#ffc107"></i>
+                        <span id="cart-count" class="badge bg-warning text-dark">0</span>
                     </a>
                 </li>
             </ul>

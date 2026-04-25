@@ -26,13 +26,13 @@ class CommandController
     public function index()
     {
         // Vérifie si le client est connecté
-        if (!isset($_SESSION['client_id'])) {
+        if (!isset($_SESSION['user_id'])) {
             header("Location: " . BASE_URL . '/login');
             exit;
         }
 
         // Récupère l'identifiant du client depuis la session
-        $clientId = $_SESSION['client_id'];
+        $clientId = $_SESSION['user_id'];
 
         // Instancie le modèle Command pour interagir avec la base de données
         $commandModel = new Command();

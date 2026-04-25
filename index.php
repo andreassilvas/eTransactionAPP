@@ -58,7 +58,7 @@ $router->post('/login', 'LoginController@login');
 /*============= Connexion page (protected) =====================
 ===============================================================*/
 $router->get('/connexion', function (): void {
-    authMiddleware();
+    authMiddleware('admin');
     require __DIR__ . '/app/Views/connexion/index.php';
 });
 
@@ -81,7 +81,7 @@ $router->get('/commandes', function (): void {
 /*============= Expédition Client (protected) ==================
 ===============================================================*/
 $router->get('/expedition', function (): void {
-    authMiddleware();
+    authMiddleware('client');
     require __DIR__ . '/app/Views/expedition/index.php';
 });
 

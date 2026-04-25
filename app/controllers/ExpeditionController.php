@@ -31,7 +31,7 @@ class ExpeditionController
      */
     public function store()
     {
-        if (!isset($_SESSION['client_id'])) {
+        if (!isset($_SESSION['user_id'])) {
             die("No client_id found in session.");
         }
         // Connexion à la base de données (la session est déjà démarrée via init.php)
@@ -41,7 +41,7 @@ class ExpeditionController
          * Étape 1 : Vérifie si l'utilisateur souhaite utiliser son adresse de facturation existante
          */
         if (isset($_POST['use_billing_address'])) {
-            $clientId = $_SESSION['client_id'] ?? null;
+            $clientId = $_SESSION['user_id'] ?? null;
 
             if ($clientId) {
                 // Récupère les informations du client depuis la base de données
@@ -176,14 +176,14 @@ class ExpeditionController
         require_once __DIR__ . '/../middleware/apiAuth.php';
         apiAuth();
 
-        if (!isset($_SESSION['client_id'])) {
+        if (!isset($_SESSION['user_id'])) {
             $this->json([
                 'status' => 'error',
                 'message' => 'Client non authentifié'
             ], 401);
         }
 
-        $clientId = $_SESSION['client_id'];
+        $clientId = $_SESSION['user_id'];
 
         $expeditionModel = new Expedition();
         $expeditions = $expeditionModel->getByClientId($clientId);
@@ -200,7 +200,7 @@ class ExpeditionController
         require_once __DIR__ . '/../middleware/apiAuth.php';
         apiAuth();
 
-        if (!isset($_SESSION['client_id'])) {
+        if (!isset($_SESSION['user_id'])) {
             $this->json([
                 'status' => 'error',
                 'message' => 'Client non authentifié'
@@ -216,7 +216,7 @@ class ExpeditionController
             ], 400);
         }
 
-        $clientId = $_SESSION['client_id'];
+        $clientId = $_SESSION['user_id'];
 
         $expeditionModel = new Expedition();
         $expeditionItemModel = new ExpeditionItem();

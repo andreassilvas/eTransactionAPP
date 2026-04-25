@@ -10,13 +10,15 @@
                     <div class="cart-component d-flex justify-content-center gap-2 pt-2"
                         data-product-id="<?= $product['id'] ?>">
 
-                        <button class="btn btn-primary add-to-cart">
-                            <i class="fa-solid fa-cart-shopping"></i> Ajouter au panier
+                        <button class="btn btn-warning add-to-cart">
+                            Ajouter au panier
                         </button>
+
                         <!-- Stepper -->
                         <div class="input-group stepper d-none" style="width: 130px;">
-                            <button class="btn btn-outline-secondary decrement">🗑</button>
-                            <input type="text" class="form-control text-center value" id="quantity" value="1" readonly>
+                            <button class="btn btn-outline-secondary decrement"><i
+                                    class="fa-solid fa-trash hovertrash"></i></i></button>
+                            <input type="text" class="form-control text-center value" value="1" readonly>
                             <button class="btn btn-outline-secondary increment">+</button>
                         </div>
                     </div>
@@ -25,4 +27,4 @@
         </div>
     <?php endforeach; ?>
 </div>
-<script src="public/js/home/cart.js"></script>
+<script type="module" src="public/js/home/cartUI.js"></script>

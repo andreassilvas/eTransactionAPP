@@ -71,10 +71,19 @@ class LoginController
          * - Stocke les informations du client dans la session
          * - Renvoie une réponse JSON avec redirection
          */
-        $_SESSION['client_id'] = $client['id'];
-        $_SESSION['client_name'] = $client['name'];
+        $_SESSION['user_id'] = $client['id'];
+        $_SESSION['user_name'] = $client['name'];
+        $_SESSION['role'] = $client['role'];
 
-        echo json_encode(['status' => 'success', 'redirect' => BASE_URL . '/connexion']);
+        if ($client['role'] === 'admin') {
+            $redirect = BASE_URL . '/connexion';
+        } else {
+            $redirect = BASE_URL . '/expedition';
+        }
+        echo json_encode([
+            'status' => 'success',
+            'redirect' => $redirect
+        ]);
         exit;
     }
 
@@ -118,14 +127,18 @@ class LoginController
             session_start();
         }
 
-        $_SESSION['client_id'] = $client['id'];
+        $_SESSION['user_id'] = $client['id'];
+        $_SESSION['role'] = $client['role'];
+
+        if ($client['role'] === 'admin') {
+            $redirect = '/connexion';
+        } else {
+            $redirect = '/expedition';
+        }
 
         echo json_encode([
             'status' => 'success',
-            'user' => [
-                'id' => $client['id'],
-                'name' => $client['name']
-            ]
+            'redirect' => $redirect
         ]);
     }
 }

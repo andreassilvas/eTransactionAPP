@@ -27,12 +27,12 @@ class BankController
     public function index()
     {
         // Vérifie si le client est connecté
-        if (!isset($_SESSION['client_id'])) {
+        if (!isset($_SESSION['user_id'])) {
             header("Location: " . BASE_URL);
             exit;
         }
         // Récupère l'identifiant du client depuis la session
-        $clientId = $_SESSION['client_id'];
+        $clientId = $_SESSION['user_id'];
 
         try {
             // Établit la connexion à la base de données

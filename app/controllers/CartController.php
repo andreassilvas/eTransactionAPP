@@ -76,8 +76,6 @@ class CartController
     }
     public function get()
     {
-        require_once __DIR__ . '/../middleware/apiAuth.php';
-        apiAuth();
 
         $this->initCart();
 

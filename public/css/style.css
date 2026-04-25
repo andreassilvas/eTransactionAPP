@@ -135,6 +135,14 @@ thead tr.custom-color-a {
   border-color: var(--color-alabaster) !important;
 }
 
+/* Trash button*/
+i.hovertrash:hover:hove,
+i.hovertrash:active {
+    color: white;
+
+}
+
+
 /* Button hover/focus/active */
 .custom-btn-bg:hover,
 .custom-btn-bg:focus,

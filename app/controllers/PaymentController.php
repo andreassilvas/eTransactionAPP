@@ -53,14 +53,14 @@ class PaymentController
             exit;
         }
 
-        // Étape 2 : Vérifie que le client est connecté
-        if (!isset($_SESSION['client_id'])) {
+        // Étape 2 : Vérifie que le user est connecté
+        if (!isset($_SESSION['user_id'])) {
             $_SESSION['payment_error'] = "Échec du paiement : Utilisateur non connecté.";
             header("Location: " . BASE_URL . '/payment');
             exit;
         }
 
-        $clientId = $_SESSION['client_id'];
+        $clientId = $_SESSION['user_id'];
         $expeditionData = $_SESSION['expedition_data'];
 
         // Produit(s) à acheter codé(s) en dur pour l'instant
@@ -317,7 +317,7 @@ class PaymentController
         }
 
         //API - Payment Validation - check card in DB
-        $clientId = $_SESSION['client_id'];
+        $clientId = $_SESSION['user_id'];
         $cardName = $data['card_name'] ?? '';
         $cardNumber = $data['card_number'] ?? '';
         $codePostal = $data['postcode'] ?? '';
@@ -366,7 +366,7 @@ class PaymentController
             $db->beginTransaction();
 
             //Get client from session
-            $clientId = $_SESSION['client_id'];
+            $clientId = $_SESSION['user_id'];
 
             // Check client exists
             $clientModel = new Client();
