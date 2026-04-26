@@ -29,6 +29,7 @@ class LoginController
      */
     public function login()
     {
+
         // Vérifie que la requête est bien une POST
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             echo json_encode(['status' => 'error', 'message' => 'Invalid request']);
@@ -43,6 +44,7 @@ class LoginController
         // Récupère les données du formulaire
         $email = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
+        $source = $_POST['source'] ?? 'client';
 
         // Vérifie que les champs ne sont pas vides
         if (empty($email) || empty($password)) {
@@ -63,6 +65,23 @@ class LoginController
         // Vérifie que le mot de passe correspond
         if ($password !== $client['password']) {
             echo json_encode(['status' => 'error', 'message' => 'Email ou mot de passe non trouvé.']);
+            exit;
+        }
+
+        // Block Client trying to login via Admin modal
+        if ($source === 'admin' && $client['role'] !== 'admin') {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Accès refusé : compte administrateur requis.'
+            ]);
+            exit;
+        }
+        // Block Admin trying to login via Client modal
+        if ($source === 'client' && $client['role'] !== 'client') {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Veuillez utiliser le portail administrateur.'
+            ]);
             exit;
         }
 
@@ -106,6 +125,8 @@ class LoginController
 
         $email = trim($data['email'] ?? '');
         $password = $data['password'] ?? '';
+        $source = $data['source'] ?? 'client';
+
 
         if (empty($email) || empty($password)) {
             http_response_code(400);
@@ -122,6 +143,25 @@ class LoginController
             return;
         }
 
+        // Block Client trying to login via Admin modal
+        if ($source === 'admin' && $client['role'] !== 'admin') {
+            http_response_code(403);
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Accès refusé : compte administrateur requis.'
+            ]);
+            return;
+        }
+
+        // Block Admin trying to login via Client modal
+        if ($source === 'client' && $client['role'] !== 'client') {
+            http_response_code(403);
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Veuillez utiliser le portail administrateur.'
+            ]);
+            return;
+        }
         //Unauthorized"
         if (session_status() === PHP_SESSION_NONE) {
             session_start();

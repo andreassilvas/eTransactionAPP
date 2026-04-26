@@ -15,20 +15,19 @@
 
         <!-- Collapsible menu -->
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="nav nav-underline gap-4">
+            <ul class="nav nav-underline gap-4 home-navbar">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" style="color:#94AEE3">Produits</a>
+                    <a class="nav-link active" aria-current="page" style="color:#94AEE3" href="#">Produits</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" style="color:#94AEE3">Documentation</a>
+                    <a class="nav-link" aria-current="page" style="color:#94AEE3" href="#">Documentation</a>
                 </li>
                 <li class="nav-item">
-                    <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#loginModal"
-                        data-source="admin">Connexion admin</button>
+                    <a class="nav-link" aria-current="page" data-bs-toggle="modal" data-bs-target="#loginModal"
+                        data-source="admin" style="color:#94AEE3" href="#">Connexion admin</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-links" data-bs-toggle="modal" data-bs-target="#loginModal"
-                        data-source="client" style="color:#31D2F2">
+                    <a class="nav-link nav-links" data-source="client" style="color:#ffc107" href="#">
                         <i class="fa-solid fa-cart-shopping" style="color:#ffc107"></i>
                         <span id="cart-count" class="badge bg-warning text-dark">0</span>
                     </a>

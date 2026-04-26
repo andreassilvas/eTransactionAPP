@@ -62,4 +62,4 @@
         </div>
     </div>
 </div>
-<script src="public/js/loginModal.js"></script>
+<script type="module" src="public/js/loginModal.js"></script>

@@ -1,25 +1,50 @@
+import { showToast } from "./toast/toastCart.js";
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("loginModal.js loaded");
   const loginForm = document.getElementById("loginForm");
   const loginModalEl = document.getElementById("loginModal");
   const loginModal = new bootstrap.Modal(loginModalEl);
   const errorContainer = document.getElementById("loginErrorContainer");
   const inputs = loginForm.querySelectorAll("input");
-
   const title = document.getElementById("loginModalLabel");
+  let loginSource = "client";
 
-  loginModalEl.addEventListener("show.bs.modal", (event) => {
-    const trigger = event.relatedTarget; // button or link clicked
+  //Client - Open Login modal just if the cart have product(s)
+  document.querySelectorAll('[data-source="client"]').forEach((el) => {
+    el.addEventListener("click", async (e) => {
+      e.preventDefault();
 
-    if (!trigger) return;
+      const res = await fetch("/eTransactionAPP/api/cart");
+      const data = await res.json();
 
-    const source = trigger.getAttribute("data-source");
+      let total = 0;
 
-    if (source === "admin") {
-      title.textContent = "Connexion administrateur";
-    } else {
+      if (Array.isArray(data.cart)) {
+        data.cart.forEach((item) => (total += item.quantity));
+      } else {
+        Object.values(data.cart).forEach((q) => (total += Number(q)));
+      }
+
+      if (total === 0) {
+        showToast("Votre panier est vide. Ajoutez un produit.");
+        return;
+      }
+
+      loginSource = "client";
       title.textContent = "Connexion utilisateur";
-    }
+
+      loginModal.show();
+    });
+  });
+
+  document.querySelectorAll('[data-source="admin"]').forEach((el) => {
+    el.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      loginSource = "admin";
+      title.textContent = "Connexion administrateur";
+
+      loginModal.show();
+    });
   });
 
   // Gérer la soumission du formulaire
@@ -28,6 +53,9 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("FORM SUBMITTED");
 
     const formData = new FormData(loginForm);
+
+    //To allow or block admin or client login if they are not using the right modal.
+    formData.append("source", loginSource);
 
     const response = await fetch(loginForm.action, {
       method: "POST",

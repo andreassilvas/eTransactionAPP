@@ -44,6 +44,10 @@ body {
 
 /* ======NAVBAR / LINKS & BADGES====== */
 
+/* Home navbar*/
+.home-navbar .nav-item .nav-link {
+  cursor: pointer;
+}
 .nav-link {
     font-weight: 600;
 }
