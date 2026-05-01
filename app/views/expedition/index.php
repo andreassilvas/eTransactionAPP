@@ -2,7 +2,7 @@
 
 <body>
     <?php $activeStep = 1;
-    $logoutUrl = BASE_URL . '/connexion';
+    $logoutUrl = BASE_URL . '/';
     include __DIR__ . '/../layouts/expedition_nav.php'; ?>
 
     <div class="container my-5">

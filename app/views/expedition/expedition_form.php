@@ -74,7 +74,7 @@
         <div class="col-4 pad-right">
             <div class="card rounded-4">
                 <div class="card-body">
-                    <?php include __DIR__ . '/../layouts/resume_commande.php' ?>
+                    <?php include __DIR__ . '/../expedition/resume_commande.php' ?>
                     <div class="d-grid mt-3">
                         <?php
                         $btnText = "Continuer";

@@ -102,7 +102,7 @@
         <div class="col-4 pad-right">
             <div class="card rounded-4">
                 <div class="card-body">
-                    <?php include __DIR__ . '/../layouts/resume_commande.php'; ?>
+                    <?php include __DIR__ . '/../expedition/resume_commande.php'; ?>
 
                     <div class="d-grid mt-3">
                         <?php
@@ -117,44 +117,8 @@
         </div>
     </div>
 </form>
-<script src="public/js/validationPaymentForm.js"></script>
 <script>
-    document.getElementById("paymentForm").addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        const data = {
-            products: [
-                { id: 3, quantity: 1 }
-            ],
-            // products: JSON.parse(localStorage.getItem("cart") || "[]"),
-            card_name: document.getElementById("card_name").value,
-            card_number: document.getElementById("nro_carte").value,
-            postcode: document.getElementById("postCode").value,
-            expiry_date: document.getElementById("exp_date").value,
-            cvv: document.getElementById("nro_cvv").value
-        };
-
-        fetch("/api/payment", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-        })
-            .then(res => res.json())
-            .then(response => {
-                console.log("PAYMENT RESPONSE:", response);
-
-                if (response.status === "success") {
-                    alert("Paiement réussi !");
-                    window.location.href = "/verification/success?id=" + response.payment_id;
-                } else {
-                    alert(response.message);
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                alert("Erreur paiement");
-            });
-    });
+    const EXPEDITION = <?= json_encode($_SESSION['expedition_data'] ?? null) ?>;
 </script>
+<script src="public/js/validationPaymentForm.js"></script>
+<script type="module" src="public/js/payment/paymentUI.js"></script>

@@ -1,4 +1,6 @@
-import { showToast } from "./toast/toastCart.js";
+import { showToast } from "../toast/toastCart.js";
+import { getClient } from "./loginAPI.js";
+
 document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("loginForm");
   const loginModalEl = document.getElementById("loginModal");
@@ -14,8 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     el.addEventListener("click", async (e) => {
       e.preventDefault();
 
-      const res = await fetch("/eTransactionAPP/api/cart");
-      const data = await res.json();
+      const data = await getClient();
 
       let total = 0;
 

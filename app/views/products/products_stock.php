@@ -139,40 +139,4 @@ foreach ($products as $product) {
     console.log("Injected data:", window.DASHBOARD_PROD_DATA);
 </script>
 <script src="public/js/products/productsDashboard.js"></script>
-<script>
-    fetch("/api/products")
-        .then(res => res.json())
-        .then(data => {
-            console.log("API DATA:", data);
-            const products = data.data;
-            const tbody = document.getElementById("productsBody");
-
-            products.forEach(p => {
-                const stock = parseInt(p.stock || 0);
-
-                let status = "OK";
-                let badge = "success";
-
-                if (stock === 0) {
-                    status = "Rupture stock";
-                    badge = "danger";
-                } else if (stock <= 5) {
-                    status = "Faible stock";
-                    badge = "warning";
-                }
-
-                tbody.innerHTML += `
-        <tr>
-          <td>${p.id}</td>
-          <td>${p.name}</td>
-          <td>${p.category}</td>
-          <td>${p.brand}</td>
-          <td>${p.model}</td>
-          <td class="text-end">${parseFloat(p.price).toFixed(2)} $</td>
-          <td class="text-end">${stock}</td>
-          <td><span class="badge text-bg-${badge}">${status}</span></td>
-        </tr>
-      `;
-            });
-        });
-</script>
+<script type="module" src="/public/js/products/products_stock/productsStockUI.js"></script>

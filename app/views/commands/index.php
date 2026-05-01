@@ -1,7 +1,7 @@
 <?php include __DIR__ . '/../layouts/header.php'; ?>
 
 <body>
-    <?php $logoutUrl = BASE_URL . '/connexion';
+    <?php $logoutUrl = BASE_URL . '/';
     include __DIR__ . '/../layouts/nav_top_releve.php'; ?>
 
     <div class="position-fixed top-0 start-0 h-100 border-end p-3 my-2" style="width: 260px;">

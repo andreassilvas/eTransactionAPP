@@ -55,11 +55,11 @@ $router->get('/login', function (): void {
 });
 $router->post('/login', 'LoginController@login');
 
-/*============= Connexion page (protected) =====================
+/*============= Admin page (protected) =====================
 ===============================================================*/
-$router->get('/connexion', function (): void {
+$router->get('/admin', function (): void {
     authMiddleware('admin');
-    require __DIR__ . '/app/Views/connexion/index.php';
+    require __DIR__ . '/app/Views/admin/index.php';
 });
 
 /*============= Relevé Bancaire page (protected) ===============
@@ -258,6 +258,9 @@ $router->get('/api/test', function () {
     ]);
 });
 
+//-----------ENDSPOINTS---------------------------------------------
+$router->get('/api/currentuser', 'ClientManagementController@currentUser');
+
 //-------Products
 $router->get('/api/products', 'ProductController@getProductsAPI');
 
@@ -276,6 +279,9 @@ $router->get('/api/expedition', 'ExpeditionController@expeditionsAPI');
 
 //-------Expeditions Details {id}
 $router->get('/api/expedition/details', 'ExpeditionController@expeditionDetailsAPI');
+
+//-------Verification success {id}
+$router->get('/api/payment/details', 'PaymentController@getPaymentDetailsAPI');
 
 //TEST Routes
 // var_dump($path);

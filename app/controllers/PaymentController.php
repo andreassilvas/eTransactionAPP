@@ -9,6 +9,7 @@ use App\Models\PaymentValidation;
 use App\Models\ExpeditionItem;
 use App\Models\Database;
 use App\Models\Products;
+use App\Models\Command;
 
 /**
  * Class PaymentController
@@ -94,6 +95,10 @@ class PaymentController
             $prod = $productModel->find($item['id']);
             $totalAmount += $prod['price'] * $item['quantity'];
         }
+
+        $eco = 0.45;
+        $taxes = $totalAmount * 0.15;
+        $totalAmount = $totalAmount + $eco + $taxes;
 
         // Étape 4 : Récupération des informations de carte de crédit
         $cardName = trim($_POST['card_name'] ?? '');
@@ -184,6 +189,7 @@ class PaymentController
                 throw new \Exception("Fonds insuffisants.");
             }
 
+
             // Création de l'expédition
             $expeditionModel = new Expedition();
             $expeditionId = $expeditionModel->create([
@@ -258,63 +264,9 @@ class PaymentController
         require_once __DIR__ . '/../middleware/apiAuth.php';
         apiAuth();
 
+
+
         $data = json_decode(file_get_contents("php://input"), true);
-
-        $products = $data['products'] ?? [];
-
-        if (empty($products)) {
-            $this->json([
-                'status' => 'error',
-                'message' => 'Products required'
-            ], 400);
-        }
-
-        //API - Check stock + calculate total
-        $productModel = new Products();
-        $totalAmount = 0;
-
-        foreach ($products as $item) {
-            $prod = $productModel->find($item['id']);
-
-            if (!$prod) {
-                $this->json(
-                    [
-                        'status' => 'error',
-                        'message' => "Produit introuvable"
-                    ],
-                    404
-                );
-            }
-
-            if ($prod['stock'] < $item['quantity']) {
-                $this->json([
-                    'status' => 'error',
-                    'message' => "Stock insuffisant pour {$prod['name']}"
-                ], 400);
-            }
-            $totalAmount += $prod['price'] * $item['quantity'];
-        }
-
-        // Format validation
-        if (!preg_match('/^\d{4}\s\d{4}\s\d{4}\s\d{4}$/', $cardNumber)) {
-            $this->json(['status' => 'error', 'message' => 'Numéro de carte invalide'], 400);
-        }
-
-        if (!preg_match('/^[A-Za-zÀ-ÿ\s]{2,50}$/u', $cardName)) {
-            $this->json(['status' => 'error', 'message' => 'Nom invalide'], 400);
-        }
-
-        if (!preg_match('/^[A-Za-z]\d[A-Za-z]\s\d[A-Za-z]\d$/', $codePostal)) {
-            $this->json(['status' => 'error', 'message' => 'Code postal invalide'], 400);
-        }
-
-        if (!preg_match('/^(0[1-9]|1[0-2])\/\d{2}$/', $expiryDate)) {
-            $this->json(['status' => 'error', 'message' => 'Date expiration invalide'], 400);
-        }
-
-        if (!preg_match('/^\d{3,4}$/', $cvv)) {
-            $this->json(['status' => 'error', 'message' => 'CVV invalide'], 400);
-        }
 
         //API - Payment Validation - check card in DB
         $clientId = $_SESSION['user_id'];
@@ -325,19 +277,67 @@ class PaymentController
         $cvv = $data['cvv'] ?? '';
         $products = $data['products'] ?? [];
 
-        // VALIDATE REQUIRED FIELDS
-        if (
-            empty($clientId) ||
-            empty($cardName) ||
-            empty($cardNumber) ||
-            empty($codePostal) ||
-            empty($expiryDate) ||
-            empty($cvv)
-        ) {
+        if (empty($products)) {
             $this->json([
                 'status' => 'error',
-                'message' => 'Informations de carte incomplètes'
+                'message' => 'Products required'
             ], 400);
+        }
+
+        // API - Check stock + calculate total
+        $productModel = new Products();
+
+        $subtotal = 0;
+
+        foreach ($products as $item) {
+            $prod = $productModel->find($item['id']);
+
+            if (!$prod) {
+                $this->json([
+                    'status' => 'error',
+                    'message' => "Produit introuvable"
+                ], 404);
+            }
+
+            if ($prod['stock'] < $item['quantity']) {
+                $this->json([
+                    'status' => 'error',
+                    'message' => "Stock insuffisant pour {$prod['name']}"
+                ], 400);
+            }
+
+            $subtotal += $prod['price'] * $item['quantity'];
+        }
+
+        // Calculate final total
+        $eco = 0.45;
+        $taxes = $subtotal * 0.15;
+
+        $totalAmount = $subtotal + $eco + $taxes;
+
+        // Format validation
+        if ($cardNumber === "" && $cardName === "" && $codePostal === "" && $expiryDate === "" && $cvv === "") {
+            $this->json(['status' => 'error', 'message' => 'Veuillez saisir vos informations de paiement avant de continuer.'], 400);
+        }
+
+        if (!preg_match('/^[A-Za-zÀ-ÿ\s]{2,50}$/u', $cardName)) {
+            $this->json(['status' => 'error', 'message' => 'Nom sur la carte requis ou format invalide.'], 400);
+        }
+
+        if (!preg_match('/^\d{4}\s\d{4}\s\d{4}\s\d{4}$/', $cardNumber) || $cardNumber === "") {
+            $this->json(['status' => 'error', 'message' => 'Numéro de carte : champ requis ou format invalide.'], 400);
+        }
+
+        if (!preg_match('/^[A-Za-z]\d[A-Za-z]\s\d[A-Za-z]\d$/', $codePostal)) {
+            $this->json(['status' => 'error', 'message' => 'Code postal : champ requis ou format invalide.'], 400);
+        }
+
+        if (!preg_match('/^(0[1-9]|1[0-2])\/\d{2}$/', $expiryDate)) {
+            $this->json(['status' => 'error', 'message' => "Date d'expiration : champ requis ou format invalide."], 400);
+        }
+
+        if (!preg_match('/^\d{3,4}$/', $cvv)) {
+            $this->json(['status' => 'error', 'message' => 'CVV : champ requis ou format invalide.'], 400);
         }
 
         // API - Check card in DB
@@ -355,7 +355,7 @@ class PaymentController
         if (empty($cardValid)) {
             $this->json([
                 'status' => 'error',
-                'message' => 'Informations de carte invalides'
+                'message' => 'Les informations de la carte sont invalides.'
             ], 400);
         }
 
@@ -365,8 +365,8 @@ class PaymentController
         try {
             $db->beginTransaction();
 
-            //Get client from session
-            $clientId = $_SESSION['user_id'];
+            //Get client id
+            $clientId = $_REQUEST['user']['id'];
 
             // Check client exists
             $clientModel = new Client();
@@ -387,18 +387,31 @@ class PaymentController
                 throw new \Exception("Fonds insuffisants.");
             }
 
-            // API - Création de l'expédition 
+
+            // API - Get expedition data from request
+            $expeditionModel = new Expedition();
+
+            $expeditionData = $data['expedition'] ?? [];
+
+            if (empty($expeditionData)) {
+                $this->json([
+                    'status' => 'error',
+                    'message' => 'Expedition data required'
+                ], 400);
+            }
+
+            // API - Création de l'expédition
             $expeditionModel = new Expedition();
             $expeditionId = $expeditionModel->create([
                 'client_id' => $clientId,
-                'ship_name' => 'API',
-                'ship_lastname' => "User",
-                'ship_email' => "api@example.com",
-                'ship_address' => "123 API St",
-                'ship_city' => "API City",
-                'ship_province' => "API Province",
-                'ship_postcode' => "API 123",
-                'ship_phone' => "000-000-0000",
+                'ship_name' => $expeditionData['name'] ?? '',
+                'ship_lastname' => $expeditionData['lastname'] ?? '',
+                'ship_email' => $expeditionData['email'] ?? '',
+                'ship_address' => $expeditionData['address'] ?? '',
+                'ship_city' => $expeditionData['city'] ?? '',
+                'ship_province' => $expeditionData['province'] ?? '',
+                'ship_postcode' => $expeditionData['postcode'] ?? '',
+                'ship_phone' => $expeditionData['phone'] ?? '',
                 'status' => 'pending',
                 'date' => date('Y-m-d')
             ]);
@@ -462,5 +475,50 @@ class PaymentController
                 'message' => $e->getMessage()
             ], 400);
         }
+    }
+
+    public function getPaymentDetailsAPI()
+    {
+        header('Content-Type: application/json');
+
+        $id = $_GET['id'] ?? null;
+
+        if (!$id) {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Missing ID'
+            ]);
+            return;
+        }
+
+        require_once __DIR__ . '/../middleware/apiAuth.php';
+        apiAuth();
+
+        $paymentModel = new Payment();
+        $commandModel = new Command();
+        $clientModel = new Client();
+        $expeditionModel = new Expedition();
+
+        $payment = $paymentModel->findById($id);
+
+        if (!$payment) {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Paiement introuvable'
+            ]);
+            return;
+        }
+
+        $client = $clientModel->findById($payment['client_id']);
+        $expedition = $expeditionModel->findWithClientById($payment['expedition_id']);
+        $commands = $commandModel->getByPaymentId($id);
+
+        echo json_encode([
+            'status' => 'success',
+            'payment' => $payment,
+            'client' => $client,
+            'expedition' => $expedition,
+            'commands' => $commands
+        ]);
     }
 }

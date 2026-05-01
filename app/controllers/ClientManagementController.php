@@ -95,4 +95,31 @@ class ClientManagementController
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode($x, JSON_UNESCAPED_UNICODE);
     }
+
+    public function currentUser()
+    {
+        require_once __DIR__ . '/../middleware/apiAuth.php';
+        apiAuth();
+
+        $clientId = $_REQUEST['user']['id'];
+
+        $client = $this->clients->findById($clientId);
+
+        $headers = getallheaders();
+        $token = $headers['X-Auth-Token'] ?? $headers['x-auth-token'] ?? null;
+
+        if (!$token && isset($_COOKIE['auth_token'])) {
+            $token = $_COOKIE['auth_token'];
+        }
+
+        $this->json([
+            'status' => 'success',
+            'client' => [
+                'id' => $client['id'],
+                'name' => $client['name'],
+                'email' => $client['email']
+            ],
+            'token' => $token
+        ]);
+    }
 }

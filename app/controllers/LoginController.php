@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 require_once __DIR__ . '/../Models/Client.php';
 use App\Models\Client;
+use App\Models\UserToken;
 
 /**
  * Class LoginController
@@ -95,7 +96,7 @@ class LoginController
         $_SESSION['role'] = $client['role'];
 
         if ($client['role'] === 'admin') {
-            $redirect = BASE_URL . '/connexion';
+            $redirect = BASE_URL . '/admin';
         } else {
             $redirect = BASE_URL . '/expedition';
         }
@@ -171,14 +172,36 @@ class LoginController
         $_SESSION['role'] = $client['role'];
 
         if ($client['role'] === 'admin') {
-            $redirect = '/connexion';
+            $redirect = '/admin';
         } else {
             $redirect = '/expedition';
         }
 
+        //TOKEN----------
+        $token = bin2hex(random_bytes(32));
+        $expiresAt = date('Y-m-d H:i:s', strtotime('+1 day'));
+
+        $tokenModel = new UserToken();
+
+        $tokenModel->create($client['id'], $token, $expiresAt);
+
+        setcookie(
+            "auth_token",
+            $token,
+            [
+                'expires' => time() + 3600,
+                'path' => '/',
+                'httponly' => true,
+                'secure' => false,
+                'samesite' => 'Lax'
+            ]
+        );
+
         echo json_encode([
             'status' => 'success',
-            'redirect' => $redirect
+            'redirect' => $redirect,
+            'token' => $token
         ]);
+        exit;
     }
 }

@@ -51,4 +51,23 @@ class Command extends Model
         // Retourne la liste des commandes sous forme de tableau associatif
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+    public function getByPaymentId($paymentId)
+    {
+        $sql = "
+        SELECT 
+            i.quantity,
+            i.unit_price AS price,
+            pr.name AS product_name
+        FROM payments p
+        JOIN expeditions e ON e.id = p.expedition_id
+        JOIN expedition_items i ON i.expedition_id = e.id
+        JOIN products pr ON pr.id = i.product_id
+        WHERE p.id = :payment_id
+    ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['payment_id' => $paymentId]);
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }

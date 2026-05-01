@@ -1,7 +1,6 @@
 <?php
 // flèches de navigation arrière et avant
 $expeditionUrl = $releveUrl ?? BASE_URL . '/expedition';
-$connexionUrl = $ordersUrl ?? BASE_URL . '/connexion';
 $logoutUrl = $logoutUrl ?? BASE_URL . '/logout.php';
 ?>
 
@@ -52,7 +51,7 @@ $logoutUrl = $logoutUrl ?? BASE_URL . '/logout.php';
         </li>
         <li class="nav-item">
             <a class="nav-link gap-3" href="<?= $logoutUrl ?>">
-                <i class="fa-solid fa-right-from-bracket fa-lg" style="color: #575757;"></i>
+                <i class="fa-solid fa-house fa-lg" style="color: #575757;"></i>
             </a>
         </li>
 

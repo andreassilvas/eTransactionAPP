@@ -24,13 +24,9 @@
                         <?php include __DIR__ . '/../layouts/base-form-inputs/policy_statement.php' ?>
                     </div>
 
-                    <div>
-                        <ul class="list-group">
-                            <li class="list-group-item border-0 p-1" style="font-size: 0.7rem;">Test courriel :
-                                maisel@andrea.com</li>
-                            <li class="list-group-item border-0 p-1" style="font-size: 0.7rem;">Test Mot de passe : 5678
-                            </li>
-                        </ul>
+                    <!-- Dynamic list implementation using JS -->
+                    <div class="card mb-1" style="width: 14rem; border-color:#7C0D0E">
+                        <ul class="list-group credentials"></ul>
                     </div>
 
                     <div id="loginErrorContainer" style="min-height: 40px;"></div>
@@ -62,4 +58,4 @@
         </div>
     </div>
 </div>
-<script type="module" src="public/js/loginModal.js"></script>
+<script type="module" src="/public/js/login/loginUI.js"></script>

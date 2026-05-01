@@ -1,8 +1,13 @@
 Options -MultiViews
 RewriteEngine On
+
+RewriteCond %{HTTP:Authorization} ^(._)
+RewriteRule ._ - [E=HTTP_AUTHORIZATION:%1]
+
 RewriteBase /
 
 # Redirect everything to index.php if not a file or folder
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [QSA,L]

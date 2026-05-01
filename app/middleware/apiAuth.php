@@ -1,17 +1,47 @@
 <?php
 
+use App\Models\UserToken;
+
 function apiAuth()
 {
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
+    header('Content-Type: application/json');
+
+    // Get headers
+    $headers = getallheaders();
+
+    // Try custom header first
+    $token = $headers['X-Auth-Token'] ?? $headers['x-auth-token'] ?? null;
+
+    // Fallback to httpOnly cookie
+    if (!$token && isset($_COOKIE['auth_token'])) {
+        $token = $_COOKIE['auth_token'];
     }
 
-    if (!isset($_SESSION['user_id'])) {
+    // No token found
+    if (!$token) {
         http_response_code(401);
         echo json_encode([
             'status' => 'error',
-            'message' => 'Unauthorized'
+            'message' => 'Token manquant'
         ]);
         exit;
     }
+
+    // Validate token in DB
+    $tokenModel = new UserToken();
+    $tokenData = $tokenModel->findValidToken($token);
+
+    if (!$tokenData) {
+        http_response_code(401);
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Token invalide ou expiré'
+        ]);
+        exit;
+    }
+
+    // Inject user into request
+    $_REQUEST['user'] = [
+        'id' => $tokenData['client_id']
+    ];
 }
