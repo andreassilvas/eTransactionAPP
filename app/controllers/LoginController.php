@@ -179,7 +179,7 @@ class LoginController
 
         //TOKEN----------
         $token = bin2hex(random_bytes(32));
-        $expiresAt = date('Y-m-d H:i:s', strtotime('+1 day'));
+        $expiresAt = date('Y-m-d H:i:s', strtotime('+1 day'));//+24 hours from now
 
         $tokenModel = new UserToken();
 
@@ -203,5 +203,30 @@ class LoginController
             'token' => $token
         ]);
         exit;
+    }
+    public function logoutAPI()
+    {
+        $token = $_COOKIE['auth_token'] ?? null;
+
+        if ($token) {
+            $tokenModel = new UserToken();
+            $tokenModel->deleteByToken($token);
+        }
+
+        setcookie(
+            "auth_token",
+            "",
+            [
+                'expires' => time() - 3600,
+                'path' => '/',
+                'httponly' => true,
+                'secure' => false,
+                'samesite' => 'Lax'
+            ]
+        );
+
+        echo json_encode([
+            'status' => 'success'
+        ]);
     }
 }

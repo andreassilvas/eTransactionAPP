@@ -258,13 +258,15 @@ $router->get('/api/test', function () {
     ]);
 });
 
-//-----------ENDSPOINTS---------------------------------------------
+//-----------ENDSPOINTS---------------------------------------------------
+
+//--------------Logged User----------------------------------------------
 $router->get('/api/currentuser', 'ClientManagementController@currentUser');
 
-//-------Products
+//-------Products--------------------------------------------------------
 $router->get('/api/products', 'ProductController@getProductsAPI');
 
-//-------Cart
+//-------Cart-------------------------------------------------------------
 $router->post('/api/cart/add', 'CartController@add');
 $router->get('/api/cart', 'CartController@get');
 $router->post('/api/cart/remove', 'CartController@remove');
@@ -282,6 +284,9 @@ $router->get('/api/expedition/details', 'ExpeditionController@expeditionDetailsA
 
 //-------Verification success {id}
 $router->get('/api/payment/details', 'PaymentController@getPaymentDetailsAPI');
+
+//-------Logout----------------------------------------------------------------
+$router->post('/api/logout', 'LoginController@logoutAPI');
 
 //TEST Routes
 // var_dump($path);

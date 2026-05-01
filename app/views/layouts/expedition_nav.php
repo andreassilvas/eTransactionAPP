@@ -50,10 +50,10 @@ $logoutUrl = $logoutUrl ?? BASE_URL . '/logout.php';
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link gap-3" href="<?= $logoutUrl ?>">
+            <a class="nav-link gap-3 logout" href="<?= $logoutUrl ?>">
                 <i class="fa-solid fa-house fa-lg" style="color: #575757;"></i>
             </a>
         </li>
-
     </ul>
 </nav>
+<script src="/public/js/logout.js"></script>

@@ -1,7 +1,5 @@
 import { getProductStock } from "./productsStockAPI.js";
 
-console.log("STOCK UI");
-
 function getStockStatus(stock) {
   if (stock === 0) {
     return { status: "Rupture stock", badge: "danger" };

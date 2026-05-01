@@ -1,7 +1,9 @@
 <?php include __DIR__ . '/../layouts/header.php'; ?>
 
 <body>
-    <?php $logoutUrl = BASE_URL . '/';
+    <?php $activeStep = 1;
+    $logoutUrl = BASE_URL . '/admin';
+
     include __DIR__ . '/../layouts/nav_top_dash.php'; ?>
 
     <div class="position-fixed top-0 start-0 h-100 border-end p-3 my-2" style="width: 260px;">

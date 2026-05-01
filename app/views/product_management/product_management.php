@@ -38,9 +38,9 @@
     </div>
 </div>
 
-<script src="public/js/validation/gestionProductsValidation.js"></script>
-<script src="public/js/products/productApi.js"></script>
-<script src="public/js/products/productAction.js"></script>
+<script src="/public/js/validation/gestionProductsValidation.js"></script>
+<script src="/public/js/products/productApi.js"></script>
+<script src="/public/js/products/productAction.js"></script>
 
 <script>
     const API = "<?= rtrim(BASE_URL, '/') ?>/gestion-des-produits";

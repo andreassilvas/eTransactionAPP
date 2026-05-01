@@ -36,4 +36,9 @@ class UserToken
         $stmt->execute(['token' => $token]);
         return $stmt->fetch();
     }
+    public function deleteByToken($token)
+    {
+        $stmt = $this->db->prepare("DELETE FROM user_tokens WHERE token = :token");
+        $stmt->execute(['token' => $token]);
+    }
 }
