@@ -1,7 +1,3 @@
-<?php
-$clientName = htmlspecialchars($_SESSION['client_name'] ?? '');
-?>
-
 <div class="container pt-5 pb-5">
     <?php include __DIR__ . '/../layouts/popup_window_session_expired.php'; ?>
 
@@ -12,12 +8,15 @@ $clientName = htmlspecialchars($_SESSION['client_name'] ?? '');
 </div>
 
 <div class="row justify-content-center mt-3">
-    <div class="col-sm-5">
+    <div class="col-sm-4">
         <?php include __DIR__ . '/../admin/inventaire.php'; ?>
     </div>
 
-    <div class="col-sm-5 mb-3 mb-sm-0">
+    <div class="col-sm-4 mb-3 mb-sm-0">
         <?php include __DIR__ . '/../admin/bank.php'; ?>
+    </div>
+    <div class="col-sm-4">
+        <?php include __DIR__ . '/../admin/client.php'; ?>
     </div>
 </div>
 

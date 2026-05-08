@@ -1,8 +1,8 @@
 <div class="card">
-    <div class="card-header custom-color-releve custom-color-white fw-semibold"><i
+    <div class="card-header custom-color-clients custom-color-white fw-semibold"><i
             class="fa-solid fa-users me-2"></i>Gestion des clients</div>
     <div class="card-body">
-        <h5 class="card-title mb-4 mt-3 custom-color-d">Gérer les accès et les autorisations des clients</h5>
+        <h5 class="card-title mb-4 mt-3 custom-color-d">Gérer les accès des clients</h5>
         <p class="card-text mb-4">
             Cette section vous permet de gérer les accès des clients aux ressources ainsi que les actions qu’ils sont
             autorisés à effectuer.

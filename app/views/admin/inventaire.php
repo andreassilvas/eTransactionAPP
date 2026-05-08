@@ -17,8 +17,8 @@
             $btnBg = '#9A5B00';
             $btnBorder = '#9A5B00';
             $btnTextColor = '#fff';
-            $btnHoverBg = '#495057';
-            $btnHoverBorder = '#495057';
+            $btnHoverBg = '#2B3035';
+            $btnHoverBorder = '#2B3035';
             $href = BASE_URL . '/tableau-de-bord';
             include __DIR__ . '/../components/base_button.php';
             ?>

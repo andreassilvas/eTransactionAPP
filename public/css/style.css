@@ -267,6 +267,10 @@ i.hovertrash:active {
     background-color: #061E3A;
     border-bottom: 1px solid #061E3A;
 }
+.card-header.custom-color-clients{
+    background-color: #0B3D2E;
+    border-bottom: 1px solid #0B3D2E;
+}
 
 .card-header.custom-color-notifications {
     background-color: var(--color-dark-gray);

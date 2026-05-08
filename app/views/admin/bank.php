@@ -4,7 +4,8 @@
     <div class="card-body">
         <h5 class="card-title mb-4 mt-3 custom-color-d">Accès à mon compte bancaire</h5>
         <p class="card-text mb-4">
-            Accédez à vos relevés bancaires et à l'historique de vos transactions en toute sécurité.
+            Accédez à vos relevés bancaires, consultez l'historique de vos transactions et téléchargez vos documents
+            financiers en toute sécurité.
         </p>
         <div class="d-flex justify-content-center">
             <?php
@@ -12,8 +13,8 @@
             $btnBg = '#061E3A';
             $btnBorder = '#061E3A';
             $btnTextColor = '#fff';
-            $btnHoverBg = '#0B3D91';
-            $btnHoverBorder = '#0B3D91';
+            $btnHoverBg = '#2B3035';
+            $btnHoverBorder = '#2B3035';
             $href = BASE_URL . '/banque';
             include __DIR__ . '/../components/base_button.php';
             ?>
