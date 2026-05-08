@@ -46,7 +46,7 @@ function isActive($path)
 
     </li>
 
-    <!-- Utilisateurs -->
+    <!-- Analyse des ventes-->
     <li class="nav-item">
 
         <button type="button" class="btn sidebar-btn w-100 text-start nav-link" data-bs-toggle="collapse"
@@ -56,12 +56,11 @@ function isActive($path)
             Analyse des ventes
         </button>
 
-        <div class="collapse show ps-3 <?= $usersOpen ? 'show' : '' ?>" id="usersMenu">
-            <a class="nav-link sidebar-link small <?= isActive('/gestion-ventes') ? 'active-link' : '' ?>"
-                href="<?= BASE_URL . '/gestion-ventes' ?>">
-                Ventes par client et produit
+        <!-- <div class="collapse show ps-3 <?= $usersOpen ? 'show' : '' ?>" id="usersMenu">
+            <a class="nav-link sidebar-link small <?= isActive('') ? 'active-link' : '' ?>" href="<?= BASE_URL . '' ?>">
+                Ventes par client
             </a>
-        </div>
+        </div> -->
 
     </li>
 </ul>

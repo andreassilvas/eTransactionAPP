@@ -7,11 +7,11 @@
             <?php
             $btnText = "Ajouter un nouveau produit";
             $btnId = "ajouterProduit";
-            $btnBg = '#00738A';
-            $btnBorder = '#00738A';
-            $btnTextColor = '#fff';
-            $btnHoverBg = '#005F84';
-            $btnHoverBorder = '#005F84';
+            $btnBg = '#fff';
+            $btnBorder = '#9A5B00';
+            $btnTextColor = '#9A5B00';
+            $btnHoverBg = '#9A5B00';
+            $btnHoverBorder = '#9A5B00';
             include __DIR__ . '/../components/base_button.php';
             ?>
         </div>

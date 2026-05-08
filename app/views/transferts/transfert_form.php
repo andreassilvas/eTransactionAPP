@@ -25,11 +25,11 @@
                 <div>
                     <?php
                     $btnText = "Envoyer";
-                    $btnBg = '#0B3D2E';
-                    $btnBorder = '#0B3D2E';
-                    $btnTextColor = '#fff';
-                    $btnHoverBg = '#0B3D2E';
-                    $btnHoverBorder = '#0B3D2E';
+                    $btnBg = '#fff';
+                    $btnBorder = '#2B3035';
+                    $btnTextColor = '#2B3035';
+                    $btnHoverBg = '#2B3035';
+                    $btnHoverBorder = '#2B3035';
                     $btnType = 'submit';
                     include __DIR__ . '/../components/base_button.php';
                     ?>

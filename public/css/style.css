@@ -19,6 +19,7 @@
     --color-success: #198754; 
     --color-warning: #BE5103;
     --color-info-warning: #CC7722;
+    --table-header-products: #9A5B00;
     --color-info: #0d6efd;
     --color-purple-toned: #5C5CFF;
     --color-light-purple: #E6E6FF;
@@ -209,7 +210,7 @@ i.hovertrash:active {
 .custom-btn-bg:hover,
 .custom-btn-bg:focus,
 .custom-btn-bg:active {
-  background-color: var(--color-purple-toned) !important;
+  background-color: var(--sidebar-link-hover) !important;
   color: var(--color-white) !important;
   border-color: inherit !important;
   box-shadow: none !important;
@@ -224,7 +225,7 @@ i.hovertrash:active {
 
 /* ======= GESTION DES PRODUITS PAGE ICONS ======= */
 .custom-edit-icon-products {
-  color: var(--color-blue-toned);
+  color: var(--color-accent);
 }
 
 /* Hovering the BUTTON also affects the icon */
@@ -250,7 +251,7 @@ i.hovertrash:active {
 .custom-btn-bg-products:hover,
 .custom-btn-bg-products:focus,
 .custom-btn-bg-products:active {
-  background-color: var(--color-blue-toned) !important;
+  background-color: var(--table-header-products) !important;
   color: var(--color-white) !important;
   border-color: inherit !important;
   box-shadow: none !important;
@@ -337,7 +338,7 @@ i.hovertrash:active {
     }
     .custom-gestion-product-table > tr > th{
         color: var(--color-light-gray);
-        background-color: var( --color-blue-toned);
+        background-color: var(--table-header-products);
     }
     .custom-gestion-utilisateurs-table > tr > th{
         color: var(--color-light-gray);
