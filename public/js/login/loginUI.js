@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
       source: loginSource,
     };
 
-    const response = await fetch("/eTransactionAPP/api/login", {
+    const response = await fetch("/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

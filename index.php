@@ -57,7 +57,7 @@ $router->post('/login', 'LoginController@login');
 
 /*============= Admin page (protected) =====================
 ===============================================================*/
-$router->get('/admin', function (): void {
+$router->get('/portal_admin', function (): void {
     authMiddleware('admin');
     require __DIR__ . '/app/Views/admin/index.php';
 });

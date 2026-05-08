@@ -96,7 +96,7 @@ class LoginController
         $_SESSION['role'] = $client['role'];
 
         if ($client['role'] === 'admin') {
-            $redirect = BASE_URL . '/admin';
+            $redirect = BASE_URL . '/portal_admin';
         } else {
             $redirect = BASE_URL . '/expedition';
         }
@@ -172,7 +172,7 @@ class LoginController
         $_SESSION['role'] = $client['role'];
 
         if ($client['role'] === 'admin') {
-            $redirect = '/admin';
+            $redirect = '/portal_admin';
         } else {
             $redirect = '/expedition';
         }
