@@ -5,8 +5,13 @@ document.addEventListener("DOMContentLoaded", function () {
       e.stopPropagation();
 
       try {
-        const res = await fetch("/eTransactionAPP/api/logout", {
+        const res = await fetch("/api/logout", {
           method: "POST",
+        }).then(() => {
+          // reset modal flag session will expire after 15 minutes of inactivity
+          sessionStorage.removeItem("sessionWarningShown");
+
+          window.location.href = "/";
         });
 
         console.log("logout response:", await res.json());

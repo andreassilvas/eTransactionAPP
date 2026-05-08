@@ -1,5 +1,10 @@
 <div class="card">
-    <div class="card-header custom-color-white fw-semibold custom-color-inventaire">Inventaire</div>
+    <div class="card-header custom-color-white fw-semibold custom-color-inventaire">
+        <i class="fa-solid fa-boxes-stacked me-2"></i>
+
+
+        Inventaire
+    </div>
     <div class="card-body">
         <h5 class="card-title mb-4 mt-3 custom-color-d">Accéder à mon inventaire</h5>
         <p class="card-text mb-4">
@@ -9,11 +14,11 @@
         <div class="d-flex justify-content-center">
             <?php
             $btnText = "Accéder à l'inventaire";
-            $btnBg = '#064747';
-            $btnBorder = '#064747';
+            $btnBg = '#9A5B00';
+            $btnBorder = '#9A5B00';
             $btnTextColor = '#fff';
-            $btnHoverBg = '#005F66';
-            $btnHoverBorder = '#005F66';
+            $btnHoverBg = '#495057';
+            $btnHoverBorder = '#495057';
             $href = BASE_URL . '/tableau-de-bord';
             include __DIR__ . '/../components/base_button.php';
             ?>

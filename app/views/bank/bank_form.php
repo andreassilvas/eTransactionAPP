@@ -29,4 +29,5 @@ if (!empty($transactions)) {
 renderDataTable($transactions, "tbl-releve-bancaire", "Relevé Bancaire", $headers, $fields, 'releve-pagination', $_SESSION['client_name'] ?? '', $solde);
 
 ?>
-<script src="public/js/tables/dataTableReleve.js"></script>
+<script src="/public/js/tables/dataTableReleve.js"></script>
+<script src="/public/js/authGuard.js"></script>

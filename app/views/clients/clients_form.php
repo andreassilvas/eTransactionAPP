@@ -29,6 +29,7 @@
                     <th>Province</th>
                     <th>Code postal</th>
                     <th>Mot de passe</th>
+                    <th>Rôle</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -44,4 +45,5 @@
 <script>
     const API = "<?= rtrim(BASE_URL, '/') ?>/gestion-utilisateurs";
 </script>
-<script src="public/js/user/userManagement.js"></script>
+<script src="/public/js/user/userManagement.js"></script>
+<script src="/public/js/authGuard.js"></script>

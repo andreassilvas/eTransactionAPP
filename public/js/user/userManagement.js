@@ -20,13 +20,13 @@ document.addEventListener("DOMContentLoaded", () => {
     { key: "city", type: "select-city", required: "create+update" },
     { key: "province", type: "select-province", required: "create+update" },
     { key: "postcode", type: "text", required: "create+update", maxLength: 7 },
-
     {
       key: "password",
       type: "password",
       required: "createOnly",
       maxLength: 4,
     },
+    { key: "role", type: "select-role", required: "create+update" },
   ];
 
   // Table column index map (to avoid magic numbers)
@@ -73,10 +73,10 @@ document.addEventListener("DOMContentLoaded", () => {
         { data: "province" },
         { data: "postcode" },
         { data: "password" }, // masked; not prefilled for edit
+        { data: "role" },
         { data: null, orderable: false, render: (_, __, r) => actionBtns(r) },
       ],
     });
-
     let editingTr = null;
     let createMode = false;
 
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return FIELDS.filter(
         (f) =>
           f.required === "create+update" ||
-          (isCreate && f.required === "createOnly")
+          (isCreate && f.required === "createOnly"),
       ).map((f) => f.key);
     }
 
@@ -152,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
           }
 
           const citySel = tds[colIndex.city].querySelector(
-            'select[name="city"]'
+            'select[name="city"]',
           );
           if (window.Validation) {
             window.Validation.validateFieldByName(provSel);
@@ -208,6 +208,26 @@ document.addEventListener("DOMContentLoaded", () => {
         })();
         return;
       }
+      if (field.type === "select-role") {
+        const roles = [
+          { value: "admin", label: "Admin" },
+          { value: "client", label: "Client" },
+        ];
+
+        td.innerHTML = select("role", roles, row.role || "", {
+          placeholder: "Select",
+          disabled: false,
+        });
+
+        const roleSel = td.querySelector('select[name="role"]');
+        roleSel.classList.add("dt-inline");
+
+        if (window.Validation) {
+          window.Validation.validateFieldByName(roleSel);
+        }
+
+        return;
+      }
 
       // default input
       td.innerHTML = input(val, field.type, field.key, {
@@ -225,7 +245,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const tds = tr.querySelectorAll("td");
 
       // Render editors for field columns
-      FIELDS.forEach((f, i) => setCellEditor(tds[i], f, data));
+      FIELDS.forEach((f) => {
+        const td = tds[colIndex[f.key]];
+        setCellEditor(td, f, data);
+      });
 
       // Actions
       tds[colIndex.actions].innerHTML = editBtns();
@@ -251,12 +274,12 @@ document.addEventListener("DOMContentLoaded", () => {
           const sel = tds[i].querySelector("select");
           const v = sel ? (sel.value || "").trim() : "";
           // keep existing table value if user didn’t choose anything in this select
-          out[f.key] = v !== "" ? v : table.row(tr).data()[f.key] ?? "";
+          out[f.key] = v !== "" ? v : (table.row(tr).data()[f.key] ?? "");
         } else {
           const inp = tds[i].querySelector("input");
           out[f.key] = inp
             ? (inp.value || "").trim()
-            : table.row(tr).data()[f.key] ?? "";
+            : (table.row(tr).data()[f.key] ?? "");
         }
       });
       return out;
@@ -300,7 +323,7 @@ document.addEventListener("DOMContentLoaded", () => {
         alert(
           err && err.message && err.message.includes("409")
             ? "Email already exists"
-            : (err && err.message) || "Une erreur est survenue"
+            : (err && err.message) || "Une erreur est survenue",
         );
       }
     }

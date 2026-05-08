@@ -4,11 +4,11 @@
     <?php $logoutUrl = BASE_URL . '/';
     include __DIR__ . '/../layouts/nav_top_releve.php'; ?>
 
-    <div class="position-fixed top-0 start-0 h-100 border-end p-3 my-2" style="width: 260px;">
-        <?php include __DIR__ . '/../layouts/nav_side_releve.php'; ?>
+    <div class="position-fixed top-0 start-0 h-100 border-end p-2 my-2" style="width: 275px;">
+        <?php include __DIR__ . '/../layouts/nav_side_bank.php'; ?>
     </div>
 
-    <div class="px-4" style="margin-left: 260px; overflow-y: auto;">
+    <div class="px-4" style="margin-left: 275px; overflow-y: auto;">
         <?php require __DIR__ . '/commands_form.php'; ?>
     </div>
     <!-- <?php

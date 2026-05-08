@@ -39,7 +39,7 @@ class Client extends Model
     /* ---------- Listing ---------- */
     public function all(): array
     {
-        $sql = "SELECT id, name, lastname, phone, extention, email, address, city, province, postcode, password
+        $sql = "SELECT id, name, lastname, phone, extention, email, address, city, province, postcode, password, role
                 FROM {$this->table}
                 ORDER BY id DESC";
         return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
@@ -52,8 +52,8 @@ class Client extends Model
         $clean = $this->normalize($data);
 
         $sql = "INSERT INTO {$this->table}
-                (name, lastname, phone, extention, email, address, city, province, postcode, password)
-                VALUES (:name, :lastname, :phone, :extention, :email, :address, :city, :province, :postcode, :password)";
+                (name, lastname, phone, extention, email, address, city, province, postcode, password, role)
+                VALUES (:name, :lastname, :phone, :extention, :email, :address, :city, :province, :postcode, :password, :role)";
 
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':name', $clean['name']);
@@ -66,7 +66,7 @@ class Client extends Model
         $stmt->bindValue(':province', $clean['province']);
         $stmt->bindValue(':postcode', $clean['postcode']);
         $stmt->bindValue(':password', $clean['password']);
-
+        $stmt->bindValue(':role', $clean['role']);
         $stmt->execute();
         return $this->db->lastInsertId();
     }
@@ -81,7 +81,7 @@ class Client extends Model
     {
         // Normalize inputs (trim, lower email)
         $clean = [];
-        foreach (['name', 'lastname', 'phone', 'extention', 'email', 'address', 'city', 'province', 'postcode', 'password'] as $k) {
+        foreach (['name', 'lastname', 'phone', 'extention', 'email', 'address', 'city', 'province', 'postcode', 'password', 'role'] as $k) {
             if (array_key_exists($k, $d)) {
                 $v = is_string($d[$k]) ? trim($d[$k]) : $d[$k];
                 if (in_array($k, ['phone', 'extention', 'address', 'city', 'province', 'postcode'], true)) {

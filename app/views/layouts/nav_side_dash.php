@@ -1,29 +1,67 @@
-<ul class="nav flex-column py-5">
-    <li class="nav-item">
-        <?php
-        $dashboardUrl = BASE_URL . '/tableau-de-bord';
-        $currentPath = $_SERVER['REQUEST_URI'];
-        $isDisabled = strpos($currentPath, '/tableau-de-bord') !== false ? 'disabled' : '';
-        ?>
-        <a class="nav-link <?= $isDisabled ?>" aria-current="page" href="<?= $dashboardUrl ?>">Tableau de Bord</a>
+<?php
+function isActive($path)
+{
+    return strpos($_SERVER['REQUEST_URI'], $path) !== false;
+}
+?>
+
+<ul class="nav flex-column mt-5 pt-4">
+
+    <!-- Dashboard -->
+    <li class="nav-item mb-2">
+        <a class="nav-link sidebar-link <?= isActive('/tableau-de-bord') ? 'active-link' : '' ?>"
+            href="<?= BASE_URL . '/tableau-de-bord' ?>">
+
+            <i class="fa-solid fa-chart-line me-2"></i>
+            Tableau de bord
+        </a>
     </li>
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+    <!-- Produits -->
+    <li class="nav-item mb-2">
+
+        <button type="button" class="btn sidebar-btn w-100 text-start nav-link" data-bs-toggle="collapse"
+            data-bs-target="#productsMenu" aria-expanded="true" aria-controls="productsMenu">
+
+            <i class="fa-solid fa-box me-2"></i>
             Gestion des Produits
-        </a>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="<?= BASE_URL . '/produits-en-stock' ?>">Produits en stock</a></li>
-            <li><a class="dropdown-item" href="<?= BASE_URL . '/produits-livre' ?>">Produits expédiés</a></li>
-            <li><a class="dropdown-item" href="<?= BASE_URL . '/administration-des-produits' ?>">Admin produits</a></li>
-        </ul>
+        </button>
+
+        <div class="collapse show ps-3 <?= $productsOpen ? 'show' : '' ?>" id="productsMenu">
+            <a class="nav-link sidebar-link small <?= isActive('/produits-en-stock') ? 'active-link' : '' ?>"
+                href="<?= BASE_URL . '/produits-en-stock' ?>">
+                Produits en stock
+            </a>
+
+            <a class="nav-link sidebar-link small <?= isActive('/produits-livre') ? 'active-link' : '' ?>"
+                href="<?= BASE_URL . '/produits-livre' ?>">
+                Produits expédiés
+            </a>
+
+            <a class="nav-link sidebar-link small <?= isActive('/administration-des-produits') ? 'active-link' : '' ?>"
+                href="<?= BASE_URL . '/administration-des-produits' ?>">
+                Administration produits
+            </a>
+        </div>
+
     </li>
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+    <!-- Utilisateurs -->
+    <li class="nav-item">
+
+        <button type="button" class="btn sidebar-btn w-100 text-start nav-link" data-bs-toggle="collapse"
+            data-bs-target="#usersMenu" aria-expanded="true" aria-controls="usersMenu">
+
+            <i class="fa-solid fa-users me-2"></i>
             Gestion des Utilisateurs
-        </a>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="<?= BASE_URL ?>/gestion-utilisateurs">Admin utilisateurs</a></li>
-            <li><a class="dropdown-item" href="#">Comptes bancaires</a></li>
-        </ul>
+        </button>
+
+        <div class="collapse show ps-3 <?= $usersOpen ? 'show' : '' ?>" id="usersMenu">
+            <a class="nav-link sidebar-link small <?= isActive('/gestion-utilisateurs') ? 'active-link' : '' ?>"
+                href="<?= BASE_URL . '/gestion-utilisateurs' ?>">
+                Administration utilisateurs
+            </a>
+        </div>
+
     </li>
 </ul>

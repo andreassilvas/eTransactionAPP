@@ -97,10 +97,12 @@ class CartController
             }
         }
 
-        $this->json([
-            'status' => 'success',
-            'cart' => $cartDetailed
-        ]);
+        $this->json(
+            [
+                'status' => 'success',
+                'cart' => $cartDetailed
+            ],
+        );
     }
     public function remove()
     {

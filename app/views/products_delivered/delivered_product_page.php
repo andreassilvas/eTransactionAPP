@@ -111,3 +111,4 @@ $pending = $pending ?? [];
     ]) ?>;
 </script>
 <script src="public/js/dashboard.js"></script>
+<script src="public/js/authGuard.js"></script>

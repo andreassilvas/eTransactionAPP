@@ -112,12 +112,17 @@ class ClientManagementController
             $token = $_COOKIE['auth_token'];
         }
 
+        date_default_timezone_set('America/Montreal');
+
         $this->json([
             'status' => 'success',
             'client' => [
                 'id' => $client['id'],
                 'name' => $client['name'],
-                'email' => $client['email']
+                'lastname' => $client['lastname'],
+                'email' => $client['email'],
+                'role' => $client['role'],
+                'date' => date('Y-m-d H:i:s'),
             ],
             'token' => $token
         ]);

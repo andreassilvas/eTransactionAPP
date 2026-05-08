@@ -22,7 +22,7 @@ function apiAuth()
         http_response_code(401);
         echo json_encode([
             'status' => 'error',
-            'message' => 'Token manquant'
+            'message' => 'Unauthorized access: No token provided'
         ]);
         exit;
     }
@@ -35,7 +35,7 @@ function apiAuth()
         http_response_code(401);
         echo json_encode([
             'status' => 'error',
-            'message' => 'Token invalide ou expiré'
+            'message' => 'Invalid or expired token'
         ]);
         exit;
     }
@@ -45,3 +45,9 @@ function apiAuth()
         'id' => $tokenData['client_id']
     ];
 }
+
+
+
+
+
+

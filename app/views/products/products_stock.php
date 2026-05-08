@@ -140,3 +140,4 @@ foreach ($products as $product) {
 </script>
 <script src="public/js/products/productsDashboard.js"></script>
 <script type="module" src="/public/js/products/products_stock/productsStockUI.js"></script>
+<script src="public/js/authGuard.js"></script>

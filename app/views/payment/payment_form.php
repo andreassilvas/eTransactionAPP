@@ -120,5 +120,6 @@
 <script>
     const EXPEDITION = <?= json_encode($_SESSION['expedition_data'] ?? null) ?>;
 </script>
-<script src="public/js/validationPaymentForm.js"></script>
-<script type="module" src="public/js/payment/paymentUI.js"></script>
+<script src="/public/js/validationPaymentForm.js"></script>
+<script type="module" src="/public/js/payment/paymentUI.js"></script>
+<script src="/public/js/authGuard.js"></script>

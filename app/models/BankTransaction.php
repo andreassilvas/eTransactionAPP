@@ -105,4 +105,42 @@ class BankTransaction
             'balance' => $balance
         ]);
     }
+    public function getCurrentBalance($clientId)
+    {
+        $sql = "SELECT balance
+            FROM {$this->table}
+            WHERE client_id = :client_id
+            ORDER BY transaction_date DESC, id DESC
+            LIMIT 1";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            ':client_id' => $clientId
+        ]);
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $result ? (float) $result['balance'] : 0;
+    }
+
+    public function deposit($clientId, $amount, $description = '')
+    {
+        $currentBalance = $this->getCurrentBalance($clientId);
+
+        $newBalance = $currentBalance + $amount;
+
+        $this->create([
+            'client_id' => $clientId,
+            'description' => 'Dépôt - ' . $description,
+            'credit' => $amount,
+            'debit' => 0,
+            'balance' => $newBalance
+        ]);
+
+        return [
+            'success' => true,
+            'balance' => $newBalance
+        ];
+    }
+
 }

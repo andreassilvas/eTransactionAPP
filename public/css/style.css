@@ -14,6 +14,7 @@
     --color-indust-gray: #878787;
     --color-alabaster: #E5E5F0;
     --color-white: #f2f2f2;
+    --color-accent: #2B3035;
     /* --color-success: #008000;  */
     --color-success: #198754; 
     --color-warning: #BE5103;
@@ -28,6 +29,11 @@
     --color-blue-toned: #00738A;
     --color-navbar-releve: #A6C3A8;
     --color-info-danger: #E73121;
+    --sidebar-link-color: #1F3A5F;
+    --sidebar-link-hover: #0B3D2E;
+    --sidebar-link-active-bg: #E8EEF5;
+    --sidebar-link-active-color: #132238;
+
     
 }
 
@@ -88,6 +94,53 @@ nav#navbar-inventory a.inactive {
 .nav-link.active-step-c { color: var(--color-light-violet); }
 .navbar .badge.active-step-c { background-color: var(--color-violet); }
 .custom-navbar-inventaire { background-color: var(--color-dark-purple) !important;}
+
+/* ===== SIDEBAR LINKS ===== */
+
+.sidebar-link.nav-link {
+    --bs-nav-link-color: var(--sidebar-link-color);
+    --bs-nav-link-hover-color: var(--sidebar-link-hover);
+
+    color: var(--sidebar-link-color);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.sidebar-link.nav-link:hover {
+    background-color: var(--sidebar-link-active-bg);
+    color: var(--sidebar-link-hover);
+}
+
+.sidebar-link.nav-link.active-link {
+    background-color: var(--sidebar-link-active-bg);
+    color: var(--sidebar-link-active-color);
+    font-weight: 600;
+}
+
+/* ===== SIDEBAR BUTTONS ===== */
+
+.sidebar-btn.btn.nav-link {
+    --bs-btn-border-color: transparent;
+    --bs-btn-bg: transparent;
+    --bs-btn-hover-bg: transparent;
+    --bs-btn-active-bg: transparent;
+    --bs-btn-box-shadow: none;
+
+    border: none;
+    background: transparent;
+    color: #6c757d;
+    box-shadow: none;
+    font-weight: 600;
+}
+
+.sidebar-btn.btn.nav-link:hover,
+.sidebar-btn.btn.nav-link:focus,
+.sidebar-btn.btn.nav-link:active {
+    background: transparent;
+    color: #6c757d;
+    box-shadow: none;
+}
 
 
 /* ======TABLES / FORMS====== */
@@ -207,14 +260,14 @@ i.hovertrash:active {
 
 /* =======CARDS======= */
 .card-header.custom-color-inventaire{
-    background-color: var(--color-primary-c);
+    background-color: #9A5B00;
+    border-bottom: 1px solid #9A5B00;
 }
 .card-header.custom-color-releve{
-    background-color: var(--color-green-toned);
+    background-color: #061E3A;
+    border-bottom: 1px solid #061E3A;
 }
-.card-header.custom-color-expedition {
-    background-color: var(--color-green-toned);
-}
+
 .card-header.custom-color-notifications {
     background-color: var(--color-dark-gray);
 }
@@ -307,5 +360,6 @@ i.hovertrash:active {
 .custom-success { color: var(--color-success); }
 .custom-warning { color: var(--color-info-warning);}
 .custom-danger { color: var(--color-info-danger); }
+.custom-color-accent { color: var(--color-accent); }
 
 

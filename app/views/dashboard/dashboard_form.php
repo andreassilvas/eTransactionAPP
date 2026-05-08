@@ -133,3 +133,4 @@ $health = $total > 0 ? round($ok * 100 / $total) : 0;
     ]) ?>;
 </script>
 <script src="public/js/dashboard.js"></script>
+<script src="public/js/authGuard.js"></script>

@@ -1,7 +1,5 @@
-const BASE = "/eTransactionAPP";
-
 export async function createPayment(data) {
-  const res = await fetch(`${BASE}/api/payment`, {
+  const res = await fetch("/api/payment", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -13,6 +11,6 @@ export async function createPayment(data) {
 }
 
 export async function getCart() {
-  const res = await fetch(`${BASE}/api/cart`);
+  const res = await fetch("/api/cart");
   return res.json();
 }

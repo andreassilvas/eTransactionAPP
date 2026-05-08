@@ -27,18 +27,57 @@ class UserToken
     public function findValidToken($token)
     {
         $stmt = $this->db->prepare("
-            SELECT * FROM user_tokens
-            WHERE token = :token
-            AND expires_at > NOW()
-            LIMIT 1
-        ");
+        SELECT * FROM user_tokens
+        WHERE token = :token
+        LIMIT 1
+    ");
 
-        $stmt->execute(['token' => $token]);
-        return $stmt->fetch();
+        $stmt->execute([
+            'token' => $token
+        ]);
+
+        $tokenData = $stmt->fetch();
+
+        // Token not found
+        if (!$tokenData) {
+            return false;
+        }
+
+        // Token expired
+        if (strtotime($tokenData['expires_at']) < time()) {
+            return false;
+        }
+
+        return $tokenData;
     }
+    //   public function findValidToken($token)
+    // {
+    //     $stmt = $this->db->prepare("
+    //         SELECT * FROM user_tokens
+    //         WHERE token = :token
+    //         AND expires_at > NOW()
+    //         LIMIT 1
+    //     ");
+
+    //     $stmt->execute(['token' => $token]);
+    //     // echo json_encode([
+    //     //     'mysql_now' => $this->db->query("SELECT NOW()")->fetchColumn(),
+    //     //     'token_expires' => $stmt->fetch()['expires_at'] ?? null
+    //     // ]);
+    //     // exit;
+    //     return $stmt->fetch();
+
+    // }
     public function deleteByToken($token)
     {
         $stmt = $this->db->prepare("DELETE FROM user_tokens WHERE token = :token");
         $stmt->execute(['token' => $token]);
     }
+
+    public function deleteByClientId($clientId)
+    {
+        $stmt = $this->db->prepare("DELETE FROM user_tokens WHERE client_id = :client_id");
+        $stmt->execute(['client_id' => $clientId]);
+    }
 }
+

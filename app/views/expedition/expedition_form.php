@@ -88,5 +88,6 @@
         </div>
     </div>
 </form>
-<script src="public/js/resetPage.js"></script>
-<script src="public/js/validationExpeditionForm.js"></script>
+<script src="/public/js/resetPage.js"></script>
+<script src="/public/js/validationExpeditionForm.js"></script>
+<script src="/public/js/authGuard.js"></script>

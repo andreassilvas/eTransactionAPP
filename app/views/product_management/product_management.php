@@ -45,4 +45,5 @@
 <script>
     const API = "<?= rtrim(BASE_URL, '/') ?>/gestion-des-produits";
 </script>
-<script src="public/js/products/gestionDesProduits.js"></script>
+<script src="/public/js/products/gestionDesProduits.js"></script>
+<script src="/public/js/authGuard.js"></script>

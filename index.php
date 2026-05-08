@@ -62,9 +62,9 @@ $router->get('/admin', function (): void {
     require __DIR__ . '/app/Views/admin/index.php';
 });
 
-/*============= Relevé Bancaire page (protected) ===============
+/*============= Banque page (protected) ===============
 ===============================================================*/
-$router->get('/releve', function (): void {
+$router->get('/banque', function (): void {
     authMiddleware();
     $controller = new \App\Controllers\BankController();
     $controller->index();
@@ -76,6 +76,14 @@ $router->get('/commandes', function (): void {
     authMiddleware();
     $controller = new \App\Controllers\CommandController();
     $controller->index();
+});
+
+/*============= Transfert de fonds page (protected) ======
+===============================================================*/
+$router->get('/transferts', function (): void {
+    authMiddleware();
+
+    require __DIR__ . '/app/Views/transferts/index.php';
 });
 
 /*============= Expédition Client (protected) ==================
@@ -243,8 +251,13 @@ $router->get('/geo/cities/show', function (): void {
     $controller->cityShow();
 });
 
-/** APIs ********************************************************** */
-//-------Login
+//=================================================================================
+//-----------ENDPOINTS FOR API (used by JS fetch calls)----------------------------
+//=================================================================================
+
+//=================================================================================
+//-----------LOGIN-----------------------------------------------------------------
+//=================================================================================
 $router->post('/api/login', 'LoginController@loginAPI');
 
 require_once __DIR__ . '/app/middleware/apiAuth.php';
@@ -258,34 +271,50 @@ $router->get('/api/test', function () {
     ]);
 });
 
-//-----------ENDSPOINTS---------------------------------------------------
-
-//--------------Logged User----------------------------------------------
+//=================================================================================
+//-----------LOGGED-IN USER--------------------------------------------------------
+//=================================================================================
 $router->get('/api/currentuser', 'ClientManagementController@currentUser');
 
-//-------Products--------------------------------------------------------
+//=================================================================================
+//-----------ADMIN PRODUCTS--------------------------------------------------------------
+//=================================================================================
 $router->get('/api/products', 'ProductController@getProductsAPI');
 
-//-------Cart-------------------------------------------------------------
+//=================================================================================
+//-----------USER CART------------------------------------------------------------------
+//=================================================================================
 $router->post('/api/cart/add', 'CartController@add');
 $router->get('/api/cart', 'CartController@get');
 $router->post('/api/cart/remove', 'CartController@remove');
 $router->post('/api/cart/update', 'CartController@update');
 $router->post('/api/cart/clear', 'CartController@clear');
 
-//-------Payment
+//=================================================================================
+//-----------USER PAYMENT---------------------------------------------------------------
+//=================================================================================
 $router->post('/api/payment', 'PaymentController@paymentAPI');
+$router->get('/api/payment', 'PaymentController@paymentAPI');
 
-//-------Expeditions
+//-------Verification success {id}
+$router->get('/api/payment/details', 'PaymentController@getPaymentDetailsAPI');
+
+//=================================================================================
+//-----------USER EXPEDITION------------------------------------------------------------
+//=================================================================================
 $router->get('/api/expedition', 'ExpeditionController@expeditionsAPI');
 
 //-------Expeditions Details {id}
 $router->get('/api/expedition/details', 'ExpeditionController@expeditionDetailsAPI');
 
-//-------Verification success {id}
-$router->get('/api/payment/details', 'PaymentController@getPaymentDetailsAPI');
+//=================================================================================
+//-----------ADMIN Transferts de fonds--------------------------------------------------
+//=================================================================================
+$router->post('/api/transferts', 'TransfertController@transfertsAPI');
 
-//-------Logout----------------------------------------------------------------
+//=================================================================================
+//-----------LOGOUT----------------------------------------------------------------
+//=================================================================================
 $router->post('/api/logout', 'LoginController@logoutAPI');
 
 //TEST Routes

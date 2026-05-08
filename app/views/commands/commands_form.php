@@ -26,7 +26,8 @@ $fields = [
 ];
 
 // Appel de la fonction pour afficher le tableau paginé
-renderDataTable($commands, "tbl-commands", "Historique des commandes", $headers, $fields, 'commands-pagination', $_SESSION['client_name'] ?? '');
+renderDataTable($commands, "tbl-commands", "Activité du compte", $headers, $fields, 'commands-pagination', $_SESSION['client_name'] ?? '');
 
 ?>
-<script src="public/js/tables/dataTableCommands.js"></script>
+<script src="/public/js/tables/dataTableCommands.js"></script>
+<script src="/public/js/authGuard.js"></script>

@@ -179,9 +179,17 @@ class LoginController
 
         //TOKEN----------
         $token = bin2hex(random_bytes(32));
-        $expiresAt = date('Y-m-d H:i:s', strtotime('+1 day'));//+24 hours from now
+
+        date_default_timezone_set('UTC');
+
+        $expiresAt = date('Y-m-d H:i:s', strtotime('+1 hour'));//+1 hour
+        // $expiresAt = date('Y-m-d H:i:s', strtotime('+2 minutes'));
+        // $expiresAt = date('Y-m-d H:i:s', strtotime('+1 day'));//+24 hours 
 
         $tokenModel = new UserToken();
+
+        //One active token per user
+        $tokenModel->deleteByClientId($client['id']);
 
         $tokenModel->create($client['id'], $token, $expiresAt);
 
@@ -189,7 +197,7 @@ class LoginController
             "auth_token",
             $token,
             [
-                'expires' => time() + 3600,
+                'expires' => strtotime($expiresAt),
                 'path' => '/',
                 'httponly' => true,
                 'secure' => false,
