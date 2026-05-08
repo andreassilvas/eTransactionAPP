@@ -28,11 +28,13 @@
     --color-dark-purple: #290245;
     --color-blue-toned: #00738A;
     --color-navbar-releve: #A6C3A8;
+    --color-add-client: #aabab3;
     --color-info-danger: #E73121;
     --sidebar-link-color: #1F3A5F;
     --sidebar-link-hover: #0B3D2E;
     --sidebar-link-active-bg: #E8EEF5;
     --sidebar-link-active-color: #132238;
+    --sidebar-header-releve: #061E3A;
 
     
 }
@@ -86,14 +88,17 @@ nav#navbar-inventory a.inactive {
 .navbar .badge.active-step-a { background-color: var(--color-primary-b); }
 
 /* Navbar Relevés */
-.nav-link.active-step-b { color: var(--color-primary-c); }
-.navbar .badge.active-step-b { background-color: var(--color-primary-c); }
-.custom-navbar-releve { background-color: var(--color-primary-c) !important;}
+.nav-link.active-step-b { color: var(--sidebar-header-releve); }
+.navbar .badge.active-step-b { background-color: var(--sidebar-header-releve); }
+.custom-navbar-releve { background-color: var(--sidebar-header-releve) !important;}
 
 /* Navbar Inventaire */
 .nav-link.active-step-c { color: var(--color-light-violet); }
 .navbar .badge.active-step-c { background-color: var(--color-violet); }
 .custom-navbar-inventaire { background-color: var(--color-dark-purple) !important;}
+
+/*Navbar top Clients*/
+.custom-navbar-clients{ background-color: var(--color-add-client) !important;}
 
 /* ===== SIDEBAR LINKS ===== */
 
@@ -170,7 +175,7 @@ thead tr.custom-color-a {
 /* ======= GESTION DES UTILISATEURS PAGE ICONS ======= */
 
 .custom-edit-icon {
-  color: var(--color-purple-toned);
+  color: var(--color-accent);
 }
 
 /* Hovering the BUTTON also affects the icon */
@@ -336,7 +341,7 @@ i.hovertrash:active {
     }
     .custom-gestion-utilisateurs-table > tr > th{
         color: var(--color-light-gray);
-        background-color: var(--color-purple-toned);
+        background-color: var(--sidebar-link-hover);
     }
 
     /*========== SEARCH INPUT ==========*/

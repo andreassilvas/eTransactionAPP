@@ -53,13 +53,13 @@ function isActive($path)
             data-bs-target="#usersMenu" aria-expanded="true" aria-controls="usersMenu">
 
             <i class="fa-solid fa-users me-2"></i>
-            Gestion des Utilisateurs
+            Analyse des ventes
         </button>
 
         <div class="collapse show ps-3 <?= $usersOpen ? 'show' : '' ?>" id="usersMenu">
-            <a class="nav-link sidebar-link small <?= isActive('/gestion-utilisateurs') ? 'active-link' : '' ?>"
-                href="<?= BASE_URL . '/gestion-utilisateurs' ?>">
-                Administration utilisateurs
+            <a class="nav-link sidebar-link small <?= isActive('/gestion-ventes') ? 'active-link' : '' ?>"
+                href="<?= BASE_URL . '/gestion-ventes' ?>">
+                Ventes par client et produit
             </a>
         </div>
 

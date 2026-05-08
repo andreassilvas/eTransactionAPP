@@ -8,7 +8,7 @@
         <?php include __DIR__ . '/../layouts/nav_side_bank.php'; ?>
     </div>
 
-    <div class="px-4" style="margin-left: 275px; overflow-y: auto;">
+    <div class="px-4 mt-3" style="margin-left: 275px; overflow-y: auto;">
         <?php require __DIR__ . '/commands_form.php'; ?>
     </div>
     <!-- <?php

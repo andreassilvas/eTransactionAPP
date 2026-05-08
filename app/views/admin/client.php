@@ -9,13 +9,13 @@
         </p>
         <div class="d-flex justify-content-center">
             <?php
-            $btnText = "Mon compte";
+            $btnText = "Gérer les clients";
             $btnBg = '#0B3D2E';
             $btnBorder = '#0B3D2E';
             $btnTextColor = '#fff';
             $btnHoverBg = '#2B3035';
             $btnHoverBorder = '#2B3035';
-            $href = BASE_URL . '/banque';
+            $href = BASE_URL . '/gestion-utilisateurs';
             include __DIR__ . '/../components/base_button.php';
             ?>
         </div>

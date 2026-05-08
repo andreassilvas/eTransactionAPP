@@ -7,11 +7,11 @@
             <?php
             $btnText = "Ajouter un utilisateur";
             $btnId = "ajouterUtilisateur";
-            $btnBg = '#5C5CFF';
-            $btnBorder = '#5C5CFF';
+            $btnBg = '#0B3D2E';
+            $btnBorder = '#0B3D2E';
             $btnTextColor = '#fff';
-            $btnHoverBg = '#7F00FF';
-            $btnHoverBorder = '#7F00FF';
+            $btnHoverBg = '#748e84';
+            $btnHoverBorder = '#748e84';
             include __DIR__ . '/../components/base_button.php';
             ?>
         </div>

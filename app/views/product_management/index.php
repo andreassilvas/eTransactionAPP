@@ -8,7 +8,7 @@
         <?php include __DIR__ . '/../layouts/nav_side_dash.php'; ?>
     </div>
 
-    <div class="px-4" style="margin-left: 275px;">
+    <div class="px-4 mt-3" style="margin-left: 275px;">
         <?php require __DIR__ . '/product_management.php'; ?>
     </div>
 
