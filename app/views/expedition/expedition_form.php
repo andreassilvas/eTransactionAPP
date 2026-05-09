@@ -1,3 +1,5 @@
+<?php include __DIR__ . '/../layouts/popup_window_session_expired.php'; ?>
+
 <form method="POST" action="<?php echo BASE_URL; ?>/expeditions/store" id="adresseFacturation">
     <div class="row">
         <div class="col-8 pad-left">
@@ -88,6 +90,7 @@
         </div>
     </div>
 </form>
+<script src="/public/js/modal/sessionWillExpire.js"></script>
 <script src="/public/js/resetPage.js"></script>
 <script src="/public/js/validationExpeditionForm.js"></script>
 <script src="/public/js/authGuard.js"></script>

@@ -8,7 +8,8 @@
             <form id="transferForm">
                 <div class="mb-3">
                     <label for="to_client_id" class="form-label">Numéro d'identification du destinataire</label>
-                    <select class="form-select" id="to_client_id" required aria-label="Default select example">
+                    <select class="form-select" id="to_client_id" required aria-label="Default select example"
+                        style="color:#546373;font-size: 0.9rem;">
                         <option value="">Sélectionner un client</option>
                     </select>
                 </div>
@@ -21,7 +22,6 @@
                     <label for="description" class="form-label">Description</label>
                     <textarea class="form-control" id="description" rows="3"></textarea>
                 </div>
-                <!-- <button type="submit" class="btn btn-primary">Envoyer</button> -->
                 <div>
                     <?php
                     $btnText = "Envoyer";

@@ -22,20 +22,4 @@
 
 <script src="/public/js/adminConnexion/adminAPI.js"></script>
 <script src="/public/js/authGuard.js"></script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        if (sessionStorage.getItem("sessionWarningShown")) {
-            return;
-        }
-
-        const modalEl = document.getElementById("sessionExpiredModal");
-
-        if (!modalEl) return;
-
-        const modal = new bootstrap.Modal(modalEl);
-        modal.show();
-
-        sessionStorage.setItem("sessionWarningShown", "true");
-    });
-</script>
+<script src="/public/js/modal/sessionWillExpire.js"></script>
