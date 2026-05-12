@@ -3,10 +3,10 @@ require __DIR__ . '/../../Helpers/TableHelper.php';
 
 // Définition des en-têtes du tableau
 $headers = [
-    ['text' => 'Date', 'style' => ''],
-    ['text' => 'Exp. Id', 'style' => ''],
+    ['text' => 'Date d\'activité', 'style' => ''],
+    ['text' => 'ID exp.', 'style' => ''],
     ['text' => 'Acheteur', 'style' => ''],
-    ['text' => 'Courriel acheteur', 'style' => ''],
+    ['text' => 'Courriel', 'style' => ''],
     ['text' => 'Produits', 'style' => ''],
     ['text' => 'Montant', 'style' => ''],
     ['text' => 'Payé', 'style' => ''],
@@ -15,7 +15,35 @@ $headers = [
 
 // Définition des champs à afficher pour chaque ligne
 $fields = [
-    'expedition_date' => null,
+    'expedition_date' => function ($val) {
+
+        if (empty($val)) {
+            return '';
+        }
+
+        $date = new DateTime(
+            $val,
+            new DateTimeZone('UTC')
+        );
+
+        $date->setTimezone(
+            new DateTimeZone('America/Montreal')
+        );
+
+        $formatter = new IntlDateFormatter(
+            'fr_CA',
+            IntlDateFormatter::NONE,
+            IntlDateFormatter::NONE,
+            'America/Montreal',
+            null,
+            "d MMM yyyy - HH'h'mm"
+        );
+
+        return mb_strtolower(
+            $formatter->format($date),
+            'UTF-8'
+        );
+    },
     'expedition_id' => null,
     'expedition_name' => fn($v, $row) => $v . ' ' . $row['expedition_lastname'],
     'expedition_email' => null,

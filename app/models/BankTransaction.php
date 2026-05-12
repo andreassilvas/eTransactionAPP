@@ -46,9 +46,33 @@ class BankTransaction
     {
         $sql = "SELECT * FROM {$this->table} 
                 WHERE client_id = :client_id 
-                ORDER BY transaction_date DESC";
+                ORDER BY transaction_date DESC, id DESC";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':client_id', $clientId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getByCompanyId($companyId)
+    {
+        $sql = "SELECT
+            bt.*,
+            CONCAT(u.name, ' ', u.lastname) AS user_fullname
+                FROM {$this->table} bt
+                JOIN users u
+                    ON bt.user_id = u.id
+                WHERE bt.company_id = :company_id
+                ORDER BY transaction_date DESC, id DESC";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->bindParam(
+            ':company_id',
+            $companyId,
+            PDO::PARAM_INT
+        );
+
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -68,17 +92,20 @@ class BankTransaction
     public function create(array $data)
     {
         $sql = "INSERT INTO {$this->table} 
-                (client_id, description, credit, debit, balance, transaction_date) 
-                VALUES (:client_id, :description, :credit, :debit, :balance, NOW())";
+                (company_id,user_id,transaction_type,description,credit,debit,balance,transaction_date)
+                VALUES (:company_id,:user_id,:transaction_type,:description,:credit,:debit,:balance, :transaction_date)";
 
         $stmt = $this->db->prepare($sql);
 
         $stmt->execute([
-            ':client_id' => $data['client_id'],
+            ':company_id' => $data['company_id'],
+            ':user_id' => $data['user_id'],
+            ':transaction_type' => $data['transaction_type'],
             ':description' => $data['description'] ?? '',
             ':credit' => $data['credit'] ?? 0,
             ':debit' => $data['debit'] ?? 0,
-            ':balance' => $data['balance'] ?? 0
+            ':balance' => $data['balance'] ?? 0,
+            ':transaction_date' => gmdate('Y-m-d H:i:s')
         ]);
 
         return $this->db->lastInsertId();
@@ -122,19 +149,51 @@ class BankTransaction
 
         return $result ? (float) $result['balance'] : 0;
     }
-
-    public function deposit($clientId, $amount, $description = '')
+    public function getCompanyBalance($companyId)
     {
-        $currentBalance = $this->getCurrentBalance($clientId);
+        $sql = "
+        SELECT balance
+        FROM {$this->table}
+        WHERE company_id = :company_id
+        ORDER BY transaction_date DESC, id DESC
+        LIMIT 1
+    ";
 
-        $newBalance = $currentBalance + $amount;
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute([
+            ':company_id' => $companyId
+        ]);
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $result
+            ? (float) $result['balance']
+            : 0;
+    }
+
+    public function deposit(
+        $companyId,
+        $userId,
+        $amount,
+        $transactionType,
+        $description = ''
+    ) {
+        $currentBalance =
+            $this->getCompanyBalance($companyId);
+
+        $newBalance =
+            $currentBalance + $amount;
 
         $this->create([
-            'client_id' => $clientId,
-            'description' => 'Dépôt - ' . $description,
+            'company_id' => $companyId,
+            'user_id' => $userId,
+            'transaction_type' => $transactionType,
+            'description' => $description,
             'credit' => $amount,
             'debit' => 0,
             'balance' => $newBalance
+
         ]);
 
         return [

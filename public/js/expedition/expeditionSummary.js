@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Example: display user name
     const el = document.getElementById("user-name");
     if (el) {
-      el.textContent = data.client.name;
+      el.textContent = data.user.name;
     }
   } catch (err) {
     console.error("Fetch error:", err);

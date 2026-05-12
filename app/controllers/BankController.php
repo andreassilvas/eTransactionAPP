@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use App\Models\BankTransaction;
 use App\Models\Database;
+use App\Models\Client;
 
 /**
  * Class BankController
@@ -34,6 +35,10 @@ class BankController
         // Récupère l'identifiant du client depuis la session
         $clientId = $_SESSION['user_id'];
 
+        $userModel = new Client();
+        $user = $userModel->findById($clientId);
+        $companyId = $user['company_id'];
+
         try {
             // Établit la connexion à la base de données
             $db = Database::getConnection();
@@ -42,7 +47,8 @@ class BankController
             $transactionModel = new BankTransaction($db);
 
             // Récupère toutes les transactions liées au client connecté
-            $transactions = $transactionModel->getByClientId($clientId);
+            $transactions = $transactionModel->getByCompanyId($companyId);
+            $companyBalance = $transactionModel->getCompanyBalance($companyId);
 
             // (Optionnel) — pour déboguer le contenu :
             // var_dump($transactions); exit;

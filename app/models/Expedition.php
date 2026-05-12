@@ -35,20 +35,21 @@ class Expedition extends Model
     {
         $tranckingnum = 'TRACK' . strtoupper(uniqid());
         $sql = "INSERT INTO $this->table 
-                (client_id, ship_email,ship_address, ship_city, ship_province, ship_postcode, ship_name, ship_lastname, ship_phone, tracking_number, date, status) 
-                VALUES (:client_id, :ship_email,:ship_address, :ship_city, :ship_province, :ship_postcode, :ship_name, :ship_lastname,:ship_phone, :tracking_number,:date, :status)";
+                ( company_id,client_id, ship_email,ship_address, ship_city, ship_province, ship_postcode, ship_name, ship_lastname, ship_phone, tracking_number, date, status) 
+                VALUES (:company_id, :client_id, :ship_email,:ship_address, :ship_city, :ship_province, :ship_postcode, :ship_name, :ship_lastname,:ship_phone, :tracking_number,:date, :status)";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute([
+            ':company_id' => $data['company_id'],
             ':client_id' => $data['client_id'],
             ':ship_email' => $data['ship_email'],
             ':ship_address' => $data['ship_address'],
             ':ship_city' => $data['ship_city'],
             ':ship_province' => $data['ship_province'],
             ':ship_postcode' => $data['ship_postcode'],
-            'ship_name' => $data['ship_name'],
-            'ship_lastname' => $data['ship_lastname'],
-            'ship_phone' => $data['ship_phone'],
+            ':ship_name' => $data['ship_name'],
+            ':ship_lastname' => $data['ship_lastname'],
+            ':ship_phone' => $data['ship_phone'],
             ':tracking_number' => $tranckingnum,
             ':date' => $data['date'],
             ':status' => $status
@@ -67,7 +68,7 @@ class Expedition extends Model
     {
         $sql = "SELECT e.*, c.name, c.lastname, c.phone
                 FROM $this->table e
-                JOIN clients c ON e.client_id = c.id
+                JOIN users c ON e.client_id = c.id
                 WHERE e.id = :id
                 LIMIT 1";
 

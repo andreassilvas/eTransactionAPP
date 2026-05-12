@@ -2,6 +2,7 @@
 namespace App\Controllers;
 
 use App\Models\Command;
+use App\Models\Client;
 
 /**
  * Class CommandController
@@ -32,13 +33,19 @@ class CommandController
         }
 
         // Récupère l'identifiant du client depuis la session
-        $clientId = $_SESSION['user_id'];
+        $userId = $_SESSION['user_id'];
+        $clientModel = new Client();
+        $user = $clientModel->findById($userId);
+        $companyId = $user['company_id'];
 
         // Instancie le modèle Command pour interagir avec la base de données
         $commandModel = new Command();
 
         // Récupère toutes les commandes liées au client connecté
-        $commands = $commandModel->getByClientId($clientId);
+        $commands =
+            $commandModel->getByCompanyId(
+                $companyId
+            );
 
         // Charge la vue des commandes et lui transmet la liste des commandes du client
         include __DIR__ . '/../Views/commands/index.php';

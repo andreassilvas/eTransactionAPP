@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Client;
+use App\Models\Company;
 
 class ClientManagementController
 {
@@ -22,7 +23,18 @@ class ClientManagementController
     // JSON endpoints (AJAX)
     public function list()
     {
-        $rows = $this->clients->all();
+        require_once __DIR__ . '/../middleware/apiAuth.php';
+        apiAuth();
+
+        $currentUserId = $_REQUEST['user']['id'];
+
+        $currentUser = $this->clients->findById(
+            $currentUserId
+        );
+
+        $rows = $this->clients->allByCompanyId(
+            $currentUser['company_id']
+        );
 
         // Mask passwords before sending to the browser
         foreach ($rows as &$r) {
@@ -36,6 +48,17 @@ class ClientManagementController
     public function store()
     {
         $data = $this->payload();
+
+        require_once __DIR__ . '/../middleware/apiAuth.php';
+        apiAuth();
+
+        //New users automatically belong to: the admin’s company
+        $currentUserId = $_REQUEST['user']['id'];
+        $currentUser = $this->clients->findById(
+            $currentUserId
+        );
+
+        $data['company_id'] = $currentUser['company_id'];
 
         if (isset($data['email'])) {
             $data['email'] = strtolower(trim($data['email']));
@@ -105,6 +128,9 @@ class ClientManagementController
 
         $client = $this->clients->findById($clientId);
 
+        $companyModel = new Company();
+        $company = $companyModel->findById($client['company_id']);
+
         $headers = getallheaders();
         $token = $headers['X-Auth-Token'] ?? $headers['x-auth-token'] ?? null;
 
@@ -116,13 +142,18 @@ class ClientManagementController
 
         $this->json([
             'status' => 'success',
-            'client' => [
+            'user' => [
                 'id' => $client['id'],
                 'name' => $client['name'],
                 'lastname' => $client['lastname'],
                 'email' => $client['email'],
                 'role' => $client['role'],
                 'date' => date('Y-m-d H:i:s'),
+            ],
+            'company' => [
+                'id' => $company['id'],
+                'name' => $company['name'],
+                'email' => $company['email'],
             ],
             'token' => $token
         ]);

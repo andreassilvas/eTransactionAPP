@@ -1,24 +1,9 @@
-import { createTransfert, getClients } from "./transfertAPI.js";
+import { createTransfert } from "./transfertAPI.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const form = document.getElementById("transferForm");
 
   const messageBox = document.getElementById("transferMessage");
-
-  const clientSelect = document.getElementById("to_client_id");
-
-  // Load clients
-  const clients = await getClients();
-
-  clients.forEach((client) => {
-    const option = document.createElement("option");
-
-    option.value = client.id;
-
-    option.textContent = `${client.id} - ${client.name} ${client.lastname}`;
-
-    clientSelect.appendChild(option);
-  });
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -30,9 +15,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     submitBtn.disabled = true;
 
     const payload = {
-      to_client_id: parseInt(document.getElementById("to_client_id").value),
-
       amount: parseFloat(document.getElementById("amount").value),
+
+      operation_type: document.getElementById("operation_type").value,
 
       description: document.getElementById("description").value.trim(),
     };

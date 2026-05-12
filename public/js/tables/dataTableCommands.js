@@ -6,5 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
     lengthChange: false,
     ordering: true,
     searching: true,
+    order: [[0, "desc"]],
   });
 });

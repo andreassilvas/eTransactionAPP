@@ -6,18 +6,17 @@
 
         <div class="card-body">
             <form id="transferForm">
-                <div class="mb-3">
-                    <label for="to_client_id" class="form-label">Numéro d'identification du destinataire</label>
-                    <select class="form-select" id="to_client_id" required aria-label="Default select example"
-                        style="color:#546373;font-size: 0.9rem;">
-                        <option value="">Sélectionner un client</option>
-                    </select>
-                </div>
+
                 <div class="mb-3">
                     <label for="amount" class="form-label">Montant</label>
                     <input type="number" step="0.01" min="0.01" class="form-control" id="amount" required
                         placeholder="0.00">
                 </div>
+                <select class="form-select" id="operation_type" required>
+                    <option value="versement">
+                        Versement
+                    </option>
+                </select>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
                     <textarea class="form-control" id="description" rows="3"></textarea>

@@ -5,7 +5,7 @@ use PDO;
 
 class Client extends Model
 {
-    protected $table = 'clients';
+    protected $table = 'users';
 
     public function findByEmail(string $email)
     {
@@ -30,11 +30,32 @@ class Client extends Model
 
     public function findById(int $id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE id = :id LIMIT 1");
+        $stmt = $this->db->prepare("
+            SELECT
+                id,
+                company_id,
+                name,
+                lastname,
+                email,
+                phone,
+                extention,
+                address,
+                city,
+                province,
+                postcode,
+                role
+            FROM {$this->table}
+            WHERE id = :id
+            LIMIT 1
+        ");
+
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
         $stmt->execute();
+
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
 
     /* ---------- Listing ---------- */
     public function all(): array
@@ -52,10 +73,11 @@ class Client extends Model
         $clean = $this->normalize($data);
 
         $sql = "INSERT INTO {$this->table}
-                (name, lastname, phone, extention, email, address, city, province, postcode, password, role)
-                VALUES (:name, :lastname, :phone, :extention, :email, :address, :city, :province, :postcode, :password, :role)";
+                (company_id, name, lastname, phone, extention, email, address, city, province, postcode, password, role)
+                VALUES (:company_id, :name, :lastname, :phone, :extention, :email, :address, :city, :province, :postcode, :password, :role)";
 
         $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':company_id', $clean['company_id']);
         $stmt->bindValue(':name', $clean['name']);
         $stmt->bindValue(':lastname', $clean['lastname']);
         $stmt->bindValue(':phone', $clean['phone']);
@@ -117,6 +139,39 @@ class Client extends Model
         return $st->execute([':id' => $id]);
     }
 
+    public function allByCompanyId(int $companyId): array
+    {
+        $stmt = $this->db->prepare("
+        SELECT
+            id,
+            company_id,
+            name,
+            lastname,
+            phone,
+            extention,
+            email,
+            address,
+            city,
+            province,
+            postcode,
+            password,
+            role
+        FROM {$this->table}
+        WHERE company_id = :company_id
+        ORDER BY id DESC
+    ");
+
+        $stmt->bindValue(
+            ':company_id',
+            $companyId,
+            PDO::PARAM_INT
+        );
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     /* ---------- Helpers ---------- */
 
     /**
@@ -127,7 +182,15 @@ class Client extends Model
     {
         $out = [];
         // required fields
-        foreach (['name', 'lastname', 'email'] as $k) {
+        if (isset($d['company_id'])) {
+            $out['company_id'] = (int) $d['company_id'];
+        }
+        foreach ([
+            'name',
+            'lastname',
+            'email',
+            'role'
+        ] as $k) {
             if (isset($d[$k]))
                 $out[$k] = is_string($d[$k]) ? trim($d[$k]) : $d[$k];
         }

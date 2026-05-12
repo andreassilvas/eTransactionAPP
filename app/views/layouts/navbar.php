@@ -20,7 +20,9 @@
                     <a class="nav-link active" aria-current="page" style="color:#94AEE3" href="#">Produits</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" style="color:#94AEE3" href="#">Documentation</a>
+                    <a class="nav-link" style="color:#94AEE3" href="<?= BASE_URL ?>/documentation">
+                        Documentation
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" data-bs-toggle="modal" data-bs-target="#loginModal"

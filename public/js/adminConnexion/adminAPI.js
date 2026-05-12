@@ -9,11 +9,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const data = await res.json();
     console.log("Current user:", data);
-    console.log("User name:", data.client.name);
+    console.log("User name:", data.user.name);
 
-    if (data.client.name) {
+    if (data.user.name) {
       document.getElementById("clientName").textContent =
-        `${data.client.name} ${data.client.lastname}`;
+        `${data.user.name} ${data.user.lastname}`;
     }
   } catch (err) {
     console.error("Fetch error:", err);

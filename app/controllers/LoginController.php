@@ -69,7 +69,7 @@ class LoginController
             exit;
         }
 
-        // Block Client trying to login via Admin modal
+        // Block User trying to login via Admin modal
         if ($source === 'admin' && $client['role'] !== 'admin') {
             echo json_encode([
                 'status' => 'error',
@@ -77,8 +77,8 @@ class LoginController
             ]);
             exit;
         }
-        // Block Admin trying to login via Client modal
-        if ($source === 'client' && $client['role'] !== 'client') {
+        // Block Admin trying to login via User modal
+        if ($source === 'client' && $client['role'] !== 'user') {
             echo json_encode([
                 'status' => 'error',
                 'message' => 'Veuillez utiliser le portail administrateur.'
@@ -155,7 +155,7 @@ class LoginController
         }
 
         // Block Admin trying to login via Client modal
-        if ($source === 'client' && $client['role'] !== 'client') {
+        if ($source === 'client' && $client['role'] !== 'user') {
             http_response_code(403);
             echo json_encode([
                 'status' => 'error',

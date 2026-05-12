@@ -211,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (field.type === "select-role") {
         const roles = [
           { value: "admin", label: "Admin" },
-          { value: "client", label: "Client" },
+          { value: "user", label: "User" },
         ];
 
         td.innerHTML = select("role", roles, row.role || "", {

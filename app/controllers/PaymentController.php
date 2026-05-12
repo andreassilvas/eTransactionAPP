@@ -182,8 +182,10 @@ class PaymentController
 
             // Vérification du solde disponible
             $transactionModel = new BankTransaction($db);
-            $transactions = $transactionModel->getByClientId($clientId);
-            $currentBalance = $transactions[0]['balance'] ?? 0;
+            $currentBalance =
+                $transactionModel->getCompanyBalance(
+                    $client['company_id']
+                );
 
             if ($currentBalance < $totalAmount) {
                 throw new \Exception("Fonds insuffisants.");
@@ -194,6 +196,7 @@ class PaymentController
             $expeditionModel = new Expedition();
             $expeditionId = $expeditionModel->create([
                 'client_id' => $clientId,
+                'company_id' => $client['company_id'],
                 'ship_name' => $expeditionData['name'],
                 'ship_lastname' => $expeditionData['lastname'],
                 'ship_email' => $expeditionData['email'],
@@ -203,7 +206,7 @@ class PaymentController
                 'ship_postcode' => $expeditionData['postcode'],
                 'ship_phone' => $expeditionData['phone'],
                 'status' => 'success',
-                'date' => date('Y-m-d')
+                'date' => gmdate('Y-m-d H:i:s')
             ]);
 
             // Création des items et mise à jour du stock
@@ -227,6 +230,7 @@ class PaymentController
             $paymentModel = new Payment();
             $paymentId = $paymentModel->create([
                 'expedition_id' => $expeditionId,
+                'company_id' => $client['company_id'],
                 'client_id' => $clientId,
                 'amount' => $totalAmount,
                 'status' => 'success',
@@ -236,13 +240,15 @@ class PaymentController
 
             // Débit du compte client
             $newBalance = $currentBalance - $totalAmount;
-            $transactionModel->addTransaction(
-                $clientId,
-                "Paiement (expédition #$expeditionId)",
-                0.00,
-                $totalAmount,
-                $newBalance
-            );
+            $transactionModel->create([
+                'company_id' => $client['company_id'],
+                'user_id' => $clientId,
+                'transaction_type' => 'paiement',
+                'description' => "expédition #$expeditionId",
+                'credit' => 0.00,
+                'debit' => $totalAmount,
+                'balance' => $newBalance
+            ]);
 
             $db->commit();
             unset($_SESSION['expedition_data']);
@@ -378,10 +384,10 @@ class PaymentController
 
             // API - Check balance
             $transactionModel = new BankTransaction($db);
-            $transactions = $transactionModel->getByClientId($clientId);
-
-            // API - Take latest balance
-            $currentBalance = $transactions[0]['balance'] ?? 0;
+            $currentBalance =
+                $transactionModel->getCompanyBalance(
+                    $client['company_id']
+                );
 
             if ($currentBalance < $totalAmount) {
                 throw new \Exception("Fonds insuffisants.");
@@ -403,6 +409,7 @@ class PaymentController
             // API - Création de l'expédition
             $expeditionModel = new Expedition();
             $expeditionId = $expeditionModel->create([
+                'company_id' => $client['company_id'],
                 'client_id' => $clientId,
                 'ship_name' => $expeditionData['name'] ?? '',
                 'ship_lastname' => $expeditionData['lastname'] ?? '',
@@ -413,7 +420,7 @@ class PaymentController
                 'ship_postcode' => $expeditionData['postcode'] ?? '',
                 'ship_phone' => $expeditionData['phone'] ?? '',
                 'status' => 'pending',
-                'date' => date('Y-m-d')
+                'date' => gmdate('Y-m-d H:i:s')
             ]);
 
             // API - Création des items et mise à jour du stock
@@ -438,23 +445,26 @@ class PaymentController
             //API - Create payment record
             $paymentModel = new Payment();
             $paymentId = $paymentModel->create([
+                'company_id' => $client['company_id'],
                 'client_id' => $clientId,
                 'expedition_id' => $expeditionId,
                 'amount' => $totalAmount,
                 'status' => 'success',
                 'last4' => substr(str_replace(' ', '', $data['card_number']), -4),
-                'method' => 'API Carte'
+                'method' => $data['method'] ?? 'MasterCard'
             ]);
 
             //API - Bank transaction (balance update)
             $newBalance = $currentBalance - $totalAmount;
-            $transactionModel->addTransaction(
-                $clientId,
-                "API Paiement (expedition #$expeditionId)",
-                0.00,
-                $totalAmount,
-                $newBalance
-            );
+            $transactionModel->create([
+                'company_id' => $client['company_id'],
+                'user_id' => $clientId,
+                'transaction_type' => 'paiement',
+                'description' => "expédition #$expeditionId",
+                'credit' => 0.00,
+                'debit' => $totalAmount,
+                'balance' => $newBalance
+            ]);
 
             // API - success response
             $db->commit();

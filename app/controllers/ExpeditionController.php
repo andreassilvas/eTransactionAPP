@@ -45,7 +45,7 @@ class ExpeditionController
 
             if ($clientId) {
                 // Récupère les informations du client depuis la base de données
-                $stmt = $db->prepare("SELECT * FROM clients WHERE id = :id LIMIT 1");
+                $stmt = $db->prepare("SELECT * FROM users WHERE id = :id LIMIT 1");
                 $stmt->execute(['id' => $clientId]);
                 $client = $stmt->fetch(\PDO::FETCH_OBJ);
 

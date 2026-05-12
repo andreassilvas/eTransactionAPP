@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Database;
 use App\Models\BankTransaction;
+use App\Models\Client;
 
 class TransfertController
 {
@@ -18,8 +19,17 @@ class TransfertController
     public function transfertsAPI()
     {
         require_once __DIR__ . '/../middleware/apiAuth.php';
-
         apiAuth();
+
+        $userModel = new Client();
+
+        $currentUser = $userModel->findById(
+            $_REQUEST['user']['id']
+        );
+
+        $companyId = $currentUser['company_id'];
+
+        $userId = $currentUser['id'];
 
         try {
 
@@ -36,13 +46,14 @@ class TransfertController
                 ], 400);
             }
 
-            $toClientId = (int) ($payload['to_client_id'] ?? 0);
-
             $amount = (float) ($payload['amount'] ?? 0);
 
             $description = trim($payload['description'] ?? '');
 
-            if ($toClientId <= 0 || $amount <= 0) {
+            $transactionType =
+                trim($payload['operation_type'] ?? '');
+
+            if ($amount <= 0 || empty($transactionType)) {
 
                 $this->json([
                     'status' => 'error',
@@ -50,26 +61,15 @@ class TransfertController
                 ], 400);
             }
 
-            // Validate target client
-            $clientModel = new \App\Models\Client();
-
-            $client = $clientModel->findById($toClientId);
-
-            if (!$client) {
-
-                $this->json([
-                    'status' => 'error',
-                    'message' => 'Client introuvable'
-                ], 404);
-            }
-
             $db = Database::getConnection();
 
             $transactionModel = new BankTransaction($db);
 
             $result = $transactionModel->deposit(
-                $toClientId,
+                $companyId,
+                $userId,
                 $amount,
+                $transactionType,
                 $description
             );
 

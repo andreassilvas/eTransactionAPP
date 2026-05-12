@@ -7,8 +7,6 @@ require_once __DIR__ . '/core/Controller.php';
 require_once __DIR__ . '/core/Model.php';
 require_once __DIR__ . '/app/init.php';
 
-
-
 /* Chargement automatique des contrôleurs et des modèles */
 spl_autoload_register(function ($class): void {
     $prefix = 'App\\';
@@ -89,7 +87,7 @@ $router->get('/transferts', function (): void {
 /*============= Expédition Client (protected) ==================
 ===============================================================*/
 $router->get('/expedition', function (): void {
-    authMiddleware('client');
+    authMiddleware('user');
     require __DIR__ . '/app/Views/expedition/index.php';
 });
 
@@ -251,6 +249,12 @@ $router->get('/geo/cities/show', function (): void {
     $controller->cityShow();
 });
 
+//=================================================================================
+//-----------DOCUMENTATION---------------------------------------------------------
+//=================================================================================
+$router->get('/documentation', function (): void {
+    require __DIR__ . '/app/Views/documentation/index.php';
+});
 //=================================================================================
 //-----------ENDPOINTS FOR API (used by JS fetch calls)----------------------------
 //=================================================================================
