@@ -197,7 +197,12 @@ $router->get('/administration-des-produits/options/support_level', function () {
 /*========= Gestion des Utilisateurs page (protected) ============
 ==================================================================*/
 
-$router->get('/gestion-utilisateurs', function (): void {
+$router->get('/admin_utilisateurs', function (): void {
+    authMiddleware();
+    $controller = new \App\Controllers\ClientManagementController();
+    $controller->index();
+});
+$router->get('/ajouter-carte', function (): void {
     authMiddleware();
     $controller = new \App\Controllers\ClientManagementController();
     $controller->index();

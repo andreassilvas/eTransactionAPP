@@ -8,8 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const errorContainer = document.getElementById("loginErrorContainer");
   const inputs = loginForm.querySelectorAll("input");
   const title = document.getElementById("loginModalLabel");
-  const div = document.querySelector(".credentials");
-  let loginSource = "client";
+  const modalDiv = document.querySelector(".modal-content");
+  let loginSource = "user"; // default source
 
   //Client - Open Login modal just if the cart have product(s)
   document.querySelectorAll('[data-source="client"]').forEach((el) => {
@@ -31,13 +31,9 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      loginSource = "client";
+      loginSource = "user";
       title.textContent = "Connexion utilisateur";
-
-      div.innerHTML =
-        "<li class='list-group-item border-0 p-1' style='font-size: 0.8rem;'>Identifiants : </li><li class='list-group-item border-0 p-1' style='font-size: 0.8rem;'>client4@user.com / password: 1234</li><li class='list-group-item border-0 p-1' style='font-size: 0.8rem;'>client5@user.com / password: 1234</li>";
-      div.append();
-
+      modalDiv.classList.add("bg-warning-subtle");
       loginModal.show();
     });
   });
@@ -48,11 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       loginSource = "admin";
       title.textContent = "Connexion administrateur";
-
-      div.innerHTML =
-        "<li class='list-group-item border-0 p-1' style='font-size: 0.8rem;'>Identifiants : </li><li class='list-group-item border-0 p-1' style='font-size: 0.8rem;'>client1@admin.com / password: 1234</li><li class='list-group-item border-0 p-1' style='font-size: 0.8rem;'>client2@admin.com / password: 1234</li>";
-      div.append();
-
+      modalDiv.classList.remove("bg-warning-subtle");
       loginModal.show();
     });
   });

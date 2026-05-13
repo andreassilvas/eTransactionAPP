@@ -16,9 +16,13 @@ function isActive($path)
         </button>
 
         <div class="collapse show ps-3 <?= $productsOpen ? 'show' : '' ?>" id="productsMenu">
-            <a class="nav-link sidebar-link <?= isActive('/gestion-utilisateurs') ? 'active-link' : '' ?>"
-                href="<?= BASE_URL . '/gestion-utilisateurs' ?>">
+            <a class="nav-link sidebar-link <?= isActive('/admin_utilisateurs') ? 'active-link' : '' ?>"
+                href="<?= BASE_URL . '/admin_utilisateurs' ?>">
                 Administration utilisateurs
+            </a>
+            <a class="nav-link sidebar-link <?= isActive('/ajouter-carte') ? 'active-link' : '' ?>"
+                href="<?= BASE_URL . '/ajouter-carte' ?>">
+                Ajouter une carte de crédit
             </a>
         </div>
 

@@ -16,7 +16,7 @@
             </div>
 
             <div class="modal-footer justify-content-center border-0">
-                <button type="button" class="btn btn-warning" data-bs-dismiss="modal">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     D'accord
                 </button>
             </div>

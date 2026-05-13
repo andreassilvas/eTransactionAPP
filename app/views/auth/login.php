@@ -1,6 +1,6 @@
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content px-3 py-3">
+        <div class="modal-content px-3 py-3 bg-light">
 
             <div class="modal-header" style="border-bottom: none;">
 
@@ -24,11 +24,6 @@
                         <?php include __DIR__ . '/../layouts/base-form-inputs/policy_statement.php' ?>
                     </div>
 
-                    <!-- Dynamic list implementation using JS -->
-                    <div class="card mb-1" style="width: 14rem; border-color:#7C0D0E">
-                        <ul class="list-group credentials"></ul>
-                    </div>
-
                     <div id="loginErrorContainer" style="min-height: 40px;"></div>
 
                     <!-- Bouton de soumission -->
@@ -37,6 +32,8 @@
                     $btnBg = "#2E3133";
                     $btnBorder = "#2E3133";
                     $btnType = "submit";
+                    $btnHoverBg = '#4c4e50';
+                    $btnHoverBorder = '#4c4e50';
                     include __DIR__ . '/../components/base_button.php';
                     ?>
                 </form>

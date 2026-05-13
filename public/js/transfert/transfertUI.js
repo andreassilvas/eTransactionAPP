@@ -5,6 +5,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const messageBox = document.getElementById("transferMessage");
 
+  function showMessage(type, message) {
+    messageBox.innerHTML = `
+      <div class="alert alert-${type}">
+        ${message}
+      </div>
+    `;
+
+    setTimeout(() => {
+      messageBox.innerHTML = "";
+    }, 3000);
+  }
+
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -26,30 +38,22 @@ document.addEventListener("DOMContentLoaded", async () => {
       const result = await createTransfert(payload);
 
       if (result.status !== "success") {
-        messageBox.innerHTML = `
-        <div class="alert alert-danger">
-          ${result.message}
-        </div>
-      `;
+        showMessage("danger", result.message);
+
+        setTimeout(() => {
+          messageBox.innerHTML = "";
+        }, 3000);
 
         return;
       }
 
-      messageBox.innerHTML = `
-      <div class="alert alert-success">
-        ${result.message}
-      </div>
-    `;
+      showMessage("success", result.message);
 
       form.reset();
     } catch (error) {
       console.error(error);
 
-      messageBox.innerHTML = `
-      <div class="alert alert-danger">
-        Erreur serveur
-      </div>
-    `;
+      showMessage("danger", " Erreur serveur");
     } finally {
       submitBtn.disabled = false;
     }

@@ -3,6 +3,7 @@
         <h3 class="card-title custom-color-i pt-4">Administration des produits</h3>
         <p class="card-text mb-4 custom-color-i">Gérez vos produits, suivez les stocks et mettez à jour les
             informations.</p>
+
         <div class="d-flex justify-content-start align-items-center mb-5 mt-4">
             <?php
             $btnText = "Ajouter un nouveau produit";
@@ -16,7 +17,18 @@
             ?>
         </div>
 
-        <table id="tbl" class="table table-hover w-100 pt-4 pb-4">
+        <table id="tbl" class="table table-hover w-100 pt-4 pb-4 d-none">
+            <div id="tableLoader" class="text-center py-5">
+                <div class="spinner-border text-warning" role="status">
+                    <span class="visually-hidden">
+                        Chargement...
+                    </span>
+                </div>
+
+                <p class="mt-3 mb-0">
+                    Chargement des produits...
+                </p>
+            </div>
             <thead class="custom-gestion-product-table">
                 <tr>
                     <th>Id</th>

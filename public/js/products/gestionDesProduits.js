@@ -44,12 +44,10 @@ document.addEventListener("DOMContentLoaded", () => {
     OPTIONS.category = await window.ProductAPI.loadOptions("category");
     OPTIONS.brand = await window.ProductAPI.loadOptions("brand");
     OPTIONS.supplier = await window.ProductAPI.loadOptions("supplier");
-    OPTIONS.support_level = await window.ProductAPI.loadOptions(
-      "support_level"
-    );
-    OPTIONS.warranty_period = await window.ProductAPI.loadOptions(
-      "warranty_period"
-    );
+    OPTIONS.support_level =
+      await window.ProductAPI.loadOptions("support_level");
+    OPTIONS.warranty_period =
+      await window.ProductAPI.loadOptions("warranty_period");
   }
 
   (async function init() {
@@ -97,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return FIELDS.filter(
         (f) =>
           f.required === "create+update" ||
-          (isCreate && f.required === "createOnly")
+          (isCreate && f.required === "createOnly"),
       ).map((f) => f.key);
     }
 
@@ -118,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
           name,
           opts.map((o) => ({ value: o, label: o })), // <-- conversion
           val,
-          { placeholder: "-- choose --" }
+          { placeholder: "-- choose --" },
         );
         return;
       }
@@ -163,10 +161,10 @@ document.addEventListener("DOMContentLoaded", () => {
         let val;
         if (f.type.startsWith("select-")) {
           const sel = tds[i].querySelector("select");
-          val = sel ? sel.value.trim() : table.row(tr).data()[f.key] ?? "";
+          val = sel ? sel.value.trim() : (table.row(tr).data()[f.key] ?? "");
         } else {
           const inp = tds[i].querySelector("input");
-          val = inp ? inp.value.trim() : table.row(tr).data()[f.key] ?? "";
+          val = inp ? inp.value.trim() : (table.row(tr).data()[f.key] ?? "");
         }
         if (numericFields.includes(f.key)) val = parseFloat(val) || 0;
         out[f.key] = val;
@@ -217,7 +215,7 @@ document.addEventListener("DOMContentLoaded", () => {
         alert(
           err && err.message && err.message.includes("409")
             ? "Email already exists"
-            : (err && err.message) || "Une erreur est survenue"
+            : (err && err.message) || "Une erreur est survenue",
         );
       }
     }
@@ -300,4 +298,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.error(err);
     alert("Init failed. See console.");
   });
+
+  document.getElementById("tableLoader").classList.add("d-none");
+  document.getElementById("tbl").classList.remove("d-none");
 });
