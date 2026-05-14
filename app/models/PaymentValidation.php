@@ -52,4 +52,24 @@ class PaymentValidation extends Model
         // Retourne les informations de la carte si valide, sinon false
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public function create(array $data)
+    {
+        $sql = "INSERT INTO {$this->table} 
+                (client_id,card_name,expiry_date,card_number,code_postal,cvv,card_type)
+                VALUES (:client_id,:card_name,:expiry_date,:card_number,:code_postal,:cvv,:card_type)";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute([
+            ':client_id' => $data['client_id'],
+            ':card_name' => $data['card_name'],
+            ':expiry_date' => $data['expiry_date'],
+            ':card_number' => $data['card_number'],
+            ':code_postal' => $data['code_postal'],
+            ':cvv' => $data['cvv'],
+            ':card_type' => $data['card_type'] ?? 'Visa'
+        ]);
+
+        return $this->db->lastInsertId();
+    }
 }

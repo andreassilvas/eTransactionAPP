@@ -103,7 +103,7 @@ class Client extends Model
     {
         // Normalize inputs (trim, lower email)
         $clean = [];
-        foreach (['name', 'lastname', 'phone', 'extention', 'email', 'address', 'city', 'province', 'postcode', 'password', 'role'] as $k) {
+        foreach (['name', 'lastname', 'phone', 'extention', 'email', 'address', 'city', 'province', 'postcode', 'password', 'role', 'has_card'] as $k) {
             if (array_key_exists($k, $d)) {
                 $v = is_string($d[$k]) ? trim($d[$k]) : $d[$k];
                 if (in_array($k, ['phone', 'extention', 'address', 'city', 'province', 'postcode'], true)) {
@@ -211,5 +211,27 @@ class Client extends Model
         }
 
         return $out;
+    }
+    public function allWithoutCardsByCompanyId($companyId)
+    {
+        $sql = "
+            SELECT
+                id,
+                name,
+                lastname,
+                role
+            FROM users
+            WHERE company_id = :company_id
+            AND has_card = 0
+            ORDER BY name ASC
+        ";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute([
+            ':company_id' => $companyId
+        ]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

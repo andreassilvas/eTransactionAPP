@@ -196,13 +196,7 @@ $router->get('/administration-des-produits/options/support_level', function () {
 
 /*========= Gestion des Utilisateurs page (protected) ============
 ==================================================================*/
-
-$router->get('/admin_utilisateurs', function (): void {
-    authMiddleware();
-    $controller = new \App\Controllers\ClientManagementController();
-    $controller->index();
-});
-$router->get('/ajouter-carte', function (): void {
+$router->get('/gestion-utilisateurs', function (): void {
     authMiddleware();
     $controller = new \App\Controllers\ClientManagementController();
     $controller->index();
@@ -213,6 +207,12 @@ $router->get('/gestion-utilisateurs/list', function () {
     $controller = new \App\Controllers\ClientManagementController();
     $controller->list();
 });
+
+// List users without cards (for add card form dropdown)
+$router->get('/gestion-utilisateurs/sans-cartes', 'ClientManagementController@listWithoutCards');
+// List cards (for add card form dropdown)
+$router->post('/api/payment/add-card', 'PaymentController@addCardAPI');
+
 $router->post('/gestion-utilisateurs/store', function () {
     authMiddleware();
     $controller = new \App\Controllers\ClientManagementController();
@@ -253,6 +253,13 @@ $router->get('/geo/cities/show', function (): void {
     $controller = new \App\Controllers\GeoController();
     $controller->cityShow();
 });
+//=================================================================================
+//-----------ADD CREDIT CARD---------------------------------------------------------
+//=================================================================================
+$router->get('/ajouter-carte', function (): void {
+    authMiddleware();
+    require __DIR__ . '/app/Views/addCard/index.php';
+});
 
 //=================================================================================
 //-----------DOCUMENTATION---------------------------------------------------------
@@ -260,9 +267,6 @@ $router->get('/geo/cities/show', function (): void {
 $router->get('/documentation', function (): void {
     require __DIR__ . '/app/Views/documentation/index.php';
 });
-//=================================================================================
-//-----------ENDPOINTS FOR API (used by JS fetch calls)----------------------------
-//=================================================================================
 
 //=================================================================================
 //-----------LOGIN-----------------------------------------------------------------
@@ -307,6 +311,7 @@ $router->get('/api/payment', 'PaymentController@paymentAPI');
 
 //-------Verification success {id}
 $router->get('/api/payment/details', 'PaymentController@getPaymentDetailsAPI');
+
 
 //=================================================================================
 //-----------USER EXPEDITION------------------------------------------------------------

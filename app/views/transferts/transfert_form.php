@@ -6,20 +6,22 @@
 
         <div class="card-body">
             <form id="transferForm">
-
-                <div class="mb-3">
-                    <label for="amount" class="form-label">Montant</label>
+                <div class="form-floating mb-3">
                     <input type="number" step="0.01" min="0.01" class="form-control" id="amount" required
                         placeholder="0.00">
+                    <label for="amount">Montant</label>
                 </div>
-                <select class="form-select" id="operation_type" required>
-                    <option value="versement">
-                        Versement
-                    </option>
-                </select>
-                <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control" id="description" rows="3"></textarea>
+                <div class="form-floating mb-3">
+                    <select class="form-select" id="operation_type" aria-label="Méthode de transfert" required>
+                        <option value="" selected disabled>Choisir une méthode</option>
+                        <option value="versement">Versement</option>
+                    </select>
+                    <label for="operation_type">Méthode de transfert</label>
+                </div>
+                <div class="form-floating mb-5">
+                    <textarea class="form-control no-resize" placeholder="Leave a comment here" id="description"
+                        rows="3"></textarea>
+                    <label for="description">Description</label>
                 </div>
                 <div>
                     <?php

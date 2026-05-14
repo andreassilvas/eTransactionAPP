@@ -161,7 +161,6 @@ class ClientManagementController
     public function listWithoutCards()
     {
         require_once __DIR__ . '/../middleware/apiAuth.php';
-
         apiAuth();
 
         $currentUserId = $_REQUEST['user']['id'];

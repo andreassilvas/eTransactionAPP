@@ -531,4 +531,71 @@ class PaymentController
             'commands' => $commands
         ]);
     }
+    public function addCardAPI()
+    {
+        require_once __DIR__ . '/../middleware/apiAuth.php';
+
+        apiAuth();
+
+        header('Content-Type: application/json');
+
+        $data = json_decode(
+            file_get_contents('php://input'),
+            true
+        );
+
+        $clientId =
+            (int) ($data['client_id'] ?? 0);
+
+        if ($clientId <= 0) {
+
+            return $this->json([
+                'status' => 'error',
+                'message' => 'Client invalide'
+            ], 400);
+        }
+
+        $paymentValidation = new PaymentValidation();
+        $clientModel = new Client();
+
+        try {
+            $paymentValidation->create([
+                'client_id' => $clientId,
+                'card_name' => trim($data['card_name']),
+                'expiry_date' => trim($data['expiry_date']),
+                'card_number' => trim($data['card_number']),
+                'code_postal' => trim($data['code_postal']),
+                'cvv' => trim($data['cvv']),
+                'card_type' => trim(
+                    $data['card_type'] ?? 'Visa'
+                )
+            ]);
+
+            $clientModel->updateById(
+                $clientId,
+                [
+                    'has_card' => 1
+                ]
+            );
+
+            return $this->json([
+                'status' => 'success',
+                'clientId' => $clientId,
+                'cardName' => $data['card_name'],
+                'cardNumber' => $data['card_number'],
+                'expiryDate' => $data['expiry_date'],
+                'codePostal' => $data['code_postal'],
+                'cvv' => $data['cvv'],
+                'cardType' => $data['card_type'],
+                'message' => 'Carte ajoutée'
+            ], 201);
+
+        } catch (\Exception $e) {
+
+            return $this->json([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

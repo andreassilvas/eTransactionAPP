@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const res = await fetch("/eTransactionAPP/api/currentuser");
+    const res = await fetch("/api/currentuser");
 
     if (!res.ok) {
       console.error("User API error:", res.status);
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   try {
-    const res = await fetch("/eTransactionAPP/api/cart", {
+    const res = await fetch("/api/cart", {
       method: "GET",
     });
 

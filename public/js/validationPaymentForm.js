@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("paymentForm");
+  const form =
+    document.getElementById("paymentForm") ||
+    document.getElementById("addCardForm");
 
   const regex = {
     name: /^[A-ZÀ-Ÿ][a-zA-ZÀ-ÿ\s\-]{1,49}$/u,

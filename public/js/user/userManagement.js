@@ -1,7 +1,14 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const { list, store, update, remove } = window.UserAPI;
   const { input, select, actionBtns, editBtns } = window.UserAction;
   const { listProvinces, listCitiesByProvince } = window.GeoAPI;
+
+  const res = await fetch("/api/currentuser");
+
+  if (!res.ok) {
+    console.error("User API error:", res.status);
+    return;
+  }
 
   // province caches (controller state)
   let PROVINCES = []; // [{ code, name }]
