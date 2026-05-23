@@ -6,19 +6,20 @@ $required = $required ?? false;
 $placeholder = $placeholder ?? null;
 ?>
 
-<div class="mb-3 position-relative">
-    <label for="<?= $id ?>"><?= $label ?></label>
+<div class="form-floating mb-3 position-relative">
 
-    <!-- Input with right icon inside -->
     <input type="<?= $type ?>"
         class="form-control rounded-3 <?= $custom_class ?? '' ?> <?= isset($icon) ? 'pe-5' : '' ?>" id="<?= $id ?>"
-        name="<?= $name ?>" value="<?= $input_value ?? '' ?>" <?php if (!empty($placeholder))
-                  echo 'placeholder="' . $placeholder . '"'; ?> <?php if (!empty($maxlength))
-                             echo 'maxlength="' . $maxlength . '"'; ?>>
+        name="<?= $name ?>" value="<?= $input_value ?? '' ?>" placeholder="<?= $placeholder ?? ' ' ?>" <?php if (!empty($maxlength))
+                      echo 'maxlength="' . $maxlength . '"'; ?>>
+
+    <label for="<?= $id ?>">
+        <?= $label ?>
+    </label>
 
     <?php if (isset($icon)): ?>
         <img src="<?= $icon ?>" alt="icon" class="position-absolute"
-            style="top: 70%; right: 10px; transform: translateY(-50%);" width="30">
+            style="top: 50%; right: 35px; transform: translateY(-50%); z-index: 5;" width="30">
     <?php endif; ?>
 
 </div>

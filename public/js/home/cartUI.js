@@ -34,67 +34,69 @@ document.addEventListener("DOMContentLoaded", function () {
     let quantity = 1;
     const max = 10;
 
-    function updateCartUI() {
-      valueInput.value = quantity;
+    if (addBtn && stepper && valueInput && increment && decrement) {
+      function updateCartUI() {
+        valueInput.value = quantity;
 
-      decrement.innerHTML =
-        quantity === 1 ? '<i class="fa-solid fa-trash hovertrash"></i>' : "−";
-      increment.disabled = quantity >= max;
-    }
-
-    // Add to cart------------------------------------------
-    addBtn.addEventListener("click", async function () {
-      quantity = 1;
-      updateCartUI();
-
-      addBtn.classList.add("d-none");
-      stepper.classList.remove("d-none");
-
-      try {
-        //Function call API layer
-        await addToCart(productId, quantity);
-      } catch (error) {
-        console.error("API error:", error);
+        decrement.innerHTML =
+          quantity === 1 ? '<i class="fa-solid fa-trash hovertrash"></i>' : "−";
+        increment.disabled = quantity >= max;
       }
 
-      updateCartUI();
-      updateCartCount();
-    });
+      // Add to cart------------------------------------------
 
-    // Increment quantity ------------------------------------
-    increment.addEventListener("click", async function () {
-      if (quantity < max) {
-        quantity++;
-        updateCartUI();
-
-        //Function call API layer
-        await updateCart(productId, quantity);
-      }
-
-      updateCartUI();
-      updateCartCount();
-    });
-
-    // Decrement quantity or remove from cart -------------------
-    decrement.addEventListener("click", async function () {
-      if (quantity > 1) {
-        quantity--;
-        updateCartUI();
-        //Function call API layer
-        await await updateCart(productId, quantity);
-      } else {
-        //Function call API layer
-        await removeItemCart(productId);
-
-        stepper.classList.add("d-none");
-        addBtn.classList.remove("d-none");
+      addBtn.addEventListener("click", async function () {
         quantity = 1;
-      }
+        updateCartUI();
 
+        addBtn.classList.add("d-none");
+        stepper.classList.remove("d-none");
+
+        try {
+          //Function call API layer
+          await addToCart(productId, quantity);
+        } catch (error) {
+          console.error("API error:", error);
+        }
+
+        updateCartUI();
+        updateCartCount();
+      });
+
+      // Increment quantity ------------------------------------
+      increment.addEventListener("click", async function () {
+        if (quantity < max) {
+          quantity++;
+          updateCartUI();
+
+          //Function call API layer
+          await updateCart(productId, quantity);
+        }
+
+        updateCartUI();
+        updateCartCount();
+      });
+
+      // Decrement quantity or remove from cart -------------------
+      decrement.addEventListener("click", async function () {
+        if (quantity > 1) {
+          quantity--;
+          updateCartUI();
+          //Function call API layer
+          await updateCart(productId, quantity);
+        } else {
+          //Function call API layer
+          await removeItemCart(productId);
+
+          stepper.classList.add("d-none");
+          addBtn.classList.remove("d-none");
+          quantity = 1;
+        }
+
+        updateCartUI();
+        updateCartCount();
+      });
       updateCartUI();
-      updateCartCount();
-    });
-
-    updateCartUI();
+    }
   });
 });

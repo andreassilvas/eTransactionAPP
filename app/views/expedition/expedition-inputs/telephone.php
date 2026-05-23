@@ -1,6 +1,6 @@
 <?php
 $id = "telephone";
-$label = "*Numéro de téléphone";
+$label = "*Téléphone";
 $name = "phone";
 $type = "tel";
 $pattern = "^\(?\d{3}\)?[ ]?\d{3}[ ]?\d{4}$";

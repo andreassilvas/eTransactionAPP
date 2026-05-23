@@ -24,7 +24,12 @@
                         <?php include __DIR__ . '/../layouts/base-form-inputs/policy_statement.php' ?>
                     </div>
 
-                    <div id="loginErrorContainer" style="min-height: 40px;"></div>
+                    <!-- Dynamic list credentials using JS -->
+                    <div class="card mb-1" style="width: 20rem; border-color:#4c4e50">
+                        <ul class="list-group credentials"></ul>
+                    </div>
+
+                    <div class="mt-2 mb-2" id="loginErrorContainer" style="min-height: 55px;"></div>
 
                     <!-- Bouton de soumission -->
                     <?php

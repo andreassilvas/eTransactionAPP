@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const inputs = loginForm.querySelectorAll("input");
   const title = document.getElementById("loginModalLabel");
   const modalDiv = document.querySelector(".modal-content");
+  const modalCredentials = document.querySelector(".credentials");
   let loginSource = "user"; // default source
 
   //Client - Open Login modal just if the cart have product(s)
@@ -33,6 +34,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       loginSource = "user";
       title.textContent = "Connexion utilisateur";
+
+      modalCredentials.innerHTML =
+        "<li class='list-group-item border-0 p-1' style='font-size: 0.8rem;'>Identifiants : </li><li class='list-group-item border-0 p-1' style='font-size: 0.8rem;'>fox@itpilot.com / password: 1234</li><li class='list-group-item border-0 p-1' style='font-size: 0.8rem;'>gray@techora.com / password: 1234</li>";
+      modalCredentials.append();
+
       modalDiv.classList.add("bg-warning-subtle");
       loginModal.show();
     });
@@ -44,6 +50,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       loginSource = "admin";
       title.textContent = "Connexion administrateur";
+
+      modalCredentials.innerHTML =
+        "<li class='list-group-item border-0 p-1' style='font-size: 0.8rem;'>Identifiants : </li><li class='list-group-item border-0 p-1' style='font-size: 0.8rem;'>maisel@itpilot.com / password: 1234</li><li class='list-group-item border-0 p-1' style='font-size: 0.8rem;'>vale@techora.com / password: 1234</li>";
+      modalCredentials.append();
+
       modalDiv.classList.remove("bg-warning-subtle");
       loginModal.show();
     });

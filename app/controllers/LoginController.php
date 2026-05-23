@@ -140,7 +140,7 @@ class LoginController
 
         if (!$client || $password !== $client['password']) {
             http_response_code(401);
-            echo json_encode(['status' => 'error', 'message' => 'Identifiants invalides']);
+            echo json_encode(['status' => 'error', 'message' => "L'adresse courriel ou le mot de passe saisi est incorrect. Veuillez vérifier et réessayer."]);
             return;
         }
 

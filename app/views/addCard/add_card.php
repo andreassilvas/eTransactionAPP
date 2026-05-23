@@ -29,9 +29,9 @@
                             </div>
                             <div class="col">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="postCode" placeholder="code postal"
-                                        length="7" maxlength="7">
-                                    <label for="postCode">*Code postal</label>
+                                    <input type="text" class="form-control" id="nro_carte"
+                                        placeholder="numéro de la carte" length="19" maxlength="19">
+                                    <label for="nro_carte">*Numéro de la carte</label>
                                 </div>
                             </div>
                         </div>
@@ -39,9 +39,9 @@
                         <div class="row mb-4">
                             <div class="col">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="nro_carte"
-                                        placeholder="numéro de la carte" length="19" maxlength="19">
-                                    <label for="nro_carte">*Numéro de la carte</label>
+                                    <input type="text" class="form-control" id="postCode" placeholder="code postal"
+                                        length="7" maxlength="7">
+                                    <label for="postCode">*Code postal</label>
                                 </div>
                             </div>
                             <div class="col">
@@ -73,18 +73,35 @@
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <?php
-                        $btnText = "Envoyer";
-                        $btnBg = '#fff';
-                        $btnBorder = '#2B3035';
-                        $btnTextColor = '#2B3035';
-                        $btnHoverBg = '#2B3035';
-                        $btnHoverBorder = '#2B3035';
-                        $btnType = 'submit';
-                        include __DIR__ . '/../components/base_button.php';
-                        ?>
+                    <div class="row gap-4">
+                        <div class="col-1">
+                            <?php
+                            $btnId = "add_card";
+                            $btnText = "Envoyer";
+                            $btnBg = '#494D4F';
+                            $btnBorder = '#494D4F';
+                            $btnTextColor = '#fff';
+                            $btnHoverBg = '#2B3035';
+                            $btnHoverBorder = '#2B3035';
+                            $btnType = 'submit';
+                            include __DIR__ . '/../components/base_button.php';
+                            ?>
+                        </div>
+                        <div class="col-sm">
+                            <?php
+                            $btnId = "annuler_form";
+                            $btnText = "Annuler";
+                            $btnBg = '#fff';
+                            $btnBorder = '#9C223A';
+                            $btnTextColor = '#9C223A';
+                            $btnHoverBg = '#A1222F';
+                            $btnHoverBorder = '#A1222F';
+                            $btnType = 'button';
+                            include __DIR__ . '/../components/base_button.php';
+                            ?>
+                        </div>
                     </div>
+
                 </div>
 
             </form>
@@ -94,5 +111,5 @@
     </div>
 </div>
 <script type="module" src="/public/js/addCardToClient/add_cardUI.js"></script>
-<script type="module" src="/public/js/validationPaymentForm.js"></script>
+<script type="module" src="/public/js/addCardToClient/validationAddCard.js"></script>
 <script src="/public/js/authGuard.js"></script>

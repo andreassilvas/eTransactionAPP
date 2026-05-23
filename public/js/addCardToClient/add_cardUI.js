@@ -5,6 +5,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   const clientSelect = document.getElementById("to_client_id");
   const messageBox = document.getElementById("transferMessage");
 
+  const card_name = document.getElementById("card_name");
+  const card_number = document.getElementById("nro_carte");
+  const expiry_date = document.getElementById("exp_date");
+  const code_postal = document.getElementById("postCode");
+  const cvv = document.getElementById("nro_cvv");
+  const card_type = document.getElementById("card_type");
+
   const res = await fetch("/api/currentuser");
 
   if (!res.ok) {
@@ -43,18 +50,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const payload = {
       client_id: parseInt(clientSelect.value),
-
-      card_name: document.getElementById("card_name").value,
-
-      card_number: document.getElementById("nro_carte").value,
-
-      expiry_date: document.getElementById("exp_date").value,
-
-      code_postal: document.getElementById("postCode").value,
-
-      cvv: document.getElementById("nro_cvv").value,
-
-      card_type: document.getElementById("card_type").value,
+      card_name: card_name.value,
+      card_number: card_number.value,
+      expiry_date: expiry_date.value,
+      code_postal: code_postal.value,
+      cvv: cvv.value,
+      card_type: card_type.value,
     };
 
     try {

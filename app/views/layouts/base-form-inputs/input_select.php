@@ -3,17 +3,25 @@ $minlength = $minlength ?? null;
 $required = $required ?? false;
 ?>
 
-<label for="<?= $id ?>"><?= $label ?></label>
-<select class="form-select" id="<?= $id ?>" name="<?= $name ?>" <?php if (!empty($required))
-        echo 'required'; ?>>
-    <?php if (!empty($placeholder)): ?>
-        <option value=""><?= $placeholder ?></option>
-    <?php endif; ?>
+<div class="form-floating">
 
-    <?php foreach ($options as $optValue => $optText): ?>
-        <option value="<?= htmlspecialchars($optText) ?>" <?= (isset($selected) && $selected == $optText) ? 'selected' : '' ?>>
-            <?= htmlspecialchars($optText) ?>
-        </option>
-    <?php endforeach; ?>
-    <?php unset($optValue, $optText); ?>
-</select>
+    <select class="form-select" id="<?= $id ?>" name="<?= $name ?>" <?php if (!empty($required))
+            echo 'required'; ?>>
+        <?php if (!empty($placeholder)): ?>
+            <option value="">
+                <?= $placeholder ?>
+            </option>
+        <?php endif; ?>
+
+        <?php foreach ($options as $optValue => $optText): ?>
+            <option value="<?= htmlspecialchars($optText) ?>" <?= (isset($selected) && $selected == $optText) ? 'selected' : '' ?>>
+                <?= htmlspecialchars($optText) ?>
+            </option>
+        <?php endforeach; ?>
+        <?php unset($optValue, $optText); ?>
+    </select>
+
+    <label for="<?= $id ?>">
+        <?= $label ?>
+    </label>
+</div>

@@ -198,13 +198,18 @@ thead tr.custom-color-a {
   border-color: var(--color-alabaster) !important;
 }
 
+.custom-badge {
+    --bs-badge-padding-x: 2em;
+    --bs-badge-padding-y: .70em;
+    margin-bottom: .50em;
+    margin-top: .50em;
+}
 /* Trash button*/
 i.hovertrash:hover:hove,
 i.hovertrash:active {
     color: white;
 
 }
-
 
 /* Button hover/focus/active */
 .custom-btn-bg:hover,
@@ -373,3 +378,26 @@ i.hovertrash:active {
 .custom-color-accent { color: var(--color-accent); }
 
 
+/* Forms inputs */
+/* .input-wrapper {
+    position: relative;
+}
+
+.floating-placeholder {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    background: white;
+    padding: 0 4px;
+}
+
+.input-wrapper input:focus + .floating-placeholder,
+.input-wrapper input:not(:placeholder-shown) + .floating-placeholder {
+    top: 11px;
+    font-size: 0.75rem;
+    color: #0d6efd;
+} */

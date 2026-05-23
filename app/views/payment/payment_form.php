@@ -39,13 +39,13 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <?php include __DIR__ . '/../expedition/expedition-inputs/codepostal.php'; ?>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <?php include __DIR__ . '/payment-inputs/expiration_date.php'; ?>
                                 </div>
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <?php include __DIR__ . '/payment-inputs/nro_cvv.php'; ?>
                                 </div>
                             </div>

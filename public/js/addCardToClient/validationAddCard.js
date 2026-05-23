@@ -5,18 +5,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!form) return;
 
+  const resetForm = document.getElementById("annuler_form");
+
   const nameInput = document.getElementById("card_name");
   const cardNumberInput = document.getElementById("nro_carte");
   const postalInput = document.getElementById("postCode");
   const expiryInput = document.getElementById("exp_date");
   const cvvInput = document.getElementById("nro_cvv");
+  const cardType = document.getElementById("card_type");
 
   if (
     !nameInput ||
     !cardNumberInput ||
     !postalInput ||
     !expiryInput ||
-    !cvvInput
+    !cvvInput ||
+    !cardType
   ) {
     return;
   }
@@ -27,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     postal: /^[A-Z]\d[A-Z]\s\d[A-Z]\d$/,
     expiry: /^(0[1-9]|1[0-2])\/\d{2}$/,
     cvv: /^\d{3,4}$/,
+    cardType: /.+/,
   };
 
   const fields = [
@@ -49,6 +54,10 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       input: cvvInput,
       regex: regex.cvv,
+    },
+    {
+      input: cardType,
+      regex: regex.cardType,
     },
   ];
 
@@ -171,11 +180,24 @@ document.addEventListener("DOMContentLoaded", () => {
       validate(cardNumberInput, regex.card) &&
       validate(postalInput, regex.postal) &&
       validate(expiryInput, regex.expiry, checkExpiry) &&
-      validate(cvvInput, regex.cvv);
+      validate(cvvInput, regex.cvv) &&
+      validate(cardType, regex.cardType);
 
     if (!valid) {
       e.preventDefault();
       e.stopPropagation();
     }
+  });
+  // Reset Form
+  resetForm.addEventListener("click", () => {
+    form.reset();
+
+    form.querySelectorAll(".form-control").forEach((input) => {
+      input.classList.remove("is-valid", "is-invalid");
+    });
+
+    fields.forEach((field, index) => {
+      field.input.disabled = index !== 0;
+    });
   });
 });

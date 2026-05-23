@@ -60,7 +60,7 @@
                         <?php include __DIR__ . '/expedition-inputs/adresse.php' ?>
                     </div>
                     <div class="row g-3 mt-3">
-                        <div class="col-sm-7">
+                        <div class="col-sm">
                             <?php include __DIR__ . '/expedition-inputs/ville.php' ?>
                         </div>
                         <div class="col-sm">
