@@ -76,6 +76,8 @@ document.addEventListener("DOMContentLoaded", () => {
       source: loginSource,
     };
 
+    //================ Frontend Authentification =============================================
+    //========================================================================================
     const response = await fetch("/api/login", {
       method: "POST",
       headers: {

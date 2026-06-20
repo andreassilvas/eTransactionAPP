@@ -60,7 +60,8 @@ document.addEventListener("DOMContentLoaded", () => {
       data: rows,
       deferRender: true,
       processing: true,
-      pageLength: 10,
+      pageLength: 5,
+      lengthMenu: [5, 10, 25, 50],
       columns: [
         { data: "id" },
         { data: "name" },

@@ -271,6 +271,7 @@ $router->get('/documentation', function (): void {
 //=================================================================================
 //-----------LOGIN-----------------------------------------------------------------
 //=================================================================================
+//Route de connexion du backend pour les requêtes AJAX
 $router->post('/api/login', 'LoginController@loginAPI');
 
 require_once __DIR__ . '/app/middleware/apiAuth.php';
