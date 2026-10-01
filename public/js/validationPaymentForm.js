@@ -3,23 +3,11 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("paymentForm") ||
     document.getElementById("addCardForm");
 
-  if (!form) return;
-
   const nameInput = document.getElementById("card_name");
   const cardNumberInput = document.getElementById("nro_carte");
   const postalInput = document.getElementById("postCode");
   const expiryInput = document.getElementById("exp_date");
   const cvvInput = document.getElementById("nro_cvv");
-
-  if (
-    !nameInput ||
-    !cardNumberInput ||
-    !postalInput ||
-    !expiryInput ||
-    !cvvInput
-  ) {
-    return;
-  }
 
   const regex = {
     name: /^[A-ZÀ-Ÿ][a-zA-ZÀ-ÿ\s\-]{1,49}$/u,
@@ -65,7 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
   cardNumberInput.addEventListener("input", (e) => {
     e.target.value = e.target.value
       .replace(/\D/g, "")
-      .substring(0, 16)
       .replace(/(.{4})/g, "$1 ")
       .trim();
     validate(e.target, regex.card);
@@ -109,12 +96,11 @@ document.addEventListener("DOMContentLoaded", () => {
     validate(e.target, regex.postal);
   });
 
-  // Validation du CVV
-  cvvInput.addEventListener("input", (e) => {
-    e.target.value = e.target.value.replace(/\D/g, "").substring(0, 4);
+  // Validation du nom
+  nameInput.addEventListener("input", (e) => validate(e.target, regex.name));
 
-    validate(e.target, regex.cvv);
-  });
+  // Validation du CVV
+  cvvInput.addEventListener("input", (e) => validate(e.target, regex.cvv));
 
   // Disable all except first
   fields.forEach((field, index) => {
@@ -123,18 +109,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  const validate = (input, pattern, extraCheck = null) => {
-    const value = input.value.trim();
-    let isValid = pattern.test(value);
+  function validate(input, regex) {
+    const isValid = regex.test(input.value.trim());
 
-    if (isValid && extraCheck) isValid = extraCheck(value);
-
-    input.setAttribute("aria-invalid", !isValid);
     input.classList.toggle("is-valid", isValid);
     input.classList.toggle("is-invalid", !isValid);
 
     return isValid;
-  };
+  }
+
+  // const validate = (input, pattern, extraCheck = null) => {
+  //   const value = input.value.trim();
+  //   let isValid = pattern.test(value);
+
+  //   if (isValid && extraCheck) isValid = extraCheck(value);
+
+  //   input.setAttribute("aria-invalid", !isValid);
+  //   input.classList.toggle("is-valid", isValid);
+  //   input.classList.toggle("is-invalid", !isValid);
+
+  //   return isValid;
+  // };
 
   fields.forEach((field, index) => {
     field.input.addEventListener("input", () => {

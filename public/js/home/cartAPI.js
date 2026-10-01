@@ -1,10 +1,13 @@
+const BASE = "/eTransactionAPP";
+
+//API calls---------------------------------------------------
 export async function getCart() {
-  const res = await fetch("/api/cart");
+  const res = await fetch(`${BASE}/api/cart`);
   return res.json();
 }
 
 export async function addToCart(productId, quantity) {
-  const res = await fetch("/api/cart/add", {
+  const res = await fetch(`${BASE}/api/cart/add`, {
     method: "POST",
     body: JSON.stringify({
       product_id: productId,
@@ -16,7 +19,7 @@ export async function addToCart(productId, quantity) {
 }
 
 export async function updateCart(productId, quantity) {
-  const res = await fetch("/api/cart/update", {
+  const res = await fetch(`${BASE}/api/cart/update`, {
     method: "POST",
     body: JSON.stringify({
       product_id: productId,
@@ -27,7 +30,7 @@ export async function updateCart(productId, quantity) {
 }
 
 export async function removeItemCart(productId) {
-  const res = await fetch("/api/cart/remove", {
+  const res = await fetch(`${BASE}/api/cart/remove`, {
     method: "POST",
     body: JSON.stringify({
       product_id: productId,

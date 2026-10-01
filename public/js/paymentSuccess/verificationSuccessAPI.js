@@ -1,5 +1,7 @@
+const BASE = "/eTransactionAPP";
+
 export async function getPayment(id) {
-  const res = await fetch(`/api/payment/details?id=${id}`, {
+  const res = await fetch(`${BASE}/api/payment/details?id=${id}`, {
     method: "GET",
   });
 
