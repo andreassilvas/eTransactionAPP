@@ -1,4 +1,3 @@
-//Message toast pour le panier if it is empty
 export function showToast(message) {
   const container = document.createElement("div");
   container.className = "toast-container position-fixed top-0 end-0 p-3 pt-5";

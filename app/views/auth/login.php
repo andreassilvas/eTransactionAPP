@@ -5,7 +5,7 @@
             <div class="modal-header" style="border-bottom: none;">
 
                 <!-- Dynamic title implementation using JS -->
-                <h5 class="modal-title" id="loginModalLabel">Connexion</h5>
+                <h5 class="modal-title" id="loginModalLabel">Connexionss</h5>
 
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>

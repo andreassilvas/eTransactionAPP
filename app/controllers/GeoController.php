@@ -18,7 +18,7 @@ class GeoController
 
     /**
      * GET /geo/provinces
-     * Returns: [{"id": 1,"code": "AB","name": "Alberta"}, ...]
+     * Returns: [{"id": 11, "code": "QC", "name": "Québec"}, ...]
      */
     public function provinces()
     {
@@ -27,7 +27,7 @@ class GeoController
 
     /**
      * GET /geo/provinces/{code}/cities?search=&limit=&offset=
-     * Returns: { items: [...], total: 12, limit: 50, offset: 0 }
+     * Returns: { items: [...], total: 123, limit: 50, offset: 0 }
      */
     public function citiesByProvince()
     {
@@ -41,7 +41,7 @@ class GeoController
 
     /**
      * GET /geo/cities?province=QC&search=&limit=&offset=
-     * Returns: { items: [...],  "limit": 1,"offset": 0,"total": 5}
+     * Returns: { items: [...], total: 123, limit: 50, offset: 0 }
      */
     public function cities()
     {
@@ -54,8 +54,8 @@ class GeoController
     }
 
     /**
-     * GET /geo/cities/show?id=12
-     * Returns: {"id":12,"name":"Hamilton","province_code":"ON"}
+     * GET /geo/cities/show?id=123
+     * Returns: { "id": 123, "name": "...", "province_code": "QC" }
      */
     public function cityShow()
     {

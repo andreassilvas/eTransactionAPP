@@ -2,6 +2,7 @@ import { createTransfert } from "./transfertAPI.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const form = document.getElementById("transferForm");
+
   const messageBox = document.getElementById("transferMessage");
 
   function showMessage(type, message) {

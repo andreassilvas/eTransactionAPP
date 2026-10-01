@@ -1,4 +1,4 @@
-<nav id="navbar-inventory" class="navbar bg-body-tertiary px-5 py-3 fixed-top custom-navbar-inventaire">
+<nav id="navbar-inventory" class="navbar bg-body-tertiary px-5 py-3 pb-3 fixed-top custom-navbar-inventaire">
     <ul class="nav nav-pills w-100 d-flex justify-content-end">
         <li class="nav-item">
             <a class="nav-link gap-3" href="<?= BASE_URL . '/portal_admin' ?>">

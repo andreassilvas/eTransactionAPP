@@ -1,6 +1,6 @@
 (function (root, factory) {
   if (typeof define === "function" && define.amd) {
-    define([], factory);
+    define([], factory); // AMD
   } else if (typeof module === "object" && module.exports) {
     module.exports = factory(); // CommonJS
   } else {
@@ -9,6 +9,7 @@
 })(typeof self !== "undefined" ? self : this, function () {
   "use strict";
 
+  // --- Regex
   const regex = {
     name: /^[a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ\s\-]{1,49}$/u,
     lastname: /^[a-zA-ZÀ-ÿ][a-zA-ZÀ-ÿ\s\-]{1,49}$/u,
@@ -18,9 +19,10 @@
     city: /^(?!\s*$).+/,
     province: /^(?!\s*$).+/,
     postcode: /^[A-Z]\d[A-Z]\s\d[A-Z]\d$/,
-    password: /^\d{2,4}$/,
+    password: /^\d{2,4}$/, // adjust if you need stronger rules
   };
 
+  // --- Formatters (keys correspond to field names you’ll use)
   const formatters = {
     postcode: (v) =>
       String(v || "")
@@ -35,7 +37,7 @@
         ),
   };
 
-  // --- Core validate helper (same as pattern)
+  // --- Core validate helper (same as your pattern)
   const validate = (inputEl, pattern, extraCheck = null) => {
     if (!inputEl) return true;
 

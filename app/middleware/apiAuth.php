@@ -45,9 +45,3 @@ function apiAuth()
         'id' => $tokenData['client_id']
     ];
 }
-
-
-
-
-
-

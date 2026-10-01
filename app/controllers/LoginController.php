@@ -134,17 +134,13 @@ class LoginController
             echo json_encode(['status' => 'error', 'message' => 'Champs requis']);
             return;
         }
-        //============ Backend - Le contrôleur valide la requête =====================================
-        //============================================================================================
+
         $clientModel = new Client();
         $client = $clientModel->findByEmail($email);
 
         if (!$client || $password !== $client['password']) {
             http_response_code(401);
-            echo json_encode([
-                'status' => 'error',
-                'message' => "L'adresse courriel ou le mot de passe saisi est incorrect. Veuillez vérifier et réessayer."
-            ]);
+            echo json_encode(['status' => 'error', 'message' => "L'adresse courriel ou le mot de passe saisi est incorrect. Veuillez vérifier et réessayer."]);
             return;
         }
 
@@ -181,8 +177,7 @@ class LoginController
             $redirect = '/expedition';
         }
 
-        //======================== Jeton est généréTOKEN ===============================================
-        //==============================================================================================
+        //TOKEN----------
         $token = bin2hex(random_bytes(32));
 
         date_default_timezone_set('UTC');
@@ -197,9 +192,6 @@ class LoginController
         $tokenModel->deleteByClientId($client['id']);
 
         $tokenModel->create($client['id'], $token, $expiresAt);
-
-        //============================= Cookie HttpOnly est créé =========================================
-        //================================================================================================
 
         setcookie(
             "auth_token",

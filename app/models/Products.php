@@ -112,7 +112,7 @@ class Products extends Model
 
     public function getStockSummary(): array
     {
-        // low stock = 1..5 units, out of stock = 0 units
+        // low stock = 1..5 just as an example
         $sql = "
         SELECT
             COUNT(*) AS total_products,
